@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "787134263969",
+    "project_id": "un-sdg-gender-equality",
+    "storage_bucket": "un-sdg-gender-equality.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787134263969:android:d44a4450136a1fffb236e0",
+        "android_client_info": {
+          "package_name": "com.jeremy.aequalis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "787134263969-t62ds98ofjl6m8ijnug9tem0nu7air46.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jeremy.aequalis",
+            "certificate_hash": "89d825a879f72c55ad403541c2e17b822502661f"
+          }
+        },
+        {
+          "client_id": "787134263969-2pnb40k00bdkqpb6eso5u5o2p8f8ca6i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUWZsMFsA-nEh186DZXMmbiYqm8mXi8yk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "787134263969-2pnb40k00bdkqpb6eso5u5o2p8f8ca6i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
