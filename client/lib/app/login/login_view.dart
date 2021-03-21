@@ -17,27 +17,49 @@ class LoginView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SvgPicture.asset(
-                Strings.logoWithText,
-                height: 200,
+                Strings.logo,
+                height: 100,
+                color: CustomColors.appColorTeal,
                 semanticsLabel: 'Women Mentor Logo',
+                // allowDrawingOutsideViewBox: true,
+              ),
+              Column(
+                children: [
+                  Padding(padding: EdgeInsets.only(top: 12.0)),
+                  Text(
+                    'Women',
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                        fontSize: 28,
+                        color: CustomColors.appColorTeal,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    'Mentor',
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                        fontSize: 28,
+                        color: CustomColors.appColorTeal,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
               ),
               SizedBox(height: 60),
               Text(
                 'Join our community',
-                style: TextStyle(fontSize: 20, color: Colors.white),
+                style: Theme.of(context).textTheme.headline6!.copyWith(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20),
-              SizedBox(
-                child: CustomElevatedButton(
-                  child: Text(
-                    'SIGN UP',
-                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                          color: Colors.white,
-                          fontSize: 15.0,
-                        ),
-                  ),
-                  onPressed: () {},
+              CustomElevatedButton(
+                child: Text(
+                  'SIGN UP',
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        color: Colors.white,
+                        fontSize: 15.0,
+                      ),
                 ),
+                onPressed: () {},
               ),
               SizedBox(height: 10),
               CustomTextButton(

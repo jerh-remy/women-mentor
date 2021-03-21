@@ -17,46 +17,63 @@ class InputDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return InkWell(
+    //   onTap: onPressed,
+    //   child: Container(
+    //     padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 16.0),
+    //     decoration: BoxDecoration(
+    //       color: Colors.grey[100],
+    //       borderRadius: BorderRadius.all(
+    //         Radius.circular(4.0),
+    //       ),
+    //       // border: Border.all(
+    //       //   color: CustomColors.appColorGrey.withOpacity(0.4),
+    //       //   width: 0.5,
+    //       // ),
+    //     ),
+    //     width: double.infinity,
+    //     child: Row(
+    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //       mainAxisSize: MainAxisSize.min,
+    //       children: <Widget>[
+    //         Expanded(
+    //             child: Text(valueText,
+    //                 style: valueStyle ?? TextStyle(fontSize: 15.0))),
+    //         Icon(Icons.arrow_drop_down,
+    //             color: Theme.of(context).brightness == Brightness.light
+    //                 ? Colors.black54
+    //                 : Colors.white70),
+    //       ],
+    //     ),
+    //   ),
+    // );
+
     return InkWell(
       onTap: onPressed,
       child: InputDecorator(
         // isEmpty: valueText == null,
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(12.0, 24.0, 12.0, 8.0),
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            labelText: labelText,
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(5.0),
-              ),
-              borderSide: BorderSide(
-                color: CustomColors.appColorGrey.withOpacity(0.4),
-                width: 0.5,
-              ),
+          contentPadding: EdgeInsets.fromLTRB(12.0, 24.0, 12.0, 8.0),
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          labelText: labelText,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(5.0),
             ),
-            filled: true,
-            fillColor: Colors.white,
-            enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: CustomColors.appColorGrey.withOpacity(0.4),
+              width: 0.5,
+            ),
+          ),
+          filled: true,
+          fillColor: Colors.grey[100],
+          enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(5.0),
               ),
-              borderSide: BorderSide(
-                color: CustomColors.appColorGrey.withOpacity(0.4),
-                width: 0.5,
-              ),
-            )),
+              borderSide: BorderSide.none),
+        ),
         child: Container(
-          // padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
-          // decoration: BoxDecoration(
-          //   color: Colors.white,
-          //   borderRadius: BorderRadius.all(
-          //     Radius.circular(5.0),
-          //   ),
-          //   border: Border.all(
-          //     color: CustomColors.appColorGrey.withOpacity(0.4),
-          //     width: 0.5,
-          //   ),
-          // ),
           width: double.infinity,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

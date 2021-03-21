@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.jeremy.aequalis">
    <application
-        android:label="google_sdc_lboro_team_1"
+        android:label="Women Mentor"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

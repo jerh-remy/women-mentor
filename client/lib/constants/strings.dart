@@ -30,7 +30,8 @@ class Strings {
   static const String accountPage = 'Account Page';
 
   // assets
-  static const String logoWithText = 'assets/images/logo_with_text.svg';
+  static const String logoWithText = 'assets/images/logo_with_text2.svg';
   static const String logo = 'assets/images/logo.svg';
+  static const String logoHorizontal = 'assets/images/logo_horizontal.svg';
   static const String getStarted = 'assets/images/get_started.svg';
 }

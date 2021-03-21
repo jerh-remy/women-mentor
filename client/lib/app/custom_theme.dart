@@ -16,11 +16,11 @@ class CustomTheme {
         buttonColor: CustomColors.appColorTeal,
       ),
       textTheme: GoogleFonts.robotoTextTheme(textTheme).copyWith(
-        headline6: GoogleFonts.libreBaskerville(
-          textStyle:
-              textTheme.headline6!.copyWith(color: Colors.white, fontSize: 15),
-        ),
-      ),
+          headline6: GoogleFonts.libreBaskerville(
+            textStyle: textTheme.headline6!
+                .copyWith(color: Colors.white, fontSize: 15),
+          ),
+          bodyText1: TextStyle(letterSpacing: 0.5)),
       // colorScheme: ColorScheme(
       //     brightness: isDark ? Brightness.dark : Brightness.light,
       //     primary: accent1,

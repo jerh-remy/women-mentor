@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:women_mentor/app/custom_theme.dart';
 import 'package:women_mentor/app/login/login_view.dart';
+import 'package:women_mentor/app/login/setup_acc_view.dart';
+import 'package:women_mentor/app/onboarding/onboarding_view.dart';
+import 'package:women_mentor/app/onboarding/select_role_view.dart';
+
+import 'app/login/signup_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +51,8 @@ class _AppState extends State<App> {
         title: 'Women Mentor',
         debugShowCheckedModeBanner: false,
         theme: CustomTheme.lightTheme(context),
-        home: LoginView()
+        // home: LoginView()
+        home: OnboardingView()
         // initialRoute: router.Router.loginView,
         // onGenerateRoute: router.Router.onGenerateRoute,
         // navigatorKey: locator<NavigationService>().navigatorKey,

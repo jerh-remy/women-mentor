@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:women_mentor/constants/styles.dart';
 
 class InputField extends StatefulWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType textInputType;
   final bool password;
   final bool isReadOnly;
@@ -21,7 +21,7 @@ class InputField extends StatefulWidget {
   final Color? additionalNoteColor;
 
   InputField(
-      {required this.controller,
+      {this.controller,
       required this.placeholder,
       this.enterPressed,
       this.fieldFocusNode,
