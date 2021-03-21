@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_sdc_lboro_team_1/app/top_level_providers.dart';
-import 'package:google_sdc_lboro_team_1/widgets/empty_content.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
+import 'package:women_mentor/widgets/shared/empty_content.dart';
 
 class AuthWidget extends ConsumerWidget {
   const AuthWidget({

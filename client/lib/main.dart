@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 // Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
+import 'package:women_mentor/app/custom_theme.dart';
+import 'package:women_mentor/app/login/login_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MaterialApp(home: App()));
+  runApp(App());
 }
 
 class App extends StatefulWidget {
@@ -34,29 +36,20 @@ class _AppState extends State<App> {
 
   @override
   void initState() {
-    initializeFlutterFire();
+    // initializeFlutterFire();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    // Show error message if initialization failed
-    if (_error) {
-      return Scaffold(body: Center(child: Text('Something went wrong')));
-    }
-
-    // Show a loader until FlutterFire is initialized
-    if (!_initialized) {
-      return Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
-
-    return Scaffold(
-        body: Center(
-            child: Text(
-      'Success!',
-      style: TextStyle(
-        color: Colors.green,
-      ),
-    )));
+    return MaterialApp(
+        title: 'Women Mentor',
+        debugShowCheckedModeBanner: false,
+        theme: CustomTheme.lightTheme(context),
+        home: LoginView()
+        // initialRoute: router.Router.loginView,
+        // onGenerateRoute: router.Router.onGenerateRoute,
+        // navigatorKey: locator<NavigationService>().navigatorKey,
+        );
   }
 }

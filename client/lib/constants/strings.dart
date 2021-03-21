@@ -28,4 +28,9 @@ class Strings {
   // Profile page
   static const String profile = 'Profile';
   static const String accountPage = 'Account Page';
+
+  // assets
+  static const String logoWithText = 'assets/images/logo_with_text.svg';
+  static const String logo = 'assets/images/logo.svg';
+  static const String getStarted = 'assets/images/get_started.svg';
 }
