@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   animations: ^2.0.0
-  auto_route: ^1.0.0-beta.10
+  auto_route: ^1.0.2
   cached_network_image: ^2.5.1
   cloud_firestore: ^1.0.1
   connectivity: ^3.0.2
@@ -60,7 +60,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  auto_route_generator: 1.0.0-beta.11
+  auto_route_generator: 1.0.2
   build_runner: null
 
 # flutter_native_splash:

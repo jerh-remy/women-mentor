@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:women_mentor/constants/colors.dart';
-import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/horizontal_logo.dart';
 import 'package:women_mentor/widgets/shared/social_sign_in_button.dart';
 
@@ -28,18 +27,18 @@ class SignUpView extends StatelessWidget {
             SizedBox(height: 50),
             SocialSignInButton(
               onPressed: () {},
-              icon: FontAwesomeIcons.apple,
-              text: 'SIGN IN WITH APPLE',
-              textColor: Colors.white,
-              color: Color(0xff313131),
-            ),
-            SizedBox(height: 20),
-            SocialSignInButton(
-              onPressed: () {},
               icon: FontAwesomeIcons.google,
               text: 'SIGN IN WITH GOOGLE',
               color: Color(0xffF7F7F7),
               iconColor: Colors.black54,
+            ),
+            SizedBox(height: 20),
+            SocialSignInButton(
+              onPressed: () {},
+              icon: FontAwesomeIcons.apple,
+              text: 'SIGN IN WITH APPLE',
+              textColor: Colors.white,
+              color: Color(0xff313131),
             ),
             SizedBox(height: 20),
             SocialSignInButton(

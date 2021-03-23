@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 
 class SocialSignInButton extends CustomElevatedButton {
@@ -28,7 +27,8 @@ class SocialSignInButton extends CustomElevatedButton {
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
                     text,
-                    style: TextStyle(color: textColor, fontSize: 16.0),
+                    style: TextStyle(
+                        color: textColor, fontSize: 15.0, letterSpacing: 0.5),
                   ),
                 ),
               ),

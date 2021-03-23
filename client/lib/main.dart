@@ -6,56 +6,28 @@ import 'package:women_mentor/app/login/login_view.dart';
 import 'package:women_mentor/app/login/setup_acc_view.dart';
 import 'package:women_mentor/app/onboarding/onboarding_view.dart';
 import 'package:women_mentor/app/onboarding/select_role_view.dart';
+import 'package:women_mentor/routing/app_router.gr.dart';
 
 import 'app/login/signup_view.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   runApp(App());
 }
 
-class App extends StatefulWidget {
-  _AppState createState() => _AppState();
-}
+final _appRouter = AppRouter();
 
-class _AppState extends State<App> {
-  // Set default `_initialized` and `_error` state to false
-  bool _initialized = false;
-  bool _error = false;
-
-  // Define an async function to initialize FlutterFire
-  void initializeFlutterFire() async {
-    try {
-      // Wait for Firebase to initialize and set `_initialized` state to true
-      await Firebase.initializeApp();
-      setState(() {
-        _initialized = true;
-      });
-    } catch (e) {
-      // Set `_error` state to true if Firebase initialization fails
-      setState(() {
-        _error = true;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    // initializeFlutterFire();
-    super.initState();
-  }
-
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Women Mentor',
-        debugShowCheckedModeBanner: false,
-        theme: CustomTheme.lightTheme(context),
-        // home: LoginView()
-        home: OnboardingView()
-        // initialRoute: router.Router.loginView,
-        // onGenerateRoute: router.Router.onGenerateRoute,
-        // navigatorKey: locator<NavigationService>().navigatorKey,
-        );
+    return MaterialApp.router(
+      routerDelegate: _appRouter.delegate(),
+      routeInformationParser: _appRouter.defaultRouteParser(),
+      title: 'Women Mentor',
+      debugShowCheckedModeBanner: false,
+      theme: CustomTheme.lightTheme(context),
+    );
   }
 }
