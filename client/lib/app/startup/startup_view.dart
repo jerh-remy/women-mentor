@@ -9,15 +9,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class StartUpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return AuthWidget(
-      nonSignedInBuilder: (_) => Consumer(
-        builder: (context, watch, _) {
-          final didCompleteOnboarding =
-              watch(onboardingViewModelProvider.state);
-          return didCompleteOnboarding ? LoginView() : OnboardingView();
-        },
-      ),
-      signedInBuilder: (_) => HomeView(),
-    );
+    return LoginView();
+
+    // return AuthWidget(
+    //   nonSignedInBuilder: (_) => Consumer(
+    //     builder: (context, watch, _) {
+    //       final didCompleteOnboarding =
+    //           watch(onboardingViewModelProvider.state);
+    //       return didCompleteOnboarding ? LoginView() : OnboardingView();
+    //     },
+    //   ),
+    //   signedInBuilder: (_) => HomeView(),
+    // );
   }
 }

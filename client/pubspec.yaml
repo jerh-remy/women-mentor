@@ -34,6 +34,7 @@ dependencies:
   firebase_core: ^1.0.1
   firebase_messaging: ^9.0.0
   firebase_storage: ^8.0.0
+  flutter_facebook_auth: ^3.1.1
   flutter_hooks: ^0.16.0
   flutter_launcher_icons: ^0.9.0
   flutter_local_notifications: ^5.0.0-nullsafety.1
@@ -43,6 +44,7 @@ dependencies:
   font_awesome_flutter: ^9.0.0
   freezed_annotation: ^0.14.0
   google_fonts: ^2.0.0
+  google_sign_in: ^5.0.1
   hooks_riverpod: ^0.13.1
   intl: ^0.17.0
   local_auth: ^1.1.0

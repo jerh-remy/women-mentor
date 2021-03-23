@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -112,7 +113,9 @@ class Utilities {
   }
 
   static void showSuccessDialog(
-      BuildContext context, String? successMessage, Function onButtonPressed) {
+      {required BuildContext context,
+      String? successMessage,
+      required Function onButtonPressed}) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -146,22 +149,33 @@ class Utilities {
   }
 
   static void showErrorDialog(
-      BuildContext context, PlatformException exception) {
+      {required BuildContext context, String? title, Object? exception}) {
+    String _message(dynamic exception) {
+      if (exception is FirebaseException) {
+        return exception.message ?? exception.toString();
+      }
+      if (exception is PlatformException) {
+        return exception.message ?? exception.toString();
+      }
+      return exception.toString();
+    }
+
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
         title: Text(
-          'Operation failed',
+          title ?? 'Operation failed',
+          style: TextStyle(color: Colors.black87),
         ),
         content: Text(
-          exception.message ?? 'Error',
+          _message(exception),
           style: TextStyle(
             color: Colors.black54,
           ),
         ),
         actions: <Widget>[
-          FlatButton(
+          TextButton(
             child: Text(
               'OK',
               style: TextStyle(
