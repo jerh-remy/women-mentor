@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:women_mentor/constants/colors.dart';
 
 class FeedPostCard extends StatelessWidget {
   final String content;
@@ -20,6 +19,7 @@ class FeedPostCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 25,
+                  backgroundColor: Colors.grey.shade100,
                 ),
                 SizedBox(width: 10),
                 Column(

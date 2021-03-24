@@ -10,6 +10,7 @@ class CustomTheme {
       primaryColor: CustomColors.appColorOrange,
       scaffoldBackgroundColor: Colors.white,
       fontFamily: 'Montserrat',
+      highlightColor: CustomColors.appColorTeal,
       buttonTheme: ButtonThemeData(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),

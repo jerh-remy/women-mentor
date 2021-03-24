@@ -9,19 +9,22 @@ final posts = List.generate(30, (index) => 'Lorem Ipsum $index');
 class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            BottomLayer(),
-            Positioned(
-              child: SearchField(),
-              top: 48,
-              left: 10,
-              right: 10,
-            ),
-          ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        body: SafeArea(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              BottomLayer(),
+              Positioned(
+                child: SearchField(),
+                top: 50,
+                left: 10,
+                right: 10,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -108,7 +111,8 @@ class HomeFeedPosts extends StatelessWidget {
         shrinkWrap: true,
         separatorBuilder: (context, index) => SizedBox(height: 16.0),
         itemBuilder: (ctx, index) {
-          if (index == 0) return SizedBox(height: 8.0);
+          if (index == 0 || index == posts.length - 1)
+            return SizedBox(height: 8.0);
           return FeedPostCard(content: posts[index]);
         },
         itemCount: posts.length,

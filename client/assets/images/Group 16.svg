@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="112.233" height="38" viewBox="0 0 112.233 38">
+  <g id="Group_16" data-name="Group 16" transform="translate(-128.5 -56)">
+    <g id="Group_15" data-name="Group 15" transform="translate(128.5 57.4)">
+      <g id="Group_10" data-name="Group 10">
+        <path id="Path_11" data-name="Path 11" d="M326.7,653.641l-5.173,32.9h10.347Z" transform="translate(-321.528 -652.985)" fill="#159599"/>
+        <circle id="Ellipse_19" data-name="Ellipse 19" cx="2.817" cy="2.817" r="2.817" transform="translate(2.357)" fill="#159599"/>
+      </g>
+      <g id="Group_11" data-name="Group 11" transform="translate(15.512)">
+        <path id="Path_12" data-name="Path 12" d="M361,653.641l-5.173,32.9H366.17Z" transform="translate(-355.824 -652.985)" fill="#159599"/>
+        <circle id="Ellipse_20" data-name="Ellipse 20" cx="2.817" cy="2.817" r="2.817" transform="translate(2.357)" fill="#159599"/>
+      </g>
+      <g id="Group_12" data-name="Group 12" transform="translate(31.025 0.203)">
+        <path id="Path_13" data-name="Path 13" d="M395.292,654.01l-5.173,32.9h10.347Z" transform="translate(-390.119 -653.39)" fill="#159599"/>
+        <circle id="Ellipse_21" data-name="Ellipse 21" cx="2.817" cy="2.817" r="2.817" transform="translate(2.357 0)" fill="#159599"/>
+      </g>
+      <path id="Path_14" data-name="Path 14" d="M344.759,694.594l4.422-24.227h-8.844Z" transform="translate(-331.83 -662.146)" fill="rgba(21,149,153,0.4)"/>
+      <path id="Path_15" data-name="Path 15" d="M379.055,695.046l4.422-24.227h-8.844Z" transform="translate(-350.613 -662.393)" fill="rgba(21,149,153,0.4)"/>
+    </g>
+    <text id="Women_Mentor" data-name="Women
+Mentor" transform="translate(208.733 71)" fill="#159599" font-size="15" font-family="LibreBaskerville-Bold, Libre Baskerville" font-weight="700"><tspan x="-31.71" y="0">Women</tspan><tspan x="-29.813" y="19">Mentor</tspan></text>
+  </g>
+</svg>

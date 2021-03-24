@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:women_mentor/constants/colors.dart';
-import 'package:women_mentor/widgets/shared/custom_text_button.dart';
 
 class ProfileView extends StatelessWidget {
   final String role;
@@ -171,9 +170,9 @@ class MentorSpecificSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
       child: ListView(
         shrinkWrap: true,
+        padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
         children: [
           SizedBox(height: 24),
           ...buildExpertise(context),
@@ -190,124 +189,124 @@ class MentorSpecificSection extends StatelessWidget {
       ),
     );
   }
+}
 
-  List<Widget> buildExpertise(BuildContext context) {
-    return [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5.0),
-            child: Row(
-              children: [
-                Text(
-                  'Expertise',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        fontSize: 16,
-                        color: CustomColors.appColorOrange,
-                      ),
-                  textAlign: TextAlign.start,
-                ),
-              ],
-            ),
+List<Widget> buildExpertise(BuildContext context) {
+  return [
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 5.0),
+          child: Row(
+            children: [
+              Text(
+                'Expertise',
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      fontSize: 16,
+                      color: CustomColors.appColorOrange,
+                    ),
+                textAlign: TextAlign.start,
+              ),
+            ],
           ),
-          Wrap(
-            spacing: 12,
-            children: List.generate(
-                2,
-                (index) => Chip(
-                      backgroundColor: Colors.white,
-                      label: Text('Skill $index'),
-                      labelStyle: TextStyle(color: CustomColors.appColorTeal),
-                      side: BorderSide(
-                        color: CustomColors.appColorTeal,
-                      ),
-                    )),
-          ),
-        ],
-      )
-    ];
-  }
+        ),
+        Wrap(
+          spacing: 12,
+          children: List.generate(
+              2,
+              (index) => Chip(
+                    backgroundColor: Colors.white,
+                    label: Text('Skill $index'),
+                    labelStyle: TextStyle(color: CustomColors.appColorTeal),
+                    side: BorderSide(
+                      color: CustomColors.appColorTeal,
+                    ),
+                  )),
+        ),
+      ],
+    )
+  ];
+}
 
-  List<Widget> buildMenteeLevel(BuildContext context) {
-    return [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5.0),
-            child: Row(
-              children: [
-                Text(
-                  'Mentee Skill Level preference',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        fontSize: 16,
-                        color: CustomColors.appColorOrange,
-                      ),
-                  textAlign: TextAlign.start,
-                ),
-              ],
-            ),
+List<Widget> buildMenteeLevel(BuildContext context) {
+  return [
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 5.0),
+          child: Row(
+            children: [
+              Text(
+                'Mentee Skill Level preference',
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      fontSize: 16,
+                      color: CustomColors.appColorOrange,
+                    ),
+                textAlign: TextAlign.start,
+              ),
+            ],
           ),
-          Wrap(
-            spacing: 12,
-            children: List.generate(
-                2,
-                (index) => Chip(
-                      backgroundColor: Colors.white,
-                      label: Text('Beginner $index'),
-                      labelStyle: TextStyle(color: CustomColors.appColorTeal),
-                      side: BorderSide(
-                        color: CustomColors.appColorTeal,
-                      ),
-                    )),
-          ),
-        ],
-      )
-    ];
-  }
+        ),
+        Wrap(
+          spacing: 12,
+          children: List.generate(
+              2,
+              (index) => Chip(
+                    backgroundColor: Colors.white,
+                    label: Text('Beginner $index'),
+                    labelStyle: TextStyle(color: CustomColors.appColorTeal),
+                    side: BorderSide(
+                      color: CustomColors.appColorTeal,
+                    ),
+                  )),
+        ),
+      ],
+    )
+  ];
+}
 
-  List<Widget> buildTimeCommitment(BuildContext context) {
-    return [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: 5.0),
-            child: Row(
-              children: [
-                Text(
-                  'Time Commitment',
-                  style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                        fontSize: 16,
-                        color: CustomColors.appColorOrange,
-                      ),
-                  textAlign: TextAlign.start,
-                ),
-              ],
-            ),
+List<Widget> buildTimeCommitment(BuildContext context) {
+  return [
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 5.0),
+          child: Row(
+            children: [
+              Text(
+                'Time Commitment',
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                      fontSize: 16,
+                      color: CustomColors.appColorOrange,
+                    ),
+                textAlign: TextAlign.start,
+              ),
+            ],
           ),
-          Text(
-            '12 hours per week',
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                  fontSize: 16,
-                  color: CustomColors.appColorTeal,
-                ),
-            textAlign: TextAlign.start,
-          ),
-        ],
-      )
-    ];
-  }
+        ),
+        Text(
+          '12 hours per week',
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                fontSize: 16,
+                color: CustomColors.appColorTeal,
+              ),
+          textAlign: TextAlign.start,
+        ),
+      ],
+    )
+  ];
 }
 
 class MenteeGoalsAndInterestsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
       child: ListView(
         shrinkWrap: true,
+        padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
         children: [
           SizedBox(height: 24),
           ...buildGoals(context),
