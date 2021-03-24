@@ -17,7 +17,7 @@ class Strings {
   static const String signInFailed = 'Sign in failed';
 
   // Home page
-  static const String homePage = 'Home Page';
+  static const String homePage = 'Home Feed';
 
   // Explore page
   static const String explore = 'Explore';
