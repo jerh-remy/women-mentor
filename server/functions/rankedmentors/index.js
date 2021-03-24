@@ -10,4 +10,4 @@ rankedMentors.get("/", requireUserId, get);
 /**
  * @type {functions.HttpsFunction}
  */
-module.exports = functions.https.onRequest(rankedMentors);
+module.exports = functions.region('europe-west2').https.onRequest(rankedMentors);

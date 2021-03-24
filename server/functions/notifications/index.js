@@ -13,4 +13,4 @@ notifications.get("/", requireUserId, get);
 
 notifications.post("/", body("token").isString(), post);
 
-module.exports = functions.https.onRequest(notifications);
+module.exports = functions.region('europe-west2').https.onRequest(notifications);
