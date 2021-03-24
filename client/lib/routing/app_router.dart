@@ -3,8 +3,7 @@ import 'package:women_mentor/app/login/login_view.dart';
 import 'package:women_mentor/app/login/setup_acc_view.dart';
 import 'package:women_mentor/app/login/sign_in_options_view.dart';
 import 'package:women_mentor/app/onboarding/onboarding_view.dart';
-import 'package:women_mentor/app/profile/profile_view.dart';
-import 'package:women_mentor/app/schedule/schedule_view.dart';
+
 import 'package:women_mentor/app/startup/startup_view.dart';
 
 @MaterialAutoRouter(
@@ -15,8 +14,6 @@ import 'package:women_mentor/app/startup/startup_view.dart';
     AutoRoute(page: SignInOptionsView),
     AutoRoute(page: SetupAccountView),
     AutoRoute(page: OnboardingView),
-    AutoRoute(page: ProfileView),
-    AutoRoute(page: ScheduleView),
   ],
 )
 class $AppRouter {}

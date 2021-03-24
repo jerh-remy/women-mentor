@@ -53,7 +53,8 @@ class CupertinoScaffold extends StatelessWidget {
     return BottomNavigationBarItem(
       icon: Icon(
         itemData.icon,
-        size: 26,
+        size:
+            tabItem == TabItem.profile || tabItem == TabItem.schedule ? 22 : 26,
       ),
       label: itemData.title,
     );

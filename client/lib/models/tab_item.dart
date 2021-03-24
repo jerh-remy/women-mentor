@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:women_mentor/constants/keys.dart';
 import 'package:women_mentor/constants/strings.dart';
 
@@ -26,12 +27,12 @@ class TabItemData {
     TabItem.schedule: TabItemData(
       key: Keys.scheduleTab,
       title: Strings.schedule,
-      icon: Icons.calendar_today,
+      icon: FontAwesomeIcons.calendarAlt,
     ),
     TabItem.profile: TabItemData(
       key: Keys.profileTab,
       title: Strings.profile,
-      icon: Icons.person,
+      icon: FontAwesomeIcons.userAlt,
     ),
   };
 }

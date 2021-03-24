@@ -5,8 +5,7 @@ class SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 56,
-      // width: MediaQuery.of(context).size.width * 0.9,
+      height: MediaQuery.of(context).size.height * 0.7,
       child: FloatingSearchBar(
         hint: 'Search',
         scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
@@ -45,7 +44,7 @@ class SearchField extends StatelessWidget {
               elevation: 4.0,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
-                children: Colors.accents.map((color) {
+                children: Colors.accents.getRange(0, 5).map((color) {
                   return Container(height: 112, color: color);
                 }).toList(),
               ),

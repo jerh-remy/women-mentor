@@ -10,8 +10,6 @@ import '../app/login/login_view.dart' as _i3;
 import '../app/login/setup_acc_view.dart' as _i5;
 import '../app/login/sign_in_options_view.dart' as _i4;
 import '../app/onboarding/onboarding_view.dart' as _i6;
-import '../app/profile/profile_view.dart' as _i7;
-import '../app/schedule/schedule_view.dart' as _i8;
 import '../app/startup/startup_view.dart' as _i2;
 
 class AppRouter extends _i1.RootStackRouter {
@@ -33,12 +31,6 @@ class AppRouter extends _i1.RootStackRouter {
     },
     OnboardingRoute.name: (entry) {
       return _i1.MaterialPageX(entry: entry, child: _i6.OnboardingView());
-    },
-    ProfileRoute.name: (entry) {
-      return _i1.MaterialPageX(entry: entry, child: _i7.ProfileView());
-    },
-    ScheduleRoute.name: (entry) {
-      return _i1.MaterialPageX(entry: entry, child: _i8.ScheduleView());
     }
   };
 
@@ -48,9 +40,7 @@ class AppRouter extends _i1.RootStackRouter {
         _i1.RouteConfig(LoginRoute.name, path: '/login-view'),
         _i1.RouteConfig(SignInOptionsRoute.name, path: '/sign-in-options-view'),
         _i1.RouteConfig(SetupAccountRoute.name, path: '/setup-account-view'),
-        _i1.RouteConfig(OnboardingRoute.name, path: '/onboarding-view'),
-        _i1.RouteConfig(ProfileRoute.name, path: '/profile-view'),
-        _i1.RouteConfig(ScheduleRoute.name, path: '/schedule-view')
+        _i1.RouteConfig(OnboardingRoute.name, path: '/onboarding-view')
       ];
 }
 
@@ -82,16 +72,4 @@ class OnboardingRoute extends _i1.PageRouteInfo {
   const OnboardingRoute() : super(name, path: '/onboarding-view');
 
   static const String name = 'OnboardingRoute';
-}
-
-class ProfileRoute extends _i1.PageRouteInfo {
-  const ProfileRoute() : super(name, path: '/profile-view');
-
-  static const String name = 'ProfileRoute';
-}
-
-class ScheduleRoute extends _i1.PageRouteInfo {
-  const ScheduleRoute() : super(name, path: '/schedule-view');
-
-  static const String name = 'ScheduleRoute';
 }
