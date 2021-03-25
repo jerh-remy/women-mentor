@@ -54,7 +54,10 @@ class LogoutDialog extends StatelessWidget {
               fontSize: 15.0,
             ),
           ),
-          onPressed: onLogoutTapped,
+          onPressed: () {
+            Navigator.of(context).pop();
+            onLogoutTapped();
+          },
         )
       ],
     );

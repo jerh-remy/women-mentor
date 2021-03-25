@@ -10,7 +10,7 @@ class FeedPostCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.symmetric(horizontal: 20),
-      elevation: 1.0,
+      elevation: 0.4,
       child: Container(
         padding: EdgeInsets.all(16),
         child: Column(

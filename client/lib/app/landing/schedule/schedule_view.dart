@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:women_mentor/app/landing/schedule/session_calendar.dart';
 import 'package:women_mentor/constants/colors.dart';
 
 class ScheduleView extends StatelessWidget {
@@ -25,6 +26,7 @@ class ScheduleView extends StatelessWidget {
                   ),
                 ],
               ),
+              SessionCalendar()
             ],
           ),
         ),

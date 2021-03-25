@@ -8,8 +8,6 @@ import 'package:women_mentor/app/login/login_view.dart';
 class StartUpView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
-    // return LandingView();
-
     return AuthWidget(
       nonSignedInBuilder: (_) => Consumer(
         builder: (context, watch, _) {
