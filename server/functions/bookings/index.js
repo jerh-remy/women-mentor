@@ -28,4 +28,4 @@ bookings.patch(
   patch
 );
 
-module.exports = functions.https.onRequest(bookings);
+module.exports = functions.region('europe-west2').https.onRequest(bookings);
