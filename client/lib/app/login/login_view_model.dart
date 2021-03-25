@@ -90,19 +90,20 @@ class LoginViewModel with ChangeNotifier {
         email: email,
         password: password,
       );
+      error = null;
       print('email verified? : ${authResult.user?.emailVerified}');
-      if (authResult.user?.emailVerified != null) {
-        if (authResult.user!.emailVerified) {
-          // await populateCurrentUser(authResult.user);
-          return true;
-        } else {
-          error = PlatformException(
-            code: 'ERROR_SIGNING_IN',
-            message:
-                'You need to verify the email address you used to sign up for this account before logging in successfully.',
-          );
-        }
-      }
+      // if (authResult.user?.emailVerified != null) {
+      //   if (authResult.user!.emailVerified) {
+      //     // await populateCurrentUser(authResult.user);
+      //     return true;
+      //   } else {
+      //     error = PlatformException(
+      //       code: 'ERROR_SIGNING_IN',
+      //       message:
+      //           'You need to verify the email address you used to sign up for this account before logging in successfully.',
+      //     );
+      //   }
+      // }
     } on FirebaseAuthException catch (e) {
       error = PlatformException(
         code: e.code,
@@ -118,7 +119,7 @@ class LoginViewModel with ChangeNotifier {
     await auth.sendPasswordResetEmail(email: email);
   }
 
-  Future<UserCredential?> signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     try {
       isLoading = true;
       notifyListeners();
@@ -127,12 +128,14 @@ class LoginViewModel with ChangeNotifier {
       if (googleAccount != null) {
         final googleAuth = await googleAccount.authentication;
         if (googleAuth.accessToken != null && googleAuth.idToken != null) {
-          final credential = await auth.signInWithCredential(
+          await auth.signInWithCredential(
             GoogleAuthProvider.credential(
               idToken: googleAuth.idToken,
               accessToken: googleAuth.accessToken,
             ),
           );
+          error = null;
+
           // User user = await userStream(uid: authResult.user.uid).first;
           // print('is user null? ${user == null}');
           // print(user?.firstName);
@@ -149,7 +152,8 @@ class LoginViewModel with ChangeNotifier {
           // await populateCurrentUser(authResult.user);
 
           // Once signed in, return the UserCredential
-          return credential;
+          // print('Auth current user ${auth.currentUser}');
+          // return credential;
         } else {
           error = PlatformException(
             code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
@@ -171,20 +175,21 @@ class LoginViewModel with ChangeNotifier {
     }
   }
 
-  Future<UserCredential?> signInWithFacebook() async {
+  Future<void> signInWithFacebook() async {
     try {
       isLoading = true;
       notifyListeners();
 
       AccessToken accessToken = await FacebookAuth.instance.login();
       print(accessToken.toJson());
+
+      error = null;
       // Create a credential from the access token
       final OAuthCredential facebookAuthCredential =
           FacebookAuthProvider.credential(accessToken.token);
 
       // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance
-          .signInWithCredential(facebookAuthCredential);
+      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
     } on FacebookAuthException catch (e) {
       switch (e.errorCode) {
         case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
@@ -199,7 +204,6 @@ class LoginViewModel with ChangeNotifier {
             code: 'CANCELLED',
             message: 'login cancelled',
           );
-          print(error);
           break;
 
         case FacebookAuthErrorCode.FAILED:

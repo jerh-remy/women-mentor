@@ -1,12 +1,36 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:women_mentor/constants/utilities.dart';
+import 'package:women_mentor/widgets/logout_dialog.dart';
 
 class ProfileView extends StatelessWidget {
   final String role;
 
   const ProfileView({Key? key, this.role = 'mentee'}) : super(key: key);
+
+  Future<void> _confirmSignOut(
+      BuildContext context, FirebaseAuth firebaseAuth) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return LogoutDialog(onLogoutTapped: () => _signOut(firebaseAuth));
+        });
+  }
+
+  void _signOut(FirebaseAuth firebaseAuth) async {
+    await firebaseAuth.signOut();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final firebaseAuth = context.read(firebaseAuthProvider);
+    final user = firebaseAuth.currentUser!;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -14,6 +38,7 @@ class ProfileView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(20.0),
@@ -26,9 +51,24 @@ class ProfileView extends StatelessWidget {
                           ),
                     ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: Theme(
+                      data: ThemeData(highlightColor: Colors.transparent),
+                      child: IconButton(
+                          onPressed: () {
+                            _confirmSignOut(context, firebaseAuth);
+                          },
+                          icon: Icon(
+                            Ionicons.log_out_outline,
+                          )),
+                    ),
+                  ),
                 ],
               ),
-              ProfileCard(),
+              ProfileCard(
+                user: user,
+              ),
               SizedBox(height: 10),
               role != 'mentee'
                   ? Flexible(child: MenteeGoalsAndInterestsSection())
@@ -42,6 +82,9 @@ class ProfileView extends StatelessWidget {
 }
 
 class ProfileCard extends StatelessWidget {
+  final User user;
+
+  const ProfileCard({Key? key, required this.user}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -54,9 +97,8 @@ class ProfileCard extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.grey.shade100,
+                  ProfilePic(
+                    photoURL: user.photoURL,
                   ),
                   SizedBox(width: 16),
                   Column(
@@ -65,7 +107,7 @@ class ProfileCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 2.0),
                         child: Text(
-                          'Jeremy Offori',
+                          user.displayName!,
                           style:
                               Theme.of(context).textTheme.bodyText2!.copyWith(
                                     fontSize: 16,
@@ -98,6 +140,54 @@ class ProfileCard extends StatelessWidget {
             ],
           ),
         ));
+  }
+}
+
+class ProfilePic extends StatelessWidget {
+  final String? photoURL;
+
+  const ProfilePic({Key? key, this.photoURL}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 45,
+      width: 45,
+      child: CachedNetworkImage(
+        imageUrl: photoURL ?? "",
+        placeholder: (context, url) => SpinKitCircle(
+          size: 45.0,
+          color: CustomColors.appColorTeal,
+        ),
+        errorWidget: (context, url, error) => Container(
+          decoration: BoxDecoration(
+              border: Border.all(
+                style: BorderStyle.solid,
+                width: 1.5,
+                color: CustomColors.appColorTeal,
+              ),
+              shape: BoxShape.circle),
+          child: const CircleAvatar(
+            radius: 20,
+            backgroundColor: Colors.white,
+          ),
+        ),
+        imageBuilder: (context, imageProvider) => Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              style: BorderStyle.solid,
+              width: 1.5,
+              color: CustomColors.appColorTeal,
+            ),
+            color: Colors.white,
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: imageProvider,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 

@@ -20,17 +20,18 @@ class SignInOptionsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final loginViewModel = watch(loginModelProvider);
+
     return ProviderListener<LoginViewModel>(
       provider: loginModelProvider,
       onChange: (context, model) async {
-        print(model.error);
-        // if (model.error != null) {
-        //   Utilities.showErrorDialog(
-        //     context: context,
-        //     title: Strings.signInFailed,
-        //     exception: model.error,
-        //   );
-        // }
+        print('Error: ${model.error}');
+        if (model.error != null) {
+          Utilities.showErrorDialog(
+            context: context,
+            title: Strings.signInFailed,
+            exception: model.error,
+          );
+        }
       },
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -50,9 +51,11 @@ class SignInOptionsView extends ConsumerWidget {
             ),
             const SizedBox(height: 50),
             SocialSignInButton(
-              onPressed: () => loginViewModel.isLoading
-                  ? null
-                  : loginViewModel.signInWithGoogle(),
+              onPressed: () {
+                loginViewModel
+                    .signInWithGoogle()
+                    .then((value) => Navigator.of(context).pop());
+              },
               icon: FontAwesomeIcons.google,
               text: 'SIGN IN WITH GOOGLE',
               color: Color(0xffF7F7F7),
@@ -68,9 +71,11 @@ class SignInOptionsView extends ConsumerWidget {
             // ),
             // SizedBox(height: 20),
             SocialSignInButton(
-              onPressed: () => loginViewModel.isLoading
-                  ? null
-                  : loginViewModel.signInWithFacebook(),
+              onPressed: () {
+                loginViewModel
+                    .signInWithFacebook()
+                    .then((value) => Navigator.of(context).pop());
+              },
               icon: FontAwesomeIcons.facebookSquare,
               text: 'SIGN IN WITH FACEBOOK',
               color: Color(0xff405796),
@@ -83,11 +88,11 @@ class SignInOptionsView extends ConsumerWidget {
               color: CustomColors.appColorTeal,
               icon: Icons.email,
               onPressed: () {
-                context.router.push(SetupAccountRoute());
+                context.router.push(SetupAccountRoute(isSigningUp: false));
               },
             ),
-            const SizedBox(height: 30),
             if (loginViewModel.isLoading) ...[
+              const SizedBox(height: 30),
               SpinKitCircle(
                 color: CustomColors.appColorTeal,
               ),

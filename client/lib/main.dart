@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:women_mentor/app/auth_widget.dart';
 import 'package:women_mentor/app/custom_theme.dart';
+import 'package:women_mentor/app/landing/landing_view.dart';
 import 'package:women_mentor/app/login/login_view.dart';
 import 'package:women_mentor/app/login/setup_acc_view.dart';
 import 'package:women_mentor/app/onboarding/onboarding_view.dart';
 import 'package:women_mentor/app/onboarding/select_role_view.dart';
+import 'package:women_mentor/app/startup/startup_view.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/routing/app_router.gr.dart';
 import 'package:women_mentor/services/shared_preferences_service.dart';
 
@@ -40,5 +44,13 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.lightTheme(context),
     );
+
+    // return MaterialApp(
+    //   title: 'Women Mentor',
+    //   debugShowCheckedModeBanner: false,
+    //   theme: CustomTheme.lightTheme(context),
+    //   home: StartUpView(),
+    //   onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings),
+    // );
   }
 }

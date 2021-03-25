@@ -4,9 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:women_mentor/app/login/login_view_model.dart';
 import 'package:women_mentor/app/login/setup_acc_view.dart';
+import 'package:women_mentor/app/login/sign_in_options_view.dart';
 import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/constants/strings.dart';
+import 'package:women_mentor/routing/app_router.dart';
 import 'package:women_mentor/routing/app_router.gr.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/custom_text_button.dart';
@@ -65,7 +67,10 @@ class LoginView extends StatelessWidget {
                         fontSize: 15.0,
                       ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  AutoRouter.of(context)
+                      .push(SetupAccountRoute(isSigningUp: true));
+                },
               ),
               SizedBox(height: 10),
               CustomTextButton(
@@ -77,7 +82,7 @@ class LoginView extends StatelessWidget {
                       ),
                 ),
                 onPressed: () {
-                  AutoRouter.of(context).push(SignInOptionsRoute());
+                  context.router.push(SignInOptionsRoute());
                 },
               )
             ],

@@ -13,6 +13,9 @@ import 'package:women_mentor/widgets/shared/input_field.dart';
 import 'package:women_mentor/widgets/shared/remove_scroll_highlight.dart';
 
 class SetupAccountView extends HookWidget {
+  final bool isSigningUp;
+
+  SetupAccountView(this.isSigningUp);
   @override
   Widget build(BuildContext context) {
     final emailController = useTextEditingController();
@@ -56,7 +59,7 @@ class SetupAccountView extends HookWidget {
                   Row(
                     children: [
                       Text(
-                        'Setup your account',
+                        isSigningUp ? 'Setup your account' : 'Login',
                         style: Theme.of(context).textTheme.headline6!.copyWith(
                               fontSize: 20,
                               color: CustomColors.appColorOrange,
@@ -82,55 +85,58 @@ class SetupAccountView extends HookWidget {
                     textInputAction: TextInputAction.done,
                     enterPressed: () {},
                   ),
-                  SizedBox(height: 30),
-                  Row(
-                    children: [
-                      Text(
-                        'Tell us a bit about you',
-                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                              color: CustomColors.appColorOrange,
-                              fontSize: 18.0,
-                            ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  InputField(
-                    controller: firstNameController,
-                    placeholder: 'First Name',
-                    // fieldFocusNode: emailFocusNode,
-                    // nextFocusNode: passwordFocusNode,
-                    textInputType: TextInputType.name,
-                  ),
-                  SizedBox(height: 20),
-                  InputField(
-                    controller: lastNameController,
-                    placeholder: 'Last Name',
-                    // fieldFocusNode: emailFocusNode,
-                    // nextFocusNode: passwordFocusNode,
-                    textInputType: TextInputType.name,
-                  ),
-                  SizedBox(height: 20),
-                  InputField(
-                    controller: ageController,
-                    placeholder: 'Age',
-                    // fieldFocusNode: emailFocusNode,
-                    // nextFocusNode: passwordFocusNode,
-                    textInputType: TextInputType.number,
-                  ),
-                  SizedBox(height: 20),
-                  InputDropdown(
-                      labelText: 'Tech level',
-                      valueText: 'Beginner',
-                      onPressed: () {}),
-                  SizedBox(height: 20),
-                  InputField(
-                    controller: ethnicityController,
-                    placeholder: 'Ethnicity',
-                    // fieldFocusNode: emailFocusNode,
-                    // nextFocusNode: passwordFocusNode,
-                    textInputType: TextInputType.name,
-                  ),
+                  if (isSigningUp) ...[
+                    SizedBox(height: 30),
+                    Row(
+                      children: [
+                        Text(
+                          'Tell us a bit about you',
+                          style:
+                              Theme.of(context).textTheme.bodyText1!.copyWith(
+                                    color: CustomColors.appColorOrange,
+                                    fontSize: 18.0,
+                                  ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 24),
+                    InputField(
+                      controller: firstNameController,
+                      placeholder: 'First Name',
+                      // fieldFocusNode: emailFocusNode,
+                      // nextFocusNode: passwordFocusNode,
+                      textInputType: TextInputType.name,
+                    ),
+                    SizedBox(height: 20),
+                    InputField(
+                      controller: lastNameController,
+                      placeholder: 'Last Name',
+                      // fieldFocusNode: emailFocusNode,
+                      // nextFocusNode: passwordFocusNode,
+                      textInputType: TextInputType.name,
+                    ),
+                    SizedBox(height: 20),
+                    InputField(
+                      controller: ageController,
+                      placeholder: 'Age',
+                      // fieldFocusNode: emailFocusNode,
+                      // nextFocusNode: passwordFocusNode,
+                      textInputType: TextInputType.number,
+                    ),
+                    SizedBox(height: 20),
+                    InputDropdown(
+                        labelText: 'Tech level',
+                        valueText: 'Beginner',
+                        onPressed: () {}),
+                    SizedBox(height: 20),
+                    InputField(
+                      controller: ethnicityController,
+                      placeholder: 'Ethnicity',
+                      // fieldFocusNode: emailFocusNode,
+                      // nextFocusNode: passwordFocusNode,
+                      textInputType: TextInputType.name,
+                    ),
+                  ],
                   SizedBox(height: 40),
                   CustomElevatedButton(
                       child: Text(

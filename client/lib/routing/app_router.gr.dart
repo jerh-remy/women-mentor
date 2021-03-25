@@ -27,7 +27,9 @@ class AppRouter extends _i1.RootStackRouter {
       return _i1.MaterialPageX(entry: entry, child: _i4.SignInOptionsView());
     },
     SetupAccountRoute.name: (entry) {
-      return _i1.MaterialPageX(entry: entry, child: _i5.SetupAccountView());
+      var args = entry.routeData.argsAs<SetupAccountRouteArgs>();
+      return _i1.MaterialPageX(
+          entry: entry, child: _i5.SetupAccountView(args.isSigningUp));
     },
     OnboardingRoute.name: (entry) {
       return _i1.MaterialPageX(entry: entry, child: _i6.OnboardingView());
@@ -62,10 +64,19 @@ class SignInOptionsRoute extends _i1.PageRouteInfo {
   static const String name = 'SignInOptionsRoute';
 }
 
-class SetupAccountRoute extends _i1.PageRouteInfo {
-  const SetupAccountRoute() : super(name, path: '/setup-account-view');
+class SetupAccountRoute extends _i1.PageRouteInfo<SetupAccountRouteArgs> {
+  SetupAccountRoute({required bool isSigningUp})
+      : super(name,
+            path: '/setup-account-view',
+            args: SetupAccountRouteArgs(isSigningUp: isSigningUp));
 
   static const String name = 'SetupAccountRoute';
+}
+
+class SetupAccountRouteArgs {
+  const SetupAccountRouteArgs({required this.isSigningUp});
+
+  final bool isSigningUp;
 }
 
 class OnboardingRoute extends _i1.PageRouteInfo {
