@@ -13,25 +13,14 @@ class HomeView extends StatelessWidget {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         body: SafeArea(
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              BottomLayer(),
-              Positioned(
-                child: SearchField(),
-                top: 50,
-                left: 10,
-                right: 10,
-              ),
-            ],
-          ),
+          child: HomeFeed(),
         ),
       ),
     );
   }
 }
 
-class BottomLayer extends StatelessWidget {
+class HomeFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -51,8 +40,6 @@ class BottomLayer extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 48),
-        FilterSection(),
         Expanded(child: HomeFeedPosts()),
       ],
     );

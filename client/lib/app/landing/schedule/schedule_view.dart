@@ -32,7 +32,7 @@ class ScheduleView extends StatelessWidget {
               SessionCalendar(
                 onDaySelected: (selectedDate) {
                   print(
-                      'printing selected date from schedule view via callback');
+                      'printing selected date from schedule view via callback: $selectedDate');
                   showMaterialModalBottomSheet(
                     context: context,
                     elevation: 2.0,
@@ -50,7 +50,11 @@ class ScheduleView extends StatelessWidget {
                               children: [
                                 Text(
                                   'Your Schedule',
-                                  style: TextStyle(fontSize: 18),
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 0.4,
+                                  ),
                                 ),
                                 IconButton(
                                     onPressed: () {},
@@ -68,16 +72,19 @@ class ScheduleView extends StatelessWidget {
                             itemCount: 6,
                             itemBuilder: (ctx, index) {
                               return index % 3 == 0
-                                  ? ListTile(
-                                      onTap: () {},
-                                      leading: Text('13 Mar'),
-                                      title: Text('Meet mentor name'),
-                                    )
-                                  : ListTile(
-                                      onTap: () {},
-                                      leading: Text('24 Mar'),
-                                      title: Text('Mentoring name'),
-                                    );
+                                  ? SessionListItem(
+                                      date: '13 Mar',
+                                      meetingTitle: 'Meet mentor name',
+                                      meetingTime: '12:00 - 13:00',
+                                      meetingDesc:
+                                          'Eiusmod ex ex eu exercitation aliquip eiusmod fugiat nostrud nisi.')
+                                  : SessionListItem(
+                                      date: '24 Mar',
+                                      meetingTitle: 'Mentoring name',
+                                      meetingTime: '14:00 - 15:00',
+                                      titleColor: CustomColors.appColorOrange,
+                                      meetingDesc:
+                                          'Eiusmod ex ex eu exercitation aliquip eiusmod fugiat nostrud nisi.');
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) {
@@ -93,6 +100,73 @@ class ScheduleView extends StatelessWidget {
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SessionListItem extends StatelessWidget {
+  final String date;
+  final String meetingTitle;
+  final Color titleColor;
+  final String meetingTime;
+  final String meetingDesc;
+
+  const SessionListItem({
+    Key? key,
+    required this.date,
+    required this.meetingTitle,
+    required this.meetingTime,
+    required this.meetingDesc,
+    this.titleColor = CustomColors.appColorTeal,
+  }) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      date,
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    SizedBox(
+                      width: 12,
+                    ),
+                    Text(
+                      meetingTitle,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: titleColor,
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  meetingTime,
+                  style: TextStyle(color: Colors.black54, fontSize: 12),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8,
+            ),
+            Text(
+              meetingDesc,
+              style: TextStyle(
+                color: Colors.black54,
+              ),
+            ),
+          ],
         ),
       ),
     );

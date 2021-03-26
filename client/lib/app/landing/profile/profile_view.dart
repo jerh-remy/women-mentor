@@ -60,7 +60,8 @@ class ProfileView extends StatelessWidget {
                             _confirmSignOut(context, firebaseAuth);
                           },
                           icon: Icon(
-                            Ionicons.log_out_outline,
+                            Ionicons.power,
+                            color: CustomColors.appColorTeal,
                           )),
                     ),
                   ),
@@ -87,59 +88,62 @@ class ProfileCard extends StatelessWidget {
   const ProfileCard({Key? key, required this.user}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Card(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        elevation: 0.50,
-        child: Container(
-          padding: EdgeInsets.all(24),
-          child: Column(
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey.shade100,
+        ),
+        borderRadius: BorderRadius.circular(4.0),
+      ),
+      padding: EdgeInsets.all(24),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              ProfilePic(
+                photoURL: user.photoURL,
+              ),
+              SizedBox(width: 16),
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  ProfilePic(
-                    photoURL: user.photoURL,
-                  ),
-                  SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 2.0),
-                        child: Text(
-                          user.displayName!,
-                          style:
-                              Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    fontSize: 16,
-                                  ),
-                        ),
-                      ),
-                      Text(
-                        'Software Engineer - Microsoft UK',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 14,
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      InkWell(
-                        child: Text(
-                          'EDIT ACCOUNT DETAILS',
-                          style: TextStyle(
-                            letterSpacing: 0.6,
-                            color: CustomColors.appColorTeal,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 2.0),
+                    child: Text(
+                      user.displayName!,
+                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                            fontSize: 16,
                           ),
-                        ),
-                        splashColor: CustomColors.appColorTeal.withOpacity(0.2),
-                        onTap: () {},
-                      )
-                    ],
+                    ),
                   ),
+                  Text(
+                    'Software Engineer - Microsoft UK',
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 14,
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  InkWell(
+                    child: Text(
+                      'EDIT ACCOUNT DETAILS',
+                      style: TextStyle(
+                        letterSpacing: 0.6,
+                        color: CustomColors.appColorTeal,
+                      ),
+                    ),
+                    splashColor: CustomColors.appColorTeal.withOpacity(0.2),
+                    onTap: () {},
+                  )
                 ],
               ),
             ],
           ),
-        ));
+        ],
+      ),
+    );
   }
 }
 
