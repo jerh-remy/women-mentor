@@ -15,8 +15,6 @@ import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/routing/app_router.gr.dart';
 import 'package:women_mentor/services/shared_preferences_service.dart';
 
-import 'app/login/sign_in_options_view.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

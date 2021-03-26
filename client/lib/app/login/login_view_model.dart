@@ -189,7 +189,7 @@ class LoginViewModel with ChangeNotifier {
           FacebookAuthProvider.credential(accessToken.token);
 
       // Once signed in, return the UserCredential
-      await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      await auth.signInWithCredential(facebookAuthCredential);
     } on FacebookAuthException catch (e) {
       switch (e.errorCode) {
         case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
