@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:women_mentor/app/landing/explore/bookSession/select_date_view.dart';
 import 'package:women_mentor/app/landing/profile/profile_view.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/constants/utilities.dart';
 import 'package:women_mentor/routing/cupertino_tab_view_router.dart';
+import 'package:women_mentor/widgets/shared/page_title.dart';
 
 class MentorProfileView extends StatelessWidget {
   static Future<void> show(BuildContext context) async {
@@ -23,18 +25,7 @@ class MentorProfileView extends StatelessWidget {
             padding: EdgeInsets.all(24),
             shrinkWrap: true,
             children: [
-              Row(
-                children: [
-                  Text(
-                    'Mentor Profile',
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                          fontSize: 20,
-                          color: CustomColors.appColorOrange,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ],
-              ),
+              PageTitle(text: 'Mentor Profile'),
               SizedBox(height: 30),
               Row(
                 children: [
@@ -117,7 +108,9 @@ class MentorProfileView extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    SelectDateView.show(context);
+                  },
                   icon: Icon(
                     Icons.calendar_today_outlined,
                     size: 20,

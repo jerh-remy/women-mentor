@@ -3,6 +3,7 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:women_mentor/app/landing/explore/mentor_card.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/models/user.dart';
+import 'package:women_mentor/widgets/shared/page_title.dart';
 import 'package:women_mentor/widgets/shared/search_field.dart';
 
 class ExploreView extends StatelessWidget {
@@ -35,21 +36,9 @@ class BottomLayer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Explore Mentors',
-                style: Theme.of(context).textTheme.headline6!.copyWith(
-                      fontSize: 20,
-                      color: CustomColors.appColorOrange,
-                      fontWeight: FontWeight.bold,
-                    ),
-              ),
-            ),
-          ],
-        ),
+        Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: PageTitle(text: 'Explore Mentors')),
         SizedBox(height: 48),
         FilterSection(),
         Expanded(child: MentorList()),

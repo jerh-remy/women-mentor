@@ -4,6 +4,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:women_mentor/app/landing/schedule/session_calendar.dart';
 import 'package:women_mentor/constants/colors.dart';
+import 'package:women_mentor/widgets/shared/page_title.dart';
 
 class ScheduleView extends StatelessWidget {
   @override
@@ -14,20 +15,9 @@ class ScheduleView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                      'Your schedule',
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
-                            fontSize: 20,
-                            color: CustomColors.appColorOrange,
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: PageTitle(text: 'Your Schedule'),
               ),
               SessionCalendar(
                 onDaySelected: (selectedDate) {

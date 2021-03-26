@@ -13,13 +13,14 @@ class SocialSignInButton extends CustomElevatedButton {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
                 child: Icon(
                   icon,
                   color: iconColor,
-                  size: 18.0,
+                  size: 17.0,
                 ),
               ),
               Expanded(
