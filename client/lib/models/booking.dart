@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Bookings {
-  final List<Bookings> changelog;
+class Booking {
+  final List<Booking> changelog;
   final Timestamp date;
   final String menteeId;
   final String mentorId;
@@ -9,7 +9,7 @@ class Bookings {
   final String requesterId;
   final String status;
 
-  Bookings({
+  Booking({
     required this.date,
     required this.menteeId,
     required this.mentorId,
@@ -19,8 +19,8 @@ class Bookings {
     this.changelog = const [],
   });
 
-  factory Bookings.fromData(Map<String, dynamic>? data /*, String uid*/) {
-    return Bookings(
+  factory Booking.fromData(Map<String, dynamic>? data /*, String uid*/) {
+    return Booking(
         // id: uid,
         changelog: data?['changelog'].map((e) => e),
         date: data?['date'],
