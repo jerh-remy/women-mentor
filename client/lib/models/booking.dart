@@ -8,8 +8,10 @@ class Booking {
   final String preferredCallProvider;
   final String requesterId;
   final String status;
+  final String id;
 
   Booking({
+    required this.id,
     required this.date,
     required this.menteeId,
     required this.mentorId,
@@ -19,9 +21,9 @@ class Booking {
     this.changelog = const [],
   });
 
-  factory Booking.fromData(Map<String, dynamic>? data /*, String uid*/) {
+  factory Booking.fromData(Map<String, dynamic>? data , String uid) {
     return Booking(
-        // id: uid,
+        id: uid,
         changelog: data?['changelog'].map((e) => e),
         date: data?['date'],
         menteeId: data?['menteeId'],

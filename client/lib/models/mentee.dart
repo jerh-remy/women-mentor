@@ -1,17 +1,19 @@
 class Mentee {
   final String goalStatement;
   final List<String> bookings;
+  final String id;
 
   Mentee({
+    required this.id,
     required this.goalStatement,
     this.bookings = const [],
   });
 
-  factory Mentee.fromData(Map<String, dynamic>? data /*, String uid*/) {
+  factory Mentee.fromData(Map<String, dynamic>? data, String uid) {
     return Mentee(
-        // id: uid,
-        goalStatement: data?['goalStatement'],
-        bookings: data?['bookings'].map((e) => e),
+      id: uid,
+      goalStatement: data?['goalStatement'],
+      bookings: data?['bookings'].map((e) => e),
     );
   }
 

@@ -6,8 +6,10 @@ class Mentor {
   final String company;
   final String jobTitle;
   final int yearsOfExperience;
+  final String id;
 
   Mentor({
+    required this.id,
     required this.goalStatement,
     required this.company,
     required this.jobTitle,
@@ -16,9 +18,9 @@ class Mentor {
     this.bookings = const [],
   });
 
-  factory Mentor.fromData(Map<String, dynamic>? data /*, String uid*/) {
+  factory Mentor.fromData(Map<String, dynamic>? data , String uid) {
     return Mentor(
-        // id: uid,
+        id: uid,
         goalStatement: data?['goalStatement'],
         bookings: data?['bookings'].map((e) => e),
         availableTimes: data?['availableTimes'],
