@@ -174,7 +174,7 @@ class Utilities {
   static void showErrorDialog({
     required BuildContext context,
     String? title,
-    Object? exception,
+    required Object exception,
   }) {
     String _message(dynamic exception) {
       if (exception is FirebaseException) {

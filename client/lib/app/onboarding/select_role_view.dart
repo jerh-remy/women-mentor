@@ -2,18 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 
-class SelectRoleView extends StatelessWidget {
-  final VoidCallback onTap;
+enum UserRole { mentor, mentee }
+
+class SelectRoleView extends StatefulWidget {
+  final Function(bool) onTap;
 
   const SelectRoleView({Key? key, required this.onTap}) : super(key: key);
+
+  @override
+  _SelectRoleViewState createState() => _SelectRoleViewState();
+}
+
+class _SelectRoleViewState extends State<SelectRoleView>
+    with AutomaticKeepAliveClientMixin {
+  bool isSelected = false;
+  UserRole _userRole = UserRole.mentee;
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(30.0),
           child: Center(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
@@ -32,23 +46,33 @@ class SelectRoleView extends StatelessWidget {
                   height: 60,
                 ),
                 RoleSelectChip(
+                  isSelected: isSelected,
                   roleText: 'Become a mentee',
-                  onRoleSelect: (selectedRole) => print(selectedRole),
+                  onRoleSelect: (selectedRole) {
+                    setState(() {
+                      _userRole = selectedRole as UserRole;
+                    });
+                    print(selectedRole);
+                  },
+                  groupValue: _userRole,
+                  value: UserRole.mentee,
                 ),
                 SizedBox(
                   height: 20,
                 ),
                 RoleSelectChip(
+                  isSelected: isSelected,
                   roleText: 'Become a mentor',
-                  onRoleSelect: (selectedRole) => print(selectedRole),
+                  onRoleSelect: (selectedRole) {
+                    setState(() {
+                      _userRole = selectedRole as UserRole;
+                      isSelected = true;
+                    });
+                    print(selectedRole);
+                  },
+                  groupValue: _userRole,
+                  value: UserRole.mentor,
                 ),
-                // SizedBox(
-                //   height: 20,
-                // ),
-                // RoleSelectChip(
-                //   roleText: 'Why not both?',
-                //   onRoleSelect: (selectedRole) => print(selectedRole),
-                // ),
                 SizedBox(
                   height: 40,
                 ),
@@ -60,7 +84,7 @@ class SelectRoleView extends StatelessWidget {
                             fontSize: 15.0,
                           ),
                     ),
-                    onPressed: onTap)
+                    onPressed: () => widget.onTap(_userRole == UserRole.mentor))
               ],
             ),
           ),
@@ -68,6 +92,9 @@ class SelectRoleView extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class RoleSelectChip extends StatelessWidget {
@@ -75,30 +102,44 @@ class RoleSelectChip extends StatelessWidget {
     Key? key,
     required this.roleText,
     required this.onRoleSelect,
+    required this.isSelected,
+    required this.groupValue,
+    required this.value,
   }) : super(key: key);
 
   final String roleText;
-  final Function(String) onRoleSelect;
+  final Function(Object) onRoleSelect;
+  final bool isSelected;
+  final Object groupValue;
+  final Object value;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onRoleSelect(roleText),
-      child: Container(
-        alignment: Alignment.center,
-        width: MediaQuery.of(context).size.width * 0.8,
-        padding: EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: CustomColors.appColorTeal,
-            ),
-            borderRadius: BorderRadius.circular(50.0)),
-        child: Text(
-          roleText,
-          style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                fontSize: 16,
-                color: CustomColors.appColorTeal,
-              ),
+    return Container(
+      alignment: Alignment.center,
+      width: MediaQuery.of(context).size.width * 0.8,
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: CustomColors.appColorTeal,
+          ),
+          borderRadius: BorderRadius.circular(50.0)),
+      child: Theme(
+        data: ThemeData(highlightColor: Colors.transparent),
+        child: RadioListTile(
+          dense: true,
+          groupValue: groupValue,
+          value: value,
+          activeColor: CustomColors.appColorTeal,
+          onChanged: (value) {
+            onRoleSelect(value!);
+          },
+          title: Text(
+            roleText,
+            style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  fontSize: 16,
+                  color: CustomColors.appColorTeal,
+                ),
+          ),
         ),
       ),
     );

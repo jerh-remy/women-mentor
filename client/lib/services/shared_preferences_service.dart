@@ -14,6 +14,11 @@ class SharedPreferencesService {
     await sharedPreferences.setBool(onboardingCompleteKey, true);
   }
 
+  //Will remove later
+  Future<void> setOnboardingInComplete() async {
+    await sharedPreferences.setBool(onboardingCompleteKey, false);
+  }
+
   bool isOnboardingComplete() =>
       sharedPreferences.getBool(onboardingCompleteKey) ?? false;
 }

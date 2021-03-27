@@ -14,6 +14,7 @@ class OnboardingView extends StatefulWidget {
 class _OnboardingViewState extends State<OnboardingView> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPageNumber = 0;
+  bool _isMentorOnboarding = false;
 
   goToNextPage() {
     _pageController.nextPage(
@@ -26,7 +27,11 @@ class _OnboardingViewState extends State<OnboardingView> {
   Widget build(BuildContext context) {
     List<Widget> _pages = [
       SelectRoleView(
-        onTap: () {
+        onTap: (isMentorOnboarding) {
+          print(isMentorOnboarding);
+          setState(() {
+            _isMentorOnboarding = isMentorOnboarding;
+          });
           goToNextPage();
         },
       ),
@@ -35,21 +40,19 @@ class _OnboardingViewState extends State<OnboardingView> {
           goToNextPage();
         },
       ),
-      HobbiesView(
-        onTap: () {
-          goToNextPage();
-        },
-      ),
-      MentorProfileSetupView(
-        onTap: () {
-          goToNextPage();
-        },
-      ),
-      MentorAvailabilityView(
-        onTap: () {
-          print('done');
-        },
-      )
+      HobbiesView(),
+      if (_isMentorOnboarding) ...[
+        MentorProfileSetupView(
+          onTap: () {
+            goToNextPage();
+          },
+        ),
+        MentorAvailabilityView(
+          onTap: () {
+            print('done');
+          },
+        )
+      ]
     ];
 
     return Scaffold(

@@ -3,6 +3,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:women_mentor/app/login/login_view_model.dart';
 import 'package:women_mentor/app/login/sign_in_options_view.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/constants/strings.dart';
 import 'package:women_mentor/constants/utilities.dart';
@@ -14,10 +15,12 @@ import 'package:women_mentor/widgets/shared/input_field.dart';
 import 'package:women_mentor/widgets/shared/remove_scroll_highlight.dart';
 import 'package:auto_route/auto_route.dart';
 
-class SetupAccountView extends HookWidget {
-  final bool isSigningUp;
+enum SetupType { signUp, login, setup }
 
-  SetupAccountView(this.isSigningUp);
+class SetupAccountView extends HookWidget {
+  final SetupType setupType;
+
+  SetupAccountView(this.setupType);
 
   void signUp({
     required LoginViewModel loginViewModel,
@@ -43,6 +46,15 @@ class SetupAccountView extends HookWidget {
 
     if (password != confirmPassword) {
       Utilities.displayErrorSnackBar(context, 'Passwords do not match');
+      return;
+    }
+
+    if (firstName.isEmpty) {
+      Utilities.displayErrorSnackBar(context, 'First Name cannot be empty');
+      return;
+    }
+    if (lastName.isEmpty) {
+      Utilities.displayErrorSnackBar(context, 'Last Name cannot be empty');
       return;
     }
 
@@ -79,6 +91,47 @@ class SetupAccountView extends HookWidget {
           await loginViewModel.signInWithEmailAndPassword(email, password);
       if (result != null && result as bool == true)
         context.router.push(StartUpRoute());
+    } catch (e) {
+      Utilities.showErrorDialog(
+        context: context,
+        title: Strings.signInFailed,
+        exception: e,
+      );
+    }
+  }
+
+  void setupAccount({
+    required LoginViewModel loginViewModel,
+    required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required String techLevel,
+    int? age,
+    String? ethnicity,
+  }) async {
+    try {
+      final firebaseAuthUser = context.read(firebaseAuthProvider).currentUser!;
+
+      FocusScope.of(context).unfocus();
+      if (firstName.isEmpty) {
+        Utilities.displayErrorSnackBar(context, 'First Name cannot be empty');
+        return;
+      }
+      if (lastName.isEmpty) {
+        Utilities.displayErrorSnackBar(context, 'Last Name cannot be empty');
+        return;
+      }
+
+      await loginViewModel
+          .createUserDocumentAfterSocialSignIn(
+            userId: firebaseAuthUser.uid,
+            firstName: firstName,
+            lastName: lastName,
+            techLevel: techLevel,
+            age: age,
+            ethnicity: ethnicity,
+          )
+          .then((value) => context.router.push(StartUpRoute()));
     } catch (e) {
       Utilities.showErrorDialog(
         context: context,
@@ -130,7 +183,9 @@ class SetupAccountView extends HookWidget {
                 Row(
                   children: [
                     Text(
-                      isSigningUp ? 'Setup your account' : 'Login',
+                      setupType != SetupType.login
+                          ? 'Setup your account'
+                          : 'Login',
                       style: Theme.of(context).textTheme.headline6!.copyWith(
                             fontSize: 20,
                             color: CustomColors.appColorOrange,
@@ -139,24 +194,27 @@ class SetupAccountView extends HookWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 24),
-                InputField(
-                  controller: emailController,
-                  placeholder: 'Email',
-                  fieldFocusNode: emailNode,
-                  nextFocusNode: passwordNode,
-                  textInputType: TextInputType.emailAddress,
-                ),
-                SizedBox(height: 20),
-                InputField(
-                  controller: passwordController,
-                  placeholder: 'Password',
-                  password: true,
-                  fieldFocusNode: passwordNode,
-                  textInputAction: TextInputAction.done,
-                  enterPressed: () {},
-                ),
-                if (isSigningUp) ...[
+                if (setupType == SetupType.login ||
+                    setupType == SetupType.signUp) ...[
+                  SizedBox(height: 24),
+                  InputField(
+                    controller: emailController,
+                    placeholder: 'Email',
+                    fieldFocusNode: emailNode,
+                    nextFocusNode: passwordNode,
+                    textInputType: TextInputType.emailAddress,
+                  ),
+                  SizedBox(height: 20),
+                  InputField(
+                    controller: passwordController,
+                    placeholder: 'Password',
+                    password: true,
+                    fieldFocusNode: passwordNode,
+                    textInputAction: TextInputAction.done,
+                    enterPressed: () {},
+                  ),
+                ],
+                if (setupType == SetupType.signUp) ...[
                   SizedBox(height: 20),
                   InputField(
                     controller: confirmPasswordController,
@@ -166,6 +224,8 @@ class SetupAccountView extends HookWidget {
                     textInputAction: TextInputAction.done,
                     enterPressed: () {},
                   ),
+                ],
+                if (setupType != SetupType.login) ...[
                   SizedBox(height: 30),
                   Row(
                     children: [
@@ -209,6 +269,7 @@ class SetupAccountView extends HookWidget {
                     onItemTapped: (value) {
                       print('value: $value');
                       techLevel = value;
+                      print('techLevel: $techLevel');
                     },
                   ),
                   SizedBox(height: 20),
@@ -222,33 +283,51 @@ class SetupAccountView extends HookWidget {
                 SizedBox(height: 40),
                 CustomElevatedButton(
                     child: Text(
-                      isSigningUp ? 'NEXT' : 'SUBMIT',
+                      setupType != SetupType.login ? 'NEXT' : 'SUBMIT',
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                             color: Colors.white,
                             fontSize: 15.0,
                           ),
                     ),
                     onPressed: () {
-                      isSigningUp
-                          ? signUp(
-                              loginViewModel: loginViewModel,
-                              context: context,
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim(),
-                              confirmPassword:
-                                  confirmPasswordController.text.trim(),
-                              firstName: firstNameController.text.trim(),
-                              lastName: lastNameController.text.trim(),
-                              techLevel: techLevel!,
-                              age: int.parse(ageController.text.trim()),
-                              ethnicity: ethnicityController.text.trim(),
-                            )
-                          : login(
-                              context: context,
-                              loginViewModel: loginViewModel,
-                              email: emailController.text.trim(),
-                              password: passwordController.text.trim(),
-                            );
+                      switch (setupType) {
+                        case SetupType.signUp:
+                          signUp(
+                            loginViewModel: loginViewModel,
+                            context: context,
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                            confirmPassword:
+                                confirmPasswordController.text.trim(),
+                            firstName: firstNameController.text.trim(),
+                            lastName: lastNameController.text.trim(),
+                            techLevel: techLevel,
+                            age: int.parse(ageController.text.trim()),
+                            ethnicity: ethnicityController.text.trim(),
+                          );
+                          break;
+                        case SetupType.setup:
+                          setupAccount(
+                            loginViewModel: loginViewModel,
+                            context: context,
+                            firstName: firstNameController.text.trim(),
+                            lastName: lastNameController.text.trim(),
+                            techLevel: techLevel,
+                            age: int.parse(ageController.text.trim()),
+                            ethnicity: ethnicityController.text.trim(),
+                          );
+                          break;
+                        case SetupType.login:
+                          login(
+                            context: context,
+                            loginViewModel: loginViewModel,
+                            email: emailController.text.trim(),
+                            password: passwordController.text.trim(),
+                          );
+
+                          break;
+                        default:
+                      }
                     }),
                 SizedBox(height: 20),
               ],

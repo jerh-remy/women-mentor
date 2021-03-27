@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:women_mentor/models/interests.dart';
+import 'package:women_mentor/models/user.dart';
 import 'package:women_mentor/services/firestore_path.dart';
 import 'package:women_mentor/services/firestore_service.dart';
 
@@ -11,10 +13,8 @@ class FirestoreDatabase {
 
   final _service = FirestoreService.instance;
 
-  // Future<void> setJob(Job job) => _service.setData(
-  //       path: FirestorePath.job(uid, job.id),
-  //       data: job.toMap(),
-  //     );
+  Future<void> setUser(Map<String, dynamic> userData) => _service.setData(
+      path: FirestorePath.user(uid), data: userData, merge: true);
 
   // Future<void> deleteJob(Job job) async {
   //   // delete where entry.jobId == job.jobId
@@ -27,11 +27,15 @@ class FirestoreDatabase {
   //   // delete job
   //   await _service.deleteData(path: FirestorePath.job(uid, job.id));
   // }
-
-  // Stream<Job> jobStream({required String jobId}) => _service.documentStream(
-  //       path: FirestorePath.job(uid, jobId),
-  //       builder: (data, documentId) => Job.fromMap(data, documentId),
+  //  Stream<AppUser> userStream() => _service.documentStream(
+  //       path: FirestorePath.user(),
+  //       builder: (data, documentId) => Interests.fromMap(data, documentId),
   //     );
+
+  Stream<Interests> interestsStream() => _service.documentStream(
+        path: FirestorePath.interests(),
+        builder: (data, documentId) => Interests.fromMap(data, documentId),
+      );
 
   // Stream<List<Job>> jobsStream() => _service.collectionStream(
   //       path: FirestorePath.jobs(uid),

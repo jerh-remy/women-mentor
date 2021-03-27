@@ -3,6 +3,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:women_mentor/app/login/login_view_model.dart';
+import 'package:women_mentor/app/login/setup_acc_view.dart';
+import 'package:women_mentor/app/onboarding/onboarding_view_model.dart';
 import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/constants/strings.dart';
@@ -72,7 +74,8 @@ class SignInOptionsView extends ConsumerWidget {
             color: CustomColors.appColorTeal,
             icon: Icons.email,
             onPressed: () {
-              context.router.push(SetupAccountRoute(isSigningUp: false));
+              context.router
+                  .push(SetupAccountRoute(setupType: SetupType.login));
             },
           ),
           if (loginViewModel.isLoading) ...[
@@ -89,9 +92,15 @@ class SignInOptionsView extends ConsumerWidget {
   void _signInWithGoogle(
       LoginViewModel loginViewModel, BuildContext context) async {
     try {
-      await loginViewModel
-          .signInWithGoogle()
-          .then((value) => Navigator.of(context).pop());
+      final onboardingViewModel =
+          context.read<OnboardingViewModel>(onboardingViewModelProvider);
+      await loginViewModel.signInWithGoogle().then((value) {
+        if (onboardingViewModel.isOnboardingComplete) {
+          Navigator.of(context).pop();
+        } else {
+          context.router.push(SetupAccountRoute(setupType: SetupType.setup));
+        }
+      });
     } catch (e) {
       Utilities.showErrorDialog(
         context: context,
@@ -104,9 +113,16 @@ class SignInOptionsView extends ConsumerWidget {
   void _signInWithFacebook(
       LoginViewModel loginViewModel, BuildContext context) async {
     try {
-      await loginViewModel
-          .signInWithFacebook()
-          .then((value) => Navigator.of(context).pop());
+      final onboardingViewModel =
+          context.read<OnboardingViewModel>(onboardingViewModelProvider);
+
+      await loginViewModel.signInWithFacebook().then((value) {
+        if (onboardingViewModel.isOnboardingComplete) {
+          Navigator.of(context).pop();
+        } else {
+          context.router.push(SetupAccountRoute(setupType: SetupType.setup));
+        }
+      });
     } catch (e) {
       Utilities.showErrorDialog(
         context: context,

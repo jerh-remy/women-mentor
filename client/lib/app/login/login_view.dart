@@ -58,7 +58,7 @@ class LoginView extends StatelessWidget {
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 40),
               CustomElevatedButton(
                 child: Text(
                   'SIGN UP',
@@ -69,7 +69,7 @@ class LoginView extends StatelessWidget {
                 ),
                 onPressed: () {
                   AutoRouter.of(context)
-                      .push(SetupAccountRoute(isSigningUp: true));
+                      .push(SetupAccountRoute(setupType: SetupType.signUp));
                 },
               ),
               SizedBox(height: 10),

@@ -7,6 +7,7 @@ import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:women_mentor/constants/utilities.dart';
+import 'package:women_mentor/services/shared_preferences_service.dart';
 import 'package:women_mentor/widgets/logout_dialog.dart';
 
 class ProfileView extends StatelessWidget {
@@ -19,11 +20,17 @@ class ProfileView extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) {
-          return LogoutDialog(onLogoutTapped: () => _signOut(firebaseAuth));
+          return LogoutDialog(
+              onLogoutTapped: () => _signOut(firebaseAuth, context));
         });
   }
 
-  void _signOut(FirebaseAuth firebaseAuth) async {
+  void _signOut(FirebaseAuth firebaseAuth, BuildContext context) async {
+    //These next few lines are just for testing. Will remove later
+    final SharedPreferencesService sharedPreferencesService = context
+        .read<SharedPreferencesService>(sharedPreferencesServiceProvider);
+    await sharedPreferencesService.setOnboardingInComplete();
+
     await firebaseAuth.signOut();
   }
 

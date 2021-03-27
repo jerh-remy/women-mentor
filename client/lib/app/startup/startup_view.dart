@@ -13,15 +13,16 @@ class StartUpView extends ConsumerWidget {
     return AuthWidget(
       nonSignedInBuilder: (_) => Consumer(
         builder: (context, watch, _) {
-          // final didCompleteOnboarding =
-          //     watch(onboardingViewModelProvider.state);
-          // return didCompleteOnboarding ? LoginView() : OnboardingView();
-
           return LoginView();
         },
       ),
       signedInBuilder: (_) {
-        return LandingView();
+        final onboardingViewModel = watch(onboardingViewModelProvider);
+        print(
+            'onboarding complete? ${onboardingViewModel.isOnboardingComplete}');
+        return onboardingViewModel.isOnboardingComplete
+            ? LandingView()
+            : OnboardingView();
       },
     );
   }

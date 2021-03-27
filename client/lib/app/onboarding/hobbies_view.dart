@@ -1,48 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:women_mentor/app/onboarding/onboarding_view_model.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
+import 'package:women_mentor/constants/utilities.dart';
+import 'package:women_mentor/routing/app_router.gr.dart';
+import 'package:women_mentor/services/firestore_database.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
-import 'package:women_mentor/widgets/shared/custom_text_button.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
-import 'package:women_mentor/widgets/shared/search_field.dart';
 
-class HobbiesView extends StatelessWidget {
-  final VoidCallback onTap;
+class HobbiesView extends StatefulWidget {
+  @override
+  _HobbiesViewState createState() => _HobbiesViewState();
+}
 
-  const HobbiesView({Key? key, required this.onTap}) : super(key: key);
+class _HobbiesViewState extends State<HobbiesView>
+    with AutomaticKeepAliveClientMixin {
+  Future<void> completeProfileSetupAndOnboarding() async {
+    try {
+      final database = context.read<FirestoreDatabase>(databaseProvider);
+      final OnboardingViewModel onboardingViewModel =
+          context.read<OnboardingViewModel>(onboardingViewModelProvider);
+      await onboardingViewModel.completeProfileSetupAndOnboarding(database);
+      context.router.push(StartUpRoute());
+    } catch (e) {
+      Utilities.showErrorDialog(context: context, exception: e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Container(
       padding: EdgeInsets.all(30.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PageTitle(text: 'Your hobbies and other interests'),
-          SizedBox(height: 24),
-          Wrap(
-            children: [
-              InputChip(
-                onPressed: () {},
-                onDeleted: () {},
-                backgroundColor: Colors.teal.shade50,
-                deleteIconColor: CustomColors.appColorTeal,
-                label: Text(
-                  'Selected',
-                  style: TextStyle(color: CustomColors.appColorTeal),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 24),
-          SizedBox(
-            child: SearchField(),
-            height: 56,
-          ),
           SizedBox(height: 30),
           Row(
             children: [
               Text(
-                'App development',
+                'Please select up to 5 hobbies',
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                       color: CustomColors.appColorOrange,
                       fontSize: 18.0,
@@ -51,24 +51,7 @@ class HobbiesView extends StatelessWidget {
             ],
           ),
           SizedBox(height: 10),
-          Wrap(
-            runSpacing: 2.0,
-            spacing: 8.0,
-            children: List.generate(
-                6,
-                (index) => Chip(
-                      label: Text(
-                        'Option $index',
-                        style: TextStyle(
-                          color: CustomColors.appColorTeal,
-                        ),
-                      ),
-                      backgroundColor: Colors.white,
-                      side: BorderSide(
-                        color: CustomColors.appColorTeal,
-                      ),
-                    )),
-          ),
+          HobbiesChips(),
           Spacer(),
           CustomElevatedButton(
               child: Text(
@@ -78,11 +61,102 @@ class HobbiesView extends StatelessWidget {
                       fontSize: 15.0,
                     ),
               ),
-              onPressed: onTap),
+              onPressed: () {
+                completeProfileSetupAndOnboarding();
+              }),
           SizedBox(height: 10),
-          CustomTextButton(child: Text('SKIP FOR NOW'), onPressed: () {})
+          // CustomTextButton(child: Text('SKIP FOR NOW'), onPressed: () {})
         ],
       ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}
+
+class HobbiesChips extends ConsumerWidget {
+  const HobbiesChips({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final onboardingViewModel = watch(onboardingViewModelProvider);
+    final bool canSelect = onboardingViewModel.selectedHobbies.length != 5;
+    final interestsAsyncValue = watch(interestsStreamProvider);
+    return interestsAsyncValue.when(
+      data: (interests) {
+        final hobbies = interests.hobbies;
+        return Wrap(
+          spacing: 6.0,
+          children: List.generate(
+              hobbies!.length,
+              (index) => HobbyChip(
+                    hobby: hobbies[index],
+                    canSelect: canSelect ||
+                        onboardingViewModel.selectedHobbies
+                            .contains(hobbies[index]),
+                    onSelected: (isSelected) {
+                      isSelected
+                          ? onboardingViewModel.addHobby(hobbies[index])
+                          : onboardingViewModel.removeHobby(hobbies[index]);
+                    },
+                  )),
+        );
+      },
+      loading: () => Container(),
+      error: (err, st) => Container(),
+    );
+  }
+}
+
+class HobbyChip extends StatefulWidget {
+  const HobbyChip({
+    Key? key,
+    required this.hobby,
+    required this.canSelect,
+    required this.onSelected,
+  }) : super(key: key);
+
+  final String hobby;
+  final bool canSelect;
+  final Function(bool) onSelected;
+
+  @override
+  _HobbyChipState createState() => _HobbyChipState();
+}
+
+class _HobbyChipState extends State<HobbyChip> {
+  bool isSelected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return FilterChip(
+      selected: isSelected,
+      selectedColor: CustomColors.appColorTeal.withOpacity(0.2),
+      checkmarkColor: CustomColors.appColorTeal,
+      labelStyle: TextStyle(
+        color: CustomColors.appColorTeal,
+      ),
+      label: Text(
+        widget.hobby,
+        style: TextStyle(
+          color: CustomColors.appColorTeal,
+        ),
+      ),
+      backgroundColor: Colors.white,
+      side: BorderSide(
+        color: CustomColors.appColorTeal,
+      ),
+      onSelected: (bool value) {
+        if (widget.canSelect) {
+          setState(() {
+            isSelected = value;
+          });
+          widget.onSelected(isSelected);
+        }
+      },
     );
   }
 }

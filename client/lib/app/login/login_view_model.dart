@@ -45,6 +45,36 @@ class LoginViewModel with ChangeNotifier {
     }
   }
 
+  Future createUserDocumentAfterSocialSignIn({
+    required String userId,
+    required String firstName,
+    required String lastName,
+    required String techLevel,
+    int? age,
+    String? ethnicity,
+  }) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      await _createUser(
+        AppUser(
+          id: userId,
+          firstName: firstName,
+          lastName: lastName,
+          techLevel: techLevel,
+          age: age,
+          ethnicity: ethnicity,
+        ),
+      );
+    } catch (e) {
+      throw e;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   Future createUserWithEmailAndPassword({
     required String email,
     required String password,
@@ -132,12 +162,25 @@ class LoginViewModel with ChangeNotifier {
       if (googleAccount != null) {
         final googleAuth = await googleAccount.authentication;
         if (googleAuth.accessToken != null && googleAuth.idToken != null) {
-          await auth.signInWithCredential(
+          final authResult = await auth.signInWithCredential(
             GoogleAuthProvider.credential(
               idToken: googleAuth.idToken,
               accessToken: googleAuth.accessToken,
             ),
           );
+
+          final user = authResult.user;
+
+          // await _createUser(
+          //   AppUser(
+          //     id: user!.uid,
+          //     firstName: user.displayName?.split(' ')[0] ?? '',
+          //     lastName: user.displayName?.split(' ').last ?? '',
+          //     techLevel: techLevel,
+          //     age: age,
+          //     ethnicity: ethnicity,
+          //   ),
+          // );
 
           // User user = await userStream(uid: authResult.user.uid).first;
           // print('is user null? ${user == null}');

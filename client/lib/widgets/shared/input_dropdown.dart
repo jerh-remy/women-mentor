@@ -65,9 +65,9 @@ class _InputDropdownState extends State<InputDropdown> {
             setState(() {
               _currentIndex = selectedIndex;
             });
+            widget.onItemTapped(widget.items[_currentIndex]);
           },
         );
-        widget.onItemTapped(widget.items[_currentIndex]);
       },
       child: InputDecorator(
         // isEmpty: valueText == null,
