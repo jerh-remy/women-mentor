@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:women_mentor/models/booking.dart';
 import 'package:women_mentor/models/interests.dart';
 import 'package:women_mentor/models/user.dart';
 import 'package:women_mentor/services/firestore_path.dart';
@@ -59,4 +60,12 @@ class FirestoreDatabase {
   //       builder: (data, documentID) => Entry.fromMap(data, documentID),
   //       sort: (lhs, rhs) => rhs.start.compareTo(lhs.start),
   //     );
+  Stream<List<Booking>> bookingsStream() => _service.collectionStream(
+        path: FirestorePath.bookings(),
+        builder: (data, documentId) => Booking.fromData(data, documentId),
+      );
+  Stream<List<AppUser>> usersStream() => _service.collectionStream(
+        path: FirestorePath.users(),
+        builder: (data, documentId) => AppUser.fromData(data, documentId),
+      );
 }
