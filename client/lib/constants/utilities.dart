@@ -112,10 +112,11 @@ class Utilities {
     return greetingIcon;
   }
 
-  static void showSuccessDialog(
-      {required BuildContext context,
-      String? successMessage,
-      required Function onButtonPressed}) {
+  static void showSuccessDialog({
+    required BuildContext context,
+    String? successMessage,
+    required Function onButtonPressed,
+  }) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -148,8 +149,33 @@ class Utilities {
     );
   }
 
-  static void showErrorDialog(
-      {required BuildContext context, String? title, Object? exception}) {
+  static void displayErrorSnackBar(BuildContext context, String errorMessage) {
+    final snackBar = SnackBar(
+      backgroundColor: CustomColors.appColorRed,
+      content: Text(
+        errorMessage,
+        style: TextStyle(
+          fontSize: 15.0,
+        ),
+      ),
+      duration: Duration(
+        seconds: 1,
+      ),
+      // action: SnackBarAction(
+      //   label: 'Undo',
+      //   onPressed: () {
+      //     // Some code to undo the change.
+      //   },
+      // ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  static void showErrorDialog({
+    required BuildContext context,
+    String? title,
+    Object? exception,
+  }) {
     String _message(dynamic exception) {
       if (exception is FirebaseException) {
         return exception.message ?? exception.toString();
@@ -184,7 +210,9 @@ class Utilities {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            onPressed: () => Navigator.of(context).pop(true),
+            onPressed: () {
+              Navigator.of(context).pop(true);
+            },
           ),
         ],
       ),

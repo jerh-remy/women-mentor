@@ -15,7 +15,6 @@ class LoginViewModel with ChangeNotifier {
   final FirebaseAuth auth;
 
   bool isLoading = false;
-  dynamic error;
   final _firestoreService = FirestoreService.instance;
 
   // Future<void> _signIn(Future<UserCredential> Function() signInMethod) async {
@@ -37,7 +36,7 @@ class LoginViewModel with ChangeNotifier {
   //   await _signIn(auth.signInAnonymously);
   // }
 
-  Future createUser(AppUser user) async {
+  Future _createUser(AppUser user) async {
     try {
       await _firestoreService.setData(
           path: FirestorePath.user(user.id), data: user.toJson());
@@ -52,16 +51,18 @@ class LoginViewModel with ChangeNotifier {
     required String firstName,
     required String lastName,
     required String techLevel,
-    String? age,
+    int? age,
     String? ethnicity,
   }) async {
     try {
+      isLoading = true;
+      notifyListeners();
       final authResult = await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
       await authResult.user?.sendEmailVerification();
-      await createUser(
+      await _createUser(
         AppUser(
           id: authResult.user!.uid,
           email: email,
@@ -72,13 +73,16 @@ class LoginViewModel with ChangeNotifier {
           ethnicity: ethnicity,
         ),
       );
-      // return authResult.user.uid;
+
       return authResult.user != null;
     } on FirebaseAuthException catch (e) {
       throw PlatformException(
         code: e.code,
         message: e.message,
       );
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 
@@ -90,7 +94,6 @@ class LoginViewModel with ChangeNotifier {
         email: email,
         password: password,
       );
-      error = null;
       print('email verified? : ${authResult.user?.emailVerified}');
       // if (authResult.user?.emailVerified != null) {
       //   if (authResult.user!.emailVerified) {
@@ -104,8 +107,9 @@ class LoginViewModel with ChangeNotifier {
       //     );
       //   }
       // }
+      return authResult.user != null;
     } on FirebaseAuthException catch (e) {
-      error = PlatformException(
+      throw PlatformException(
         code: e.code,
         message: e.message,
       );
@@ -134,7 +138,6 @@ class LoginViewModel with ChangeNotifier {
               accessToken: googleAuth.accessToken,
             ),
           );
-          error = null;
 
           // User user = await userStream(uid: authResult.user.uid).first;
           // print('is user null? ${user == null}');
@@ -155,20 +158,20 @@ class LoginViewModel with ChangeNotifier {
           // print('Auth current user ${auth.currentUser}');
           // return credential;
         } else {
-          error = PlatformException(
+          throw PlatformException(
             code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',
             message: 'Missing Google Auth Token',
           );
         }
       } else {
-        error = PlatformException(
+        throw PlatformException(
           code: 'ERROR_ABORTED_BY_USER',
           message: 'Sign in aborted by user',
         );
       }
       return null;
     } catch (e) {
-      error = e;
+      throw e;
     } finally {
       isLoading = false;
       notifyListeners();
@@ -183,7 +186,6 @@ class LoginViewModel with ChangeNotifier {
       AccessToken accessToken = await FacebookAuth.instance.login();
       print(accessToken.toJson());
 
-      error = null;
       // Create a credential from the access token
       final OAuthCredential facebookAuthCredential =
           FacebookAuthProvider.credential(accessToken.token);
@@ -193,25 +195,22 @@ class LoginViewModel with ChangeNotifier {
     } on FacebookAuthException catch (e) {
       switch (e.errorCode) {
         case FacebookAuthErrorCode.OPERATION_IN_PROGRESS:
-          error = PlatformException(
+          throw PlatformException(
             code: 'OPERATION_IN_PROGRESS',
             message: 'You have a previous login operation in progress',
           );
-          break;
 
         case FacebookAuthErrorCode.CANCELLED:
-          error = PlatformException(
+          throw PlatformException(
             code: 'CANCELLED',
             message: 'login cancelled',
           );
-          break;
 
         case FacebookAuthErrorCode.FAILED:
-          error = PlatformException(
+          throw PlatformException(
             code: 'FAILED',
             message: 'login failed',
           );
-          break;
       }
     } finally {
       isLoading = false;

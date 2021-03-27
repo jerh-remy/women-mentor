@@ -21,85 +21,98 @@ class SignInOptionsView extends ConsumerWidget {
   Widget build(BuildContext context, ScopedReader watch) {
     final loginViewModel = watch(loginModelProvider);
 
-    return ProviderListener<LoginViewModel>(
-      provider: loginModelProvider,
-      onChange: (context, model) async {
-        print('Error: ${model.error}');
-        if (model.error != null) {
-          Utilities.showErrorDialog(
-            context: context,
-            title: Strings.signInFailed,
-            exception: model.error,
-          );
-        }
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            HorizontalLogo(),
-            const SizedBox(height: 50),
-            Text(
-              'Log in or create account',
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                    fontSize: 20,
-                    color: CustomColors.appColorOrange,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 50),
-            SocialSignInButton(
-              onPressed: () {
-                loginViewModel
-                    .signInWithGoogle()
-                    .then((value) => Navigator.of(context).pop());
-              },
-              icon: FontAwesomeIcons.google,
-              text: 'SIGN IN WITH GOOGLE',
-              color: Color(0xffF7F7F7),
-              iconColor: Colors.black54,
-            ),
-            const SizedBox(height: 20),
-            // SocialSignInButton(
-            //   onPressed: () {},
-            //   icon: FontAwesomeIcons.apple,
-            //   text: 'SIGN IN WITH APPLE',
-            //   textColor: Colors.white,
-            //   color: Color(0xff313131),
-            // ),
-            // SizedBox(height: 20),
-            SocialSignInButton(
-              onPressed: () {
-                loginViewModel
-                    .signInWithFacebook()
-                    .then((value) => Navigator.of(context).pop());
-              },
-              icon: FontAwesomeIcons.facebookSquare,
-              text: 'SIGN IN WITH FACEBOOK',
-              color: Color(0xff405796),
-              textColor: Colors.white,
-            ),
-            const SizedBox(height: 20),
-            SocialSignInButton(
-              text: 'SIGN IN WITH EMAIL',
-              textColor: Colors.white,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          HorizontalLogo(),
+          const SizedBox(height: 50),
+          Text(
+            'Log in or create account',
+            style: Theme.of(context).textTheme.headline6!.copyWith(
+                  fontSize: 20,
+                  color: CustomColors.appColorOrange,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 50),
+          SocialSignInButton(
+            onPressed: () {
+              _signInWithGoogle(loginViewModel, context);
+            },
+            icon: FontAwesomeIcons.google,
+            text: 'SIGN IN WITH GOOGLE',
+            color: Color(0xffF7F7F7),
+            iconColor: Colors.black54,
+          ),
+          const SizedBox(height: 20),
+          // SocialSignInButton(
+          //   onPressed: () {},
+          //   icon: FontAwesomeIcons.apple,
+          //   text: 'SIGN IN WITH APPLE',
+          //   textColor: Colors.white,
+          //   color: Color(0xff313131),
+          // ),
+          // SizedBox(height: 20),
+          SocialSignInButton(
+            onPressed: () {
+              _signInWithFacebook(loginViewModel, context);
+            },
+            icon: FontAwesomeIcons.facebookSquare,
+            text: 'SIGN IN WITH FACEBOOK',
+            color: Color(0xff405796),
+            textColor: Colors.white,
+          ),
+          const SizedBox(height: 20),
+          SocialSignInButton(
+            text: 'SIGN IN WITH EMAIL',
+            textColor: Colors.white,
+            color: CustomColors.appColorTeal,
+            icon: Icons.email,
+            onPressed: () {
+              context.router.push(SetupAccountRoute(isSigningUp: false));
+            },
+          ),
+          if (loginViewModel.isLoading) ...[
+            const SizedBox(height: 30),
+            SpinKitCircle(
               color: CustomColors.appColorTeal,
-              icon: Icons.email,
-              onPressed: () {
-                context.router.push(SetupAccountRoute(isSigningUp: false));
-              },
             ),
-            if (loginViewModel.isLoading) ...[
-              const SizedBox(height: 30),
-              SpinKitCircle(
-                color: CustomColors.appColorTeal,
-              ),
-            ],
           ],
-        ),
+        ],
       ),
     );
+  }
+
+  void _signInWithGoogle(
+      LoginViewModel loginViewModel, BuildContext context) async {
+    try {
+      await loginViewModel
+          .signInWithGoogle()
+          .then((value) => Navigator.of(context).pop());
+    } catch (e) {
+      Utilities.showErrorDialog(
+        context: context,
+        title: Strings.signInFailed,
+        exception: e,
+      );
+    }
+  }
+
+  void _signInWithFacebook(
+      LoginViewModel loginViewModel, BuildContext context) async {
+    try {
+      await loginViewModel
+          .signInWithFacebook()
+          .then((value) => Navigator.of(context).pop());
+    } catch (e) {
+      Utilities.showErrorDialog(
+        context: context,
+        title: Strings.signInFailed,
+        exception: e,
+      );
+    }
   }
 }

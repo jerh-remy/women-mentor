@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:women_mentor/constants/colors.dart';
+import 'package:women_mentor/widgets/shared/selection_modal.dart';
 
-class InputDropdown extends StatelessWidget {
+class InputDropdown extends StatefulWidget {
   const InputDropdown({
     Key? key,
     required this.labelText,
-    required this.valueText,
-    this.valueStyle,
-    required this.onPressed,
+    required this.onItemTapped,
+    required this.items,
   }) : super(key: key);
 
   final String labelText;
-  final String valueText;
-  final TextStyle? valueStyle;
-  final VoidCallback onPressed;
+
+  final List<String> items;
+  final Function(String) onItemTapped;
+
+  @override
+  _InputDropdownState createState() => _InputDropdownState();
+}
+
+class _InputDropdownState extends State<InputDropdown> {
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +56,25 @@ class InputDropdown extends StatelessWidget {
     // );
 
     return InkWell(
-      onTap: onPressed,
+      onTap: () {
+        showSelectionModal(
+          children: widget.items,
+          context: context,
+          initialIndex: _currentIndex,
+          onChanged: (selectedIndex) {
+            setState(() {
+              _currentIndex = selectedIndex;
+            });
+          },
+        );
+        widget.onItemTapped(widget.items[_currentIndex]);
+      },
       child: InputDecorator(
         // isEmpty: valueText == null,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(12.0, 24.0, 12.0, 8.0),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          labelText: labelText,
+          labelText: widget.labelText,
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(5.0),
@@ -83,8 +102,8 @@ class InputDropdown extends StatelessWidget {
                   child: Padding(
                 padding: const EdgeInsets.only(top: 5.0),
                 child: Text(
-                  valueText,
-                  style: valueStyle ?? TextStyle(fontSize: 15.0),
+                  widget.items[_currentIndex],
+                  style: TextStyle(fontSize: 15.0),
                 ),
               )),
               Icon(Icons.arrow_drop_down,

@@ -111,12 +111,21 @@ class ProfileCard extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(bottom: 2.0),
-                    child: Text(
-                      user.displayName!,
-                      style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            fontSize: 16,
+                    child: user.displayName == null
+                        ? Text(
+                            user.email!,
+                            style:
+                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                                      fontSize: 16,
+                                    ),
+                          )
+                        : Text(
+                            user.displayName!,
+                            style:
+                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                                      fontSize: 16,
+                                    ),
                           ),
-                    ),
                   ),
                   Text(
                     'Software Engineer - Microsoft UK',
@@ -157,7 +166,7 @@ class ProfilePic extends StatelessWidget {
       height: 45,
       width: 45,
       child: CachedNetworkImage(
-        imageUrl: photoURL ?? "",
+        imageUrl: photoURL ?? '',
         placeholder: (context, url) => SpinKitCircle(
           size: 45.0,
           color: CustomColors.appColorTeal,

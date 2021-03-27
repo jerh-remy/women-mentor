@@ -4,6 +4,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:women_mentor/app/auth_widget.dart';
 import 'package:women_mentor/app/landing/landing_view.dart';
 import 'package:women_mentor/app/login/login_view.dart';
+import 'package:women_mentor/app/onboarding/onboarding_view.dart';
+import 'package:women_mentor/app/onboarding/onboarding_view_model.dart';
 
 class StartUpView extends ConsumerWidget {
   @override
@@ -14,6 +16,7 @@ class StartUpView extends ConsumerWidget {
           // final didCompleteOnboarding =
           //     watch(onboardingViewModelProvider.state);
           // return didCompleteOnboarding ? LoginView() : OnboardingView();
+
           return LoginView();
         },
       ),

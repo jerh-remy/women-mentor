@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:women_mentor/app/onboarding/hobbies_view.dart';
+import 'package:women_mentor/app/onboarding/mentor_availability_view.dart';
+import 'package:women_mentor/app/onboarding/mentor_profile_setup_view.dart';
 import 'package:women_mentor/app/onboarding/select_role_view.dart';
 import 'package:women_mentor/app/onboarding/tech_interests_view.dart';
 import 'package:women_mentor/widgets/custom_page_indicator.dart';
@@ -13,8 +15,43 @@ class _OnboardingViewState extends State<OnboardingView> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPageNumber = 0;
 
+  goToNextPage() {
+    _pageController.nextPage(
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<Widget> _pages = [
+      SelectRoleView(
+        onTap: () {
+          goToNextPage();
+        },
+      ),
+      TechInterestsView(
+        onTap: () {
+          goToNextPage();
+        },
+      ),
+      HobbiesView(
+        onTap: () {
+          goToNextPage();
+        },
+      ),
+      MentorProfileSetupView(
+        onTap: () {
+          goToNextPage();
+        },
+      ),
+      MentorAvailabilityView(
+        onTap: () {
+          print('done');
+        },
+      )
+    ];
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -26,19 +63,15 @@ class _OnboardingViewState extends State<OnboardingView> {
                 child: PageView(
                   pageSnapping: true,
                   controller: _pageController,
-                  children: [
-                    TechInterestsView(),
-                    HobbiesView(),
-                    SelectRoleView()
-                  ],
+                  children: _pages,
                   onPageChanged: (pageNumber) => setPageNumber(pageNumber),
                 ),
               ),
               SizedBox(height: 10.0),
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: _buildPageIndicator()),
-              SizedBox(height: 46.0),
+                  children: _buildPageIndicator(_pages.length)),
+              SizedBox(height: 24.0),
             ],
           ),
         ),
@@ -46,9 +79,9 @@ class _OnboardingViewState extends State<OnboardingView> {
     );
   }
 
-  List<Widget> _buildPageIndicator() {
+  List<Widget> _buildPageIndicator(int length) {
     List<Widget> list = [];
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < length; i++) {
       list.add(i == _currentPageNumber
           ? PageIndicator(
               isActive: true,

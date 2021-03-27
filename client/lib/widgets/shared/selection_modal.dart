@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart' show showCupertinoModalPopup;
 import 'package:flutter/material.dart';
+import 'package:women_mentor/constants/colors.dart';
 
 class SelectionModal extends StatefulWidget {
   final String? title;
@@ -35,18 +36,18 @@ class _SelectionModalState extends State<SelectionModal> {
         child: Container(
           // height: MediaQuery.of(context).size.height / 2,
           color: Colors.white,
-          padding: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: 16),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (widget.title != null) ...[
-                Padding(
-                  padding: EdgeInsets.only(left: 20),
-                  child: Text(widget.title!),
-                ),
-                SizedBox(height: 30),
-              ],
+              // if (widget.title != null) ...[
+              //   Padding(
+              //     padding: EdgeInsets.only(left: 20),
+              //     child: Text(widget.title!),
+              //   ),
+              //   SizedBox(height: 30),
+              // ],
               Flexible(
                 fit: FlexFit.loose,
                 child: ListView.builder(
@@ -61,7 +62,7 @@ class _SelectionModalState extends State<SelectionModal> {
               SizedBox(height: 20),
               Container(
                 width: double.infinity,
-                color: Theme.of(context).colorScheme.secondaryVariant,
+                color: CustomColors.appColorTeal,
                 child: SafeArea(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -69,7 +70,7 @@ class _SelectionModalState extends State<SelectionModal> {
                       // highlightElevation: 0,
                       // splashColor: Colors.transparent,
                       // highlightColor: Colors.transparent,
-                      primary: Theme.of(context).colorScheme.secondaryVariant,
+                      primary: CustomColors.appColorTeal,
                     ),
                     onPressed: () => Navigator.pop(context),
                     child: Text(
@@ -92,62 +93,6 @@ class _SelectionModalState extends State<SelectionModal> {
   }
 
   InkWell buildListItem(int index, BuildContext context, bool selected) {
-    // final type = widget.children[index];
-    // if (type.runtimeType == InsuranceCompany) {
-    //   InsuranceCompany _insuranceCompany = widget.children[index];
-    //   return InkWell(
-    //     onTap: () {
-    //       setState(() {
-    //         selectedIndex = index;
-    //       });
-    //       widget.onChanged(selectedIndex);
-    //       Navigator.pop(context);
-    //     },
-    //     child: Container(
-    //       padding: EdgeInsets.fromLTRB(20, 12, 20, 12),
-    //       decoration: BoxDecoration(
-    //         color: selected ? Colors.orange.shade50 : null,
-    //       ),
-    //       child: Row(
-    //         children: [
-    //           Expanded(
-    //             child: Container(
-    //               child: Image.asset(
-    //                 _insuranceCompany.logoImagePath,
-    //                 height: 36.0,
-    //                 width: 36.0,
-    //               ),
-    //             ),
-    //           ),
-    //           SizedBox(
-    //             width: 10.0,
-    //           ),
-    //           Expanded(
-    //             flex: 5,
-    //             child: Text(
-    //               _insuranceCompany.name,
-    //               style: TextStyle(
-    //                 fontSize: 16.0,
-    //                 color: selected ? Colors.orange.shade300 : Colors.black54,
-    //                 fontWeight: selected ? FontWeight.bold : null,
-    //               ),
-    //             ),
-    //           ),
-    //           Spacer(
-    //             flex: 1,
-    //           ),
-    //           if (selected) ...[
-    //             Icon(
-    //               Icons.done,
-    //               color: Colors.orange,
-    //               size: 18,
-    //             ),
-    //           ],
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // }
     return InkWell(
       onTap: () {
         setState(() {
@@ -159,9 +104,7 @@ class _SelectionModalState extends State<SelectionModal> {
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 15, 20, 15),
         decoration: BoxDecoration(
-          color: selected
-              ? Theme.of(context).colorScheme.primaryVariant.withOpacity(0.2)
-              : null,
+          color: selected ? CustomColors.appColorTeal.withOpacity(0.2) : null,
         ),
         child: Row(
           children: [
@@ -171,9 +114,7 @@ class _SelectionModalState extends State<SelectionModal> {
                 widget.children[index],
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: selected
-                      ? Theme.of(context).colorScheme.primary
-                      : Colors.black54,
+                  color: selected ? CustomColors.appColorTeal : Colors.black54,
                   fontWeight: selected ? FontWeight.bold : null,
                 ),
               ),
@@ -184,7 +125,7 @@ class _SelectionModalState extends State<SelectionModal> {
             if (selected) ...[
               Icon(
                 Icons.done,
-                color: Theme.of(context).colorScheme.primary,
+                color: CustomColors.appColorTeal,
                 size: 18,
               ),
             ],

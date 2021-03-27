@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:women_mentor/app/landing/home/feed_post_card.dart';
+import 'package:women_mentor/app/landing/profile/profile_view.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
-import 'package:women_mentor/widgets/shared/search_field.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final posts = List.generate(30, (index) => 'Lorem Ipsum $index');
 
@@ -24,11 +26,20 @@ class HomeView extends StatelessWidget {
 class HomeFeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final firebaseAuth = context.read(firebaseAuthProvider);
+    final user = firebaseAuth.currentUser!;
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.all(20.0),
-          child: PageTitle(text: 'Feed'),
+          child: Row(
+            children: [
+              Expanded(child: PageTitle(text: 'Feed')),
+              ProfilePic(
+                photoURL: user.photoURL,
+              ),
+            ],
+          ),
         ),
         Expanded(child: HomeFeedPosts()),
       ],

@@ -3,6 +3,9 @@ import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 
 class SelectRoleView extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const SelectRoleView({Key? key, required this.onTap}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,25 +42,25 @@ class SelectRoleView extends StatelessWidget {
                   roleText: 'Become a mentor',
                   onRoleSelect: (selectedRole) => print(selectedRole),
                 ),
-                SizedBox(
-                  height: 20,
-                ),
-                RoleSelectChip(
-                  roleText: 'Why not both?',
-                  onRoleSelect: (selectedRole) => print(selectedRole),
-                ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // RoleSelectChip(
+                //   roleText: 'Why not both?',
+                //   onRoleSelect: (selectedRole) => print(selectedRole),
+                // ),
                 SizedBox(
                   height: 40,
                 ),
                 CustomElevatedButton(
                     child: Text(
-                      'FINISH',
+                      'NEXT',
                       style: Theme.of(context).textTheme.bodyText1!.copyWith(
                             color: Colors.white,
                             fontSize: 15.0,
                           ),
                     ),
-                    onPressed: () {})
+                    onPressed: onTap)
               ],
             ),
           ),

@@ -6,18 +6,23 @@ class AppUser {
   final String lastName;
   final String email;
   final String techLevel;
-  final String? age;
+  final int? age;
   final String? ethnicity;
+  final List<String>? hobbies;
+  final List<String>? techInterests;
   // final Timestamp creationDate;
 
-  AppUser(
-      {required this.firstName,
-      required this.lastName,
-      required this.id,
-      required this.email,
-      required this.techLevel,
-      this.ethnicity,
-      this.age});
+  AppUser({
+    required this.firstName,
+    required this.lastName,
+    required this.id,
+    required this.email,
+    required this.techLevel,
+    this.hobbies = const [],
+    this.techInterests = const [],
+    this.ethnicity,
+    this.age,
+  });
 
   factory AppUser.fromData(Map<String, dynamic>? data, String uid) {
     return AppUser(
@@ -26,20 +31,22 @@ class AppUser {
         lastName: data?['lastName'],
         email: data?['email'],
         age: data?['age'],
+        hobbies: data?['hobbies'],
+        techInterests: data?['techInterests'],
         techLevel: data?['techLevel'],
         ethnicity: data?['ethnicity']);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      // 'id': id,
       'firstName': firstName,
       'lastName': lastName,
-      'email': email,
+      // 'email': email,
       'techLevel': techLevel,
       'age': age,
-      'ethnicity': ethnicity
-      // 'creationDate': Timestamp.now(),
+      'ethnicity': ethnicity,
+      'creationDate': Timestamp.now(),
     };
   }
 }

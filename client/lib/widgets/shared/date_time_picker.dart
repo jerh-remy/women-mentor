@@ -112,39 +112,39 @@ class DateTimePicker extends StatelessWidget {
     // final valueStyle = Theme.of(context).textTheme.title;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        Expanded(
-          flex: 5,
-          child: InputDropdown(
-            labelText: labelText!,
-            valueText: Utilities.dateFormat(selectedDate),
-            valueStyle: TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.normal,
-              color: Colors.black87,
-            ),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              _selectDate(context);
-            },
-          ),
-        ),
-        // SizedBox(width: 12.0),
-        // Expanded(
-        //   flex: 4,
-        //   child: InputDropdown(
-        //     valueText: Utilities.timeFormat(
-        //       DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
-        //           selectedTime.hour, selectedTime.minute),
-        //     ),
-        //     valueStyle: TextStyle(
-        //       fontSize: 16.0,
-        //       color: Colors.black54,
-        //     ),
-        //     onPressed: () => _selectTime(context),
-        //   ),
-        // ),
-      ],
+      // children: <Widget>[
+      //   Expanded(
+      //     flex: 5,
+      //     child: InputDropdown(
+      //       labelText: labelText!,
+      //       valueText: Utilities.dateFormat(selectedDate),
+      //       valueStyle: TextStyle(
+      //         fontSize: 16.0,
+      //         fontWeight: FontWeight.normal,
+      //         color: Colors.black87,
+      //       ),
+      //       onPressed: () {
+      //         FocusScope.of(context).unfocus();
+      //         _selectDate(context);
+      //       },
+      //     ),
+      //   ),
+      // SizedBox(width: 12.0),
+      // Expanded(
+      //   flex: 4,
+      //   child: InputDropdown(
+      //     valueText: Utilities.timeFormat(
+      //       DateTime(selectedDate.year, selectedDate.month, selectedDate.day,
+      //           selectedTime.hour, selectedTime.minute),
+      //     ),
+      //     valueStyle: TextStyle(
+      //       fontSize: 16.0,
+      //       color: Colors.black54,
+      //     ),
+      //     onPressed: () => _selectTime(context),
+      //   ),
+      // ),
+      // ],
     );
   }
 }

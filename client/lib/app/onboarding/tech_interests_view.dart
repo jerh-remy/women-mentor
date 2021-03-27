@@ -3,30 +3,38 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/custom_text_button.dart';
+import 'package:women_mentor/widgets/shared/page_title.dart';
 import 'package:women_mentor/widgets/shared/search_field.dart';
 
 class TechInterestsView extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const TechInterestsView({Key? key, required this.onTap}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(30.0),
+      padding: EdgeInsets.all(24.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Row(
+          PageTitle(text: 'Tech related interests'),
+          SizedBox(height: 24),
+          Wrap(
             children: [
-              Text(
-                'Tech related interests',
-                style: Theme.of(context).textTheme.headline6!.copyWith(
-                      fontSize: 20,
-                      color: CustomColors.appColorOrange,
-                      fontWeight: FontWeight.bold,
-                    ),
+              InputChip(
+                onPressed: () {},
+                onDeleted: () {},
+                backgroundColor: Colors.teal.shade50,
+                deleteIconColor: CustomColors.appColorTeal,
+                label: Text(
+                  'Selected',
+                  style: TextStyle(color: CustomColors.appColorTeal),
+                ),
               ),
             ],
           ),
-          Placeholder(
-            fallbackHeight: 80,
-          ),
+          SizedBox(height: 24),
           SizedBox(
             child: SearchField(),
             height: 56,
@@ -45,10 +53,21 @@ class TechInterestsView extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Wrap(
-            runSpacing: 2.0,
-            spacing: 8.0,
-            children:
-                List.generate(6, (index) => Chip(label: Text('Option $index'))),
+            spacing: 6.0,
+            children: List.generate(
+                6,
+                (index) => Chip(
+                      label: Text(
+                        'Option $index',
+                        style: TextStyle(
+                          color: CustomColors.appColorTeal,
+                        ),
+                      ),
+                      backgroundColor: Colors.white,
+                      side: BorderSide(
+                        color: CustomColors.appColorTeal,
+                      ),
+                    )),
           ),
           SizedBox(height: 30),
           Row(
@@ -64,10 +83,21 @@ class TechInterestsView extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Wrap(
-            runSpacing: 2.0,
-            spacing: 8.0,
-            children:
-                List.generate(6, (index) => Chip(label: Text('Option $index'))),
+            spacing: 6.0,
+            children: List.generate(
+                6,
+                (index) => Chip(
+                      label: Text(
+                        'Option $index',
+                        style: TextStyle(
+                          color: CustomColors.appColorTeal,
+                        ),
+                      ),
+                      backgroundColor: Colors.white,
+                      side: BorderSide(
+                        color: CustomColors.appColorTeal,
+                      ),
+                    )),
           ),
           Spacer(),
           CustomElevatedButton(
@@ -78,9 +108,9 @@ class TechInterestsView extends StatelessWidget {
                       fontSize: 15.0,
                     ),
               ),
-              onPressed: () {}),
+              onPressed: onTap),
           SizedBox(height: 10),
-          CustomTextButton(child: Text('SKIP FOR NOW'), onPressed: () {})
+          CustomTextButton(child: Text('SKIP FOR NOW'), onPressed: onTap)
         ],
       ),
     );
