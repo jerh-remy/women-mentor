@@ -11,6 +11,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
 
 class HobbiesView extends StatefulWidget {
+  final VoidCallback? onTap;
+  final bool isMentorOnboarding;
+
+  const HobbiesView({Key? key, this.onTap, this.isMentorOnboarding = false})
+      : super(key: key);
   @override
   _HobbiesViewState createState() => _HobbiesViewState();
 }
@@ -55,14 +60,16 @@ class _HobbiesViewState extends State<HobbiesView>
           Spacer(),
           CustomElevatedButton(
               child: Text(
-                'FINISH',
+                widget.isMentorOnboarding ? 'NEXT' : 'FINISH',
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                       color: Colors.white,
                       fontSize: 15.0,
                     ),
               ),
               onPressed: () {
-                completeProfileSetupAndOnboarding();
+                widget.isMentorOnboarding
+                    ? widget.onTap!()
+                    : completeProfileSetupAndOnboarding();
               }),
           SizedBox(height: 10),
           // CustomTextButton(child: Text('SKIP FOR NOW'), onPressed: () {})

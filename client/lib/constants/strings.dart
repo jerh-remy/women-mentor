@@ -1,4 +1,8 @@
 class Strings {
+  // API base url
+  static const String baseURL =
+      'https://europe-west2-un-sdg-gender-equality.cloudfunctions.net';
+
   // Generic strings
   static const String ok = 'OK';
   static const String cancel = 'Cancel';

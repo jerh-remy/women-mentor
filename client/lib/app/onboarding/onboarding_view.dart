@@ -40,7 +40,12 @@ class _OnboardingViewState extends State<OnboardingView> {
           goToNextPage();
         },
       ),
-      HobbiesView(),
+      HobbiesView(
+        isMentorOnboarding: _isMentorOnboarding,
+        onTap: () {
+          goToNextPage();
+        },
+      ),
       if (_isMentorOnboarding) ...[
         MentorProfileSetupView(
           onTap: () {

@@ -30,7 +30,6 @@ class ProfileView extends StatelessWidget {
     final SharedPreferencesService sharedPreferencesService = context
         .read<SharedPreferencesService>(sharedPreferencesServiceProvider);
     await sharedPreferencesService.setOnboardingInComplete();
-
     await firebaseAuth.signOut();
   }
 

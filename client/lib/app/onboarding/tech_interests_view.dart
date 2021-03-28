@@ -69,6 +69,7 @@ class InterestChips extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final onboardingViewModel = watch(onboardingViewModelProvider);
+    print(onboardingViewModel.selectedInterests);
     final bool canSelect = onboardingViewModel.selectedInterests.length != 5;
     final interestsAsyncValue = watch(interestsStreamProvider);
     return interestsAsyncValue.when(

@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:women_mentor/app/landing/profile/profile_view.dart';
+import 'package:women_mentor/app/onboarding/add_offer_statement_dialog.dart';
+import 'package:women_mentor/app/onboarding/onboarding_view_model.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
+import 'package:women_mentor/constants/styles.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/custom_text_button.dart';
 import 'package:women_mentor/widgets/shared/input_field.dart';
@@ -11,12 +17,37 @@ class MentorProfileSetupView extends HookWidget {
 
   const MentorProfileSetupView({Key? key, required this.onTap})
       : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     final companyController = useTextEditingController();
     final jobTitleController = useTextEditingController();
     final yearsOfExperienceController = useTextEditingController();
-    final expertiseController = useTextEditingController();
+
+    final jobTitleNode = useFocusNode();
+    final yearsNode = useFocusNode();
+
+    final firebaseAuth = useProvider(firebaseAuthProvider);
+    final user = firebaseAuth.currentUser!;
+
+    final offerStatement = useState('Add offer statement');
+
+    _showAddOfferStatementDialog() {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) {
+          return Dialog(
+              child: AddOfferStatementDialog(
+                  text: offerStatement.value,
+                  onExpertiseEntered: (value) {
+                    Navigator.of(context).pop();
+                    offerStatement.value = value;
+                    // _editNarration(value);
+                  }));
+        },
+      );
+    }
 
     return Container(
       child: ListView(
@@ -27,56 +58,56 @@ class MentorProfileSetupView extends HookWidget {
           SizedBox(height: 24),
           Column(
             children: [
-              CircleAvatar(
-                radius: 36,
-                backgroundColor: Colors.grey.shade100,
+              SizedBox(
+                child: ProfilePic(photoURL: user.photoURL),
+                height: 70,
+                width: 70,
               ),
               SizedBox(height: 8),
               Text(
-                'Name',
+                user.displayName ?? 'Name',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              SizedBox(height: 2),
-              Text(
-                'Role in company',
-                style: TextStyle(
-                  color: Colors.black54,
-                  fontSize: 15,
-                ),
-              ),
+              // SizedBox(height: 2),
+              // Text(
+              //   'Role in company',
+              //   style: TextStyle(
+              //     color: Colors.black54,
+              //     fontSize: 15,
+              //   ),
+              // ),
             ],
           ),
           SizedBox(height: 24),
           InputField(
             controller: companyController,
             placeholder: 'Company',
-            // fieldFocusNode: emailFocusNode,
-            // nextFocusNode: passwordFocusNode,
+            nextFocusNode: jobTitleNode,
             textInputType: TextInputType.text,
           ),
           SizedBox(height: 20),
           InputField(
             controller: jobTitleController,
             placeholder: 'Job Title',
-            // fieldFocusNode: emailFocusNode,
-            // nextFocusNode: passwordFocusNode,
+            fieldFocusNode: jobTitleNode,
+            nextFocusNode: yearsNode,
             textInputType: TextInputType.text,
           ),
           SizedBox(height: 20),
           InputField(
             controller: yearsOfExperienceController,
             placeholder: 'Years of experience',
-            // fieldFocusNode: emailFocusNode,
-            // nextFocusNode: passwordFocusNode,
+            fieldFocusNode: yearsNode,
             textInputType: TextInputType.number,
+            enterPressed: () => FocusScope.of(context).unfocus(),
           ),
           SizedBox(height: 20),
           Card(
             child: Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(12),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -86,32 +117,38 @@ class MentorProfileSetupView extends HookWidget {
                         color: CustomColors.appColorOrange, fontSize: 17),
                   ),
                   SizedBox(height: 10),
-                  InputField(
-                    controller: expertiseController,
-                    placeholder: 'Add new',
-                    // fieldFocusNode: emailFocusNode,
-                    // nextFocusNode: passwordFocusNode,
-                    textInputType: TextInputType.text,
+                  GestureDetector(
+                    child: Container(
+                      alignment: Alignment.centerLeft,
+                      decoration: fieldDecoration,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+                      width: double.infinity,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(offerStatement.value,
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black54,
+                                )),
+                          ),
+                          IconButton(
+                              visualDensity: VisualDensity.compact,
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onPressed: _showAddOfferStatementDialog,
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.black54,
+                              ))
+                        ],
+                      ),
+                    ),
+                    onTap: _showAddOfferStatementDialog,
                   ),
                   SizedBox(height: 10),
-                  Wrap(
-                    runSpacing: 2.0,
-                    spacing: 8.0,
-                    children: List.generate(
-                        3,
-                        (index) => Chip(
-                              label: Text(
-                                'Option $index',
-                                style: TextStyle(
-                                  color: CustomColors.appColorTeal,
-                                ),
-                              ),
-                              backgroundColor: Colors.white,
-                              side: BorderSide(
-                                color: CustomColors.appColorTeal,
-                              ),
-                            )),
-                  ),
                 ],
               ),
             ),
@@ -125,7 +162,17 @@ class MentorProfileSetupView extends HookWidget {
                       fontSize: 15.0,
                     ),
               ),
-              onPressed: onTap),
+              onPressed: () {
+                final onboardingViewModel =
+                    context.read(onboardingViewModelProvider);
+                onboardingViewModel.setCompany(companyController.text.trim());
+                onboardingViewModel.setJobTitle(jobTitleController.text.trim());
+                onboardingViewModel.setYearsOfExperience(
+                    int.parse(yearsOfExperienceController.text.trim()));
+                onboardingViewModel.setOfferStatement(offerStatement.value);
+
+                onTap();
+              }),
           SizedBox(height: 10),
           CustomTextButton(child: Text('SKIP FOR NOW'), onPressed: () {})
         ],

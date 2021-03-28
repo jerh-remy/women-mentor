@@ -1,10 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:women_mentor/app/onboarding/dropdown_button.dart';
+import 'package:women_mentor/app/onboarding/onboarding_view_model.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
+import 'package:women_mentor/constants/utilities.dart';
+import 'package:women_mentor/routing/app_router.gr.dart';
+import 'package:women_mentor/services/firestore_database.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/custom_text_button.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:auto_route/auto_route.dart';
 
 class MentorAvailabilityView extends StatefulWidget {
   final VoidCallback onTap;
@@ -20,6 +27,20 @@ class _MentorAvailabilityViewState extends State<MentorAvailabilityView> {
   bool? checkboxValue = false;
   bool? checkboxValue2 = false;
   bool? checkboxValue3 = false;
+
+  Future<void> completeProfileSetupAndOnboarding() async {
+    try {
+      final database = context.read<FirestoreDatabase>(databaseProvider);
+      final OnboardingViewModel onboardingViewModel =
+          context.read<OnboardingViewModel>(onboardingViewModelProvider);
+      await onboardingViewModel.completeProfileSetupAndOnboarding(database,
+          isMentorOnboarding: true);
+      context.router.push(StartUpRoute());
+    } catch (e) {
+      Utilities.showErrorDialog(context: context, exception: e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

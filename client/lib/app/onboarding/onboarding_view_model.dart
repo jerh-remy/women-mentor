@@ -35,6 +35,49 @@ class OnboardingViewModel extends ChangeNotifier {
   List<String> _selectedHobbies = [];
   List<String> get selectedHobbies => _selectedHobbies;
 
+  List<String> _preferredMenteeSkillLevels = [];
+  List<String> get preferredMenteeSkillLevels => _preferredMenteeSkillLevels;
+
+  String _company = '';
+  String get company => _company;
+
+  String _jobTitle = '';
+  String get jobTitle => _jobTitle;
+
+  String _offerStatement = '';
+  String get offerStatement => _offerStatement;
+
+  int _yearsOfExperience = 0;
+  int get yearsOfExperience => _yearsOfExperience;
+
+  String _timeCommitment = '';
+  String get timeCommitment => _timeCommitment;
+
+  setCompany(String value) {
+    _company = value;
+    notifyListeners();
+  }
+
+  setJobTitle(String value) {
+    _jobTitle = value;
+    notifyListeners();
+  }
+
+  setOfferStatement(String value) {
+    _offerStatement = value;
+    notifyListeners();
+  }
+
+  setYearsOfExperience(int value) {
+    _yearsOfExperience = value;
+    notifyListeners();
+  }
+
+  setTimeCommitment(String value) {
+    _timeCommitment = value;
+    notifyListeners();
+  }
+
   addInterest(String interest) {
     if (_selectedInterests.length < 5) {
       _selectedInterests.add(interest);
@@ -59,6 +102,16 @@ class OnboardingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  addPreferredMenteeSkillLevel(String skillLevel) {
+    _preferredMenteeSkillLevels.add(skillLevel);
+    notifyListeners();
+  }
+
+  removePreferredMenteeSkillLevel(String skillLevel) {
+    _preferredMenteeSkillLevels.removeWhere((element) => element == skillLevel);
+    notifyListeners();
+  }
+
   Future<void> completeProfileSetupAndOnboarding(
       FirestoreDatabase firestoreDatabase,
       {bool isMentorOnboarding = false}) async {
@@ -70,9 +123,17 @@ class OnboardingViewModel extends ChangeNotifier {
         print('write to mentor collection blah blah');
       }
 
+      if (!isMentorOnboarding) {
+        print('mentee specific write');
+      }
+
       await _completeOnboarding();
     } catch (e) {
       throw e;
+    } finally {
+      _selectedHobbies = [];
+      _selectedInterests = [];
+      _preferredMenteeSkillLevels = [];
     }
   }
 }
