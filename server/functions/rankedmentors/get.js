@@ -1,14 +1,14 @@
-const { firestore } = require("../admin");
+const { firestore } = require('../admin');
 
 /**
  * @type {import('firebase-functions').HttpsFunction}
  */
 module.exports = async (req, res) => {
-  const userId = req.headers["x-user-id"];
+  const userId = req.headers['x-user-id'];
   const query = req.query;
-  const rankedBy = query.only ? query.only.split(",") : [];
+  const rankedBy = query.only ? query.only.split(',') : [];
 
-  const userRef = firestore.collection("users").doc(userId);
+  const userRef = firestore.collection('users').doc(userId);
 
   const userDataRef = await userRef.get();
   if (!userDataRef.exists) {
@@ -16,12 +16,13 @@ module.exports = async (req, res) => {
   }
 
   const [mentorsCollection, usersCollection] = await Promise.all([
-    firestore.collection("mentors").get(),
-    firestore.collection("users").get(),
+    firestore.collection('mentors').get(),
+    firestore.collection('users').get(),
   ]);
 
   const userData = userDataRef.data();
   const usersMap = new Map([]);
+  const mentorsMap = new Map([]);
 
   const scoredMentors = new Map([]);
 
@@ -34,6 +35,7 @@ module.exports = async (req, res) => {
   // loop through all mentors and get its user data (mentorUserInfo)
   // compare mentor with user (requester) and calculate score
   mentorsCollection.forEach((doc) => {
+    mentorsMap.set(doc.id, doc.data());
     const mentorUserInfo = usersMap.get(doc.id);
     if (!mentorUserInfo) return;
 
@@ -62,13 +64,13 @@ module.exports = async (req, res) => {
       scoredMentors.set(doc.id, totalScore);
       return;
     }
-    if (rankedBy.includes("hobbies")) {
+    if (rankedBy.includes('hobbies')) {
       totalScore += hobbiesScore;
     }
-    if (rankedBy.includes("tech") || rankedBy.includes("techInterests")) {
+    if (rankedBy.includes('tech') || rankedBy.includes('techInterests')) {
       totalScore += techInterestsScore;
     }
-    if (rankedBy.includes("ethnicity")) {
+    if (rankedBy.includes('ethnicity')) {
       totalScore += ethnicityScore;
     }
 
@@ -80,5 +82,19 @@ module.exports = async (req, res) => {
     .map(([docId]) => {
       return docId;
     });
-  res.send({ message: "Okay!", data: rankedMentors });
+
+  const populatedRankedMentors = rankedMentors.map((id) => {
+    const userData = usersMap.get(id);
+    const mentorData = mentorsMap.get(id);
+    const { firstName, lastName } = userData;
+    const { jobTitle, offerStatement } = mentorData;
+    return {
+      id,
+      firstName,
+      lastName,
+      jobTitle,
+      offerStatement,
+    };
+  });
+  res.send({ message: 'Okay!', data: populatedRankedMentors });
 };
