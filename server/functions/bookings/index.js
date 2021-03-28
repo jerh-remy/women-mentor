@@ -16,6 +16,7 @@ bookings.post(
   body("menteeId").isString(),
   body("date").isDate(),
   body("preferredCallProvider").isString(),
+  body('purpose').isArray(),
   post
 );
 

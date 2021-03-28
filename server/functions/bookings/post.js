@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
   const userId = req.headers["x-user-id"];
 
   const body = req.body;
-  const { mentorId, menteeId, date, preferredCallProvider } = body;
+  const { mentorId, menteeId, date, preferredCallProvider, purpose } = body;
 
   // TODO need to handle overlapping dates
 
@@ -23,6 +23,7 @@ module.exports = async (req, res) => {
     menteeId,
     date,
     preferredCallProvider,
+    purpose,
     changelog: [],
     status: "pending",
     requesterId: userId,
