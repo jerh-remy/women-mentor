@@ -21,7 +21,7 @@ class Booking {
     this.changelog = const [],
   });
 
-  factory Booking.fromData(Map<String, dynamic>? data , String uid) {
+  factory Booking.fromData(Map<String, dynamic>? data, String uid) {
     return Booking(
         id: uid,
         changelog: data?['changelog'].map((e) => e),
@@ -34,16 +34,16 @@ class Booking {
   }
 
   // Shouldn't need this because bookings should only be created/ updated using /bookings endpoint
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     // 'id': id,
-  //     // 'changelog': changelog,
-  //     'date': date,
-  //     'menteeId': menteeId,
-  //     'mentorId': mentorId,
-  //     'preferredCallProvider': preferredCallProvider,
-  //     'requesterId': requesterId,
-  //     'status': status
-  //   };
-  // }
+  Map<String, dynamic> toJson() {
+    return {
+      // 'id': id,
+      // 'changelog': changelog,
+      'date': date,
+      'menteeId': menteeId,
+      'mentorId': mentorId,
+      'preferredCallProvider': preferredCallProvider,
+      'requesterId': requesterId,
+      'status': status
+    };
+  }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:women_mentor/_get_token.dart';
 import 'package:women_mentor/app/auth_widget.dart';
 import 'package:women_mentor/app/custom_theme.dart';
 import 'package:women_mentor/app/landing/landing_view.dart';
@@ -47,7 +48,7 @@ class App extends StatelessWidget {
     //   title: 'Women Mentor',
     //   debugShowCheckedModeBanner: false,
     //   theme: CustomTheme.lightTheme(context),
-    //   home: StartUpView(),
+    //   home: GetToken(),
     //   onGenerateRoute: (settings) => AppRouter.onGenerateRoute(settings),
     // );
   }

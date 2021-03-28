@@ -29,6 +29,74 @@ class OnboardingViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool? checkboxValue = false;
+  bool? checkboxValue2 = false;
+  bool? checkboxValue3 = false;
+
+  List<String> preferredMenteeSkillLevel = [];
+
+  void setCheckBoxValue(bool? value, String menteeLevel) {
+    checkboxValue = value!;
+    if (value) {
+      preferredMenteeSkillLevel.add(menteeLevel);
+    } else {
+      preferredMenteeSkillLevel
+          .removeWhere((element) => element == menteeLevel);
+    }
+    notifyListeners();
+  }
+
+  void setCheckBoxValue2(bool? value, String menteeLevel) {
+    checkboxValue2 = value!;
+    if (value) {
+      preferredMenteeSkillLevel.add(menteeLevel);
+    } else {
+      preferredMenteeSkillLevel
+          .removeWhere((element) => element == menteeLevel);
+    }
+    notifyListeners();
+  }
+
+  void setCheckBoxValue3(bool? value, String menteeLevel) {
+    checkboxValue3 = value!;
+    if (value) {
+      preferredMenteeSkillLevel.add(menteeLevel);
+    } else {
+      preferredMenteeSkillLevel
+          .removeWhere((element) => element == menteeLevel);
+    }
+    notifyListeners();
+  }
+
+  List<String> values1 = ['10', '20', '30', '40'];
+  List<String> values2 = ['Minutes', 'Hours', 'Day'];
+  List<String> values3 = ['Week', 'Month'];
+  late String value1;
+  late String value2;
+  late String value3;
+  String get timeCommitmentAvailability => "$value1 $value2 per $value3";
+
+  initialiseValues() {
+    value1 = values1[0];
+    value2 = values2[0];
+    value3 = values3[0];
+  }
+
+  void setValue1(String value) {
+    value1 = value;
+    notifyListeners();
+  }
+
+  void setValue2(String value) {
+    value2 = value;
+    notifyListeners();
+  }
+
+  void setValue3(String value) {
+    value3 = value;
+    notifyListeners();
+  }
+
   List<String> _selectedInterests = [];
   List<String> get selectedInterests => _selectedInterests;
 
@@ -50,9 +118,6 @@ class OnboardingViewModel extends ChangeNotifier {
   int _yearsOfExperience = 0;
   int get yearsOfExperience => _yearsOfExperience;
 
-  String _timeCommitment = '';
-  String get timeCommitment => _timeCommitment;
-
   setCompany(String value) {
     _company = value;
     notifyListeners();
@@ -70,11 +135,6 @@ class OnboardingViewModel extends ChangeNotifier {
 
   setYearsOfExperience(int value) {
     _yearsOfExperience = value;
-    notifyListeners();
-  }
-
-  setTimeCommitment(String value) {
-    _timeCommitment = value;
     notifyListeners();
   }
 
@@ -116,15 +176,23 @@ class OnboardingViewModel extends ChangeNotifier {
       FirestoreDatabase firestoreDatabase,
       {bool isMentorOnboarding = false}) async {
     try {
-      await firestoreDatabase.setUser(
-          {'hobbies': _selectedHobbies, 'interests': _selectedInterests});
+      await firestoreDatabase.setUser({
+        'hobbies': _selectedHobbies,
+        'interests': _selectedInterests,
+        'isMentor': isMentorOnboarding
+      });
 
       if (isMentorOnboarding) {
-        print('write to mentor collection blah blah');
-      }
-
-      if (!isMentorOnboarding) {
-        print('mentee specific write');
+        await firestoreDatabase.setMentor({
+          'offerStatement': offerStatement,
+          'company': company,
+          'jobTitle': jobTitle,
+          'yearsOfExperience': yearsOfExperience,
+          'timeCommitment': timeCommitmentAvailability,
+          'preferredMenteeSkillLevel': preferredMenteeSkillLevel,
+        });
+      } else {
+        await firestoreDatabase.setMentee({'goalStatement': ''});
       }
 
       await _completeOnboarding();

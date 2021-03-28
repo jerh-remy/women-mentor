@@ -17,6 +17,15 @@ class FirestoreDatabase {
   Future<void> setUser(Map<String, dynamic> userData) => _service.setData(
       path: FirestorePath.user(uid), data: userData, merge: true);
 
+  Future<void> setMentee(Map<String, dynamic> userData) =>
+      _service.setData(path: FirestorePath.mentee(uid), data: userData);
+
+  Future<void> setMentor(Map<String, dynamic> userData) =>
+      _service.setData(path: FirestorePath.mentor(uid), data: userData);
+
+  Future<void> setRegistration(String token) => _service
+      .setData(path: FirestorePath.registration(uid), data: {'token': token});
+
   // Future<void> deleteJob(Job job) async {
   //   // delete where entry.jobId == job.jobId
   //   final allEntries = await entriesStream(job: job).first;

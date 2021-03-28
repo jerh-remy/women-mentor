@@ -26,6 +26,7 @@ class ProfileView extends StatelessWidget {
   }
 
   void _signOut(FirebaseAuth firebaseAuth, BuildContext context) async {
+    //TODO remove force onboarding == false after testing
     //These next few lines are just for testing. Will remove later
     final SharedPreferencesService sharedPreferencesService = context
         .read<SharedPreferencesService>(sharedPreferencesServiceProvider);

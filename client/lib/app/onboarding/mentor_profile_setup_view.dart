@@ -12,12 +12,10 @@ import 'package:women_mentor/widgets/shared/custom_text_button.dart';
 import 'package:women_mentor/widgets/shared/input_field.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
 
-class MentorProfileSetupView extends HookWidget {
+class MentorProfileSetupForm extends HookWidget {
   final VoidCallback onTap;
 
-  const MentorProfileSetupView({Key? key, required this.onTap})
-      : super(key: key);
-
+  const MentorProfileSetupForm({Key? key, required this.onTap});
   @override
   Widget build(BuildContext context) {
     final companyController = useTextEditingController();
@@ -30,7 +28,7 @@ class MentorProfileSetupView extends HookWidget {
     final firebaseAuth = useProvider(firebaseAuthProvider);
     final user = firebaseAuth.currentUser!;
 
-    final offerStatement = useState('Add offer statement');
+    final offerStatement = useState('');
 
     _showAddOfferStatementDialog() {
       showDialog(
@@ -179,4 +177,27 @@ class MentorProfileSetupView extends HookWidget {
       ),
     );
   }
+}
+
+class MentorProfileSetupView extends StatefulWidget {
+  final VoidCallback onTap;
+
+  const MentorProfileSetupView({Key? key, required this.onTap})
+      : super(key: key);
+  @override
+  _MentorProfileSetupViewState createState() => _MentorProfileSetupViewState();
+}
+
+class _MentorProfileSetupViewState extends State<MentorProfileSetupView>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return MentorProfileSetupForm(
+      onTap: widget.onTap,
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
 }
