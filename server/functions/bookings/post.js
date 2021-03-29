@@ -77,6 +77,10 @@ module.exports = async (req, res) => {
       title: `${senderProfile.firstName} ${senderProfile.lastName} has requested a booking!`,
       body: "Tap to see more details",
     },
+    data: {
+      bookingId: newBooking.id,
+      bookingData: newBookingData,
+    },
     token: recipientRegistration.token,
   };
 
