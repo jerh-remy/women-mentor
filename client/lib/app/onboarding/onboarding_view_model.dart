@@ -24,7 +24,7 @@ class OnboardingViewModel extends ChangeNotifier {
   bool get isOnboardingComplete =>
       sharedPreferencesService.isOnboardingComplete();
 
-  Future<void> _completeOnboarding() async {
+  Future<void> completeOnboarding() async {
     await sharedPreferencesService.setOnboardingComplete();
     notifyListeners();
   }
@@ -195,7 +195,7 @@ class OnboardingViewModel extends ChangeNotifier {
         await firestoreDatabase.setMentee({'goalStatement': ''});
       }
 
-      await _completeOnboarding();
+      await completeOnboarding();
     } catch (e) {
       throw e;
     } finally {

@@ -10,11 +10,12 @@ import 'package:women_mentor/services/api.dart';
 import 'package:women_mentor/widgets/shared/list_items_builder.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
 import 'package:women_mentor/widgets/shared/search_field.dart';
+import 'package:women_mentor/extensions/capitalize_first_letter.dart';
 
-final rankedMentorsProvider = FutureProvider<List<RankedMentor>>((ref) {
+final rankedMentorsProvider = StreamProvider<List<RankedMentor>>((ref) {
   final ApiProvider api = ApiProvider();
   final currentUser = ref.watch(authCurrentUserProvider);
-  return api.getRankedMentors(currentUser!.uid);
+  return api.getRankedMentors(currentUser!.uid).asStream();
 });
 
 class ExploreView extends StatelessWidget {
@@ -68,8 +69,11 @@ class MentorList extends ConsumerWidget {
         itemBuilder: (context, mentor) {
           return MentorCard(
             mentorId: mentor.id,
-            fullName: '${mentor.firstName} ${mentor.lastName} ',
-            role: mentor.jobTitle,
+            fullName: '${mentor.firstName} ${mentor.lastName}'
+                .split(" ")
+                .map((e) => e.capitalizeFirstLetter())
+                .join(" "),
+            role: mentor.jobTitle?.capitalizeFirstLetter(),
             offerStatement: mentor.offerStatement,
           );
         });

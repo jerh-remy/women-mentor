@@ -20,6 +20,7 @@ class MentorAppUser {
   final String? ethnicity;
   final List<String>? hobbies;
   final List<String>? techInterests;
+  final bool isMentor;
 
   MentorAppUser(
       {this.goalStatement,
@@ -36,6 +37,7 @@ class MentorAppUser {
       this.age,
       this.ethnicity,
       this.hobbies,
+      this.isMentor = false,
       this.techInterests});
 }
 
@@ -63,6 +65,7 @@ class MentorProfileViewModel extends ChangeNotifier {
       techInterests: appUser.techInterests,
       ethnicity: appUser.ethnicity,
       goalStatement: mentor.goalStatement,
+      isMentor: appUser.isMentor,
     );
     return mentorAppUser;
   }

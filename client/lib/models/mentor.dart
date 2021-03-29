@@ -14,7 +14,7 @@ class Mentor {
     required this.company,
     required this.jobTitle,
     required this.yearsOfExperience,
-    required this.availableTimes,
+    this.availableTimes,
     this.bookings = const [],
   });
 
@@ -28,10 +28,10 @@ class Mentor {
         bookings: data?['bookings'] == null
             ? []
             : List<String>.from(data?['bookings'].map((e) => e.toString())),
-        availableTimes: data?['timeCommitment'] == null
-            ? []
-            : List<String>.from(
-                data?['timeCommitment'].map((e) => e.toString())),
+        // availableTimes: data?['timeCommitment'] == null
+        //     ? []
+        //     : List<String>.from(
+        //         data?['timeCommitment'].map((e) => e.toString())),
         company: data?['company'],
         jobTitle: data?['jobTitle'],
         yearsOfExperience: data?['yearsOfExperience']);

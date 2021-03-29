@@ -10,6 +10,7 @@ class AppUser {
   final String? ethnicity;
   final List<String>? hobbies;
   final List<String>? techInterests;
+  final bool isMentor;
   // final Timestamp creationDate;
 
   AppUser({
@@ -22,6 +23,7 @@ class AppUser {
     this.techInterests = const [],
     this.ethnicity,
     this.age,
+    this.isMentor = false,
   });
 
   factory AppUser.fromData(Map<String, dynamic>? data, String uid) {
@@ -42,7 +44,8 @@ class AppUser {
             ? []
             : List<String>.from(data?['interests'].map((e) => e.toString())),
         techLevel: data?['techLevel'],
-        ethnicity: data?['ethnicity']);
+        ethnicity: data?['ethnicity'],
+        isMentor: data?['isMentor']);
   }
 
   Map<String, dynamic> toJson() {

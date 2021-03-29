@@ -92,14 +92,31 @@ class SignInOptionsView extends ConsumerWidget {
   void _signInWithGoogle(
       LoginViewModel loginViewModel, BuildContext context) async {
     try {
+      // final firebaseAuth = context.read(firebaseAuthProvider);
+
+      // await firebaseAuth.signOut();
+
       final onboardingViewModel =
           context.read<OnboardingViewModel>(onboardingViewModelProvider);
       await loginViewModel.signInWithGoogle().then((value) {
-        if (onboardingViewModel.isOnboardingComplete) {
-          Navigator.of(context).pop();
-        } else {
-          context.router.push(SetupAccountRoute(setupType: SetupType.setup));
-        }
+        final database = context.read(databaseProvider);
+        final currentUser = context.read(authCurrentUserProvider);
+        final userDataFromFirestore =
+            database.userStream(currentUser!.uid).first;
+
+        userDataFromFirestore.then((value) {
+          onboardingViewModel
+              .completeOnboarding()
+              .then((value) => Navigator.of(context).pop());
+          // print(value.firstName);
+        }).onError((error, stackTrace) {
+          print(error);
+          if (onboardingViewModel.isOnboardingComplete) {
+            Navigator.of(context).pop();
+          } else {
+            context.router.push(SetupAccountRoute(setupType: SetupType.setup));
+          }
+        });
       });
     } catch (e) {
       Utilities.showErrorDialog(
@@ -117,11 +134,24 @@ class SignInOptionsView extends ConsumerWidget {
           context.read<OnboardingViewModel>(onboardingViewModelProvider);
 
       await loginViewModel.signInWithFacebook().then((value) {
-        if (onboardingViewModel.isOnboardingComplete) {
-          Navigator.of(context).pop();
-        } else {
-          context.router.push(SetupAccountRoute(setupType: SetupType.setup));
-        }
+        final database = context.read(databaseProvider);
+        final currentUser = context.read(authCurrentUserProvider);
+        final userDataFromFirestore =
+            database.userStream(currentUser!.uid).first;
+
+        userDataFromFirestore.then((value) {
+          onboardingViewModel
+              .completeOnboarding()
+              .then((value) => Navigator.of(context).pop());
+          // print(value.firstName);
+        }).onError((error, stackTrace) {
+          print(error);
+          if (onboardingViewModel.isOnboardingComplete) {
+            Navigator.of(context).pop();
+          } else {
+            context.router.push(SetupAccountRoute(setupType: SetupType.setup));
+          }
+        });
       });
     } catch (e) {
       Utilities.showErrorDialog(

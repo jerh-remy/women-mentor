@@ -12,6 +12,7 @@ import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/constants/utilities.dart';
 import 'package:women_mentor/routing/cupertino_tab_view_router.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
+import 'package:women_mentor/extensions/capitalize_first_letter.dart';
 
 final mentorProfileStreamProvider =
     StreamProvider.autoDispose.family<MentorAppUser, String>(
@@ -42,7 +43,9 @@ class MentorProfileView extends ConsumerWidget {
     final mentorProfileAsyncValue =
         watch(mentorProfileStreamProvider(mentorId));
     return mentorProfileAsyncValue.when(
-        data: (mentor) => buildProfile(context, mentor, watch),
+        data: (mentor) {
+          return buildProfile(context, mentor, watch);
+        },
         loading: () => Container(),
         error: (e, st) {
           print(e);
@@ -66,7 +69,12 @@ class MentorProfileView extends ConsumerWidget {
                 children: [
                   CircleAvatar(
                     radius: 45,
-                    backgroundColor: Colors.grey.shade100,
+                    backgroundColor: CustomColors.appColorTeal.withOpacity(0.2),
+                    child: Icon(
+                      Ionicons.person_outline,
+                      color: CustomColors.appColorTeal,
+                      size: 36,
+                    ),
                   ),
                   SizedBox(width: 10),
                   Column(
@@ -75,7 +83,10 @@ class MentorProfileView extends ConsumerWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 2.0),
                         child: Text(
-                          '${mentor.firstName} ${mentor.lastName}',
+                          '${mentor.firstName} ${mentor.lastName}'
+                              .split(" ")
+                              .map((e) => e.capitalizeFirstLetter())
+                              .join(" "),
                           style:
                               Theme.of(context).textTheme.bodyText2!.copyWith(
                                     fontSize: 18,
@@ -83,7 +94,7 @@ class MentorProfileView extends ConsumerWidget {
                         ),
                       ),
                       Text(
-                        mentor.jobTitle ?? '',
+                        mentor.jobTitle?.capitalizeFirstLetter() ?? 'Developer',
                         style: TextStyle(
                           color: Colors.black54,
                           fontSize: 14,
@@ -112,9 +123,13 @@ class MentorProfileView extends ConsumerWidget {
                 ],
               ),
               SizedBox(height: 36),
-              ...buildExpertise(context, mentor.techInterests!),
-              SizedBox(height: 16),
-              ...buildHobbies(context, mentor.hobbies!),
+              if (mentor.techInterests!.isNotEmpty) ...[
+                ...buildExpertise(context, mentor.techInterests!),
+                SizedBox(height: 16),
+              ],
+              if (mentor.hobbies!.isNotEmpty) ...[
+                ...buildHobbies(context, mentor.hobbies!)
+              ],
               SizedBox(height: 36),
               OutlinedButton.icon(
                 style: OutlinedButton.styleFrom(

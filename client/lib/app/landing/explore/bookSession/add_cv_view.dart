@@ -111,7 +111,7 @@ class _AddCVViewState extends State<AddCVView> {
                   onPressed: () {
                     BookingConfirmationView.show(context);
                   }),
-              SizedBox(height: 24),
+              // SizedBox(height: 24),
             ],
           )
         ],

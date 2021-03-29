@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:women_mentor/app/landing/explore/mentor_profile_view.dart';
 import 'package:women_mentor/constants/colors.dart';
 
@@ -33,7 +35,11 @@ class MentorCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 25,
-                backgroundColor: Colors.grey.shade100,
+                backgroundColor: CustomColors.appColorTeal.withOpacity(0.2),
+                child: Icon(
+                  Ionicons.person_outline,
+                  color: CustomColors.appColorTeal,
+                ),
               ),
               SizedBox(width: 10),
               Column(

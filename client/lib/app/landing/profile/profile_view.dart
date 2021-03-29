@@ -3,12 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:women_mentor/app/landing/explore/bookSession/mentor_profile_view_model.dart';
 import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:women_mentor/constants/utilities.dart';
 import 'package:women_mentor/services/shared_preferences_service.dart';
 import 'package:women_mentor/widgets/logout_dialog.dart';
+
+final mentorProfileStreamProvider =
+    StreamProvider.autoDispose.family<MentorAppUser, String>(
+  (ref, mentorId) {
+    final database = ref.watch(databaseProvider);
+    final vm = MentorProfileViewModel(database: database);
+    return vm.mentorProfileStream(mentorId);
+  },
+);
 
 class ProfileView extends StatelessWidget {
   final String role;
@@ -78,14 +88,45 @@ class ProfileView extends StatelessWidget {
                 user: user,
               ),
               SizedBox(height: 10),
-              role != 'mentee'
-                  ? Flexible(child: MenteeGoalsAndInterestsSection())
-                  : Flexible(child: MentorGoalsAndInterestsSection())
+              DetailSection(user: user),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class DetailSection extends ConsumerWidget {
+  final User user;
+
+  DetailSection({required this.user});
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final mentorProfileAsyncValue =
+        watch(mentorProfileStreamProvider(user.uid));
+    return mentorProfileAsyncValue.when(
+        data: (mentor) {
+          if (!mentor.isMentor) {
+            return Flexible(
+                child: MenteeGoalsAndInterestsSection(
+              hobbies: mentor.hobbies!,
+              techInterests: mentor.techInterests!,
+            ));
+          } else {
+            return Flexible(
+                child: MentorGoalsAndInterestsSection(
+              hobbies: mentor.hobbies!,
+              techInterests: mentor.techInterests!,
+            ));
+          }
+        },
+        loading: () => Container(),
+        error: (e, st) {
+          print(e);
+          print(st);
+          return Container();
+        });
   }
 }
 
@@ -212,6 +253,12 @@ class ProfilePic extends StatelessWidget {
 }
 
 class MentorGoalsAndInterestsSection extends StatelessWidget {
+  final List<String> hobbies;
+  final List<String> techInterests;
+
+  const MentorGoalsAndInterestsSection(
+      {Key? key, required this.hobbies, required this.techInterests})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -267,7 +314,10 @@ class MentorGoalsAndInterestsSection extends StatelessWidget {
                 ),
               ),
               body: TabBarView(children: [
-                MenteeGoalsAndInterestsSection(),
+                MenteeGoalsAndInterestsSection(
+                  hobbies: hobbies,
+                  techInterests: techInterests,
+                ),
                 MentorSpecificSection(),
               ]),
             );
@@ -285,13 +335,11 @@ class MentorSpecificSection extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
         children: [
           SizedBox(height: 24),
-          // ...buildExpertise(context),
-          SizedBox(height: 24),
           ...buildTimeCommitment(context),
           SizedBox(height: 24),
           ...buildMenteeLevel(context),
           SizedBox(height: 24),
-          ...buildTechInterests(context),
+          // ...buildExpertise(context),
           SizedBox(height: 24),
           // ...buildHobbies(context),
           SizedBox(height: 24)
@@ -302,7 +350,7 @@ class MentorSpecificSection extends StatelessWidget {
 }
 
 List<Widget> buildExpertise(BuildContext context, List<String> techInterests) {
-  print(techInterests);
+  // print(techInterests);
   return [
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -411,20 +459,23 @@ List<Widget> buildTimeCommitment(BuildContext context) {
   ];
 }
 
-class MenteeGoalsAndInterestsSection extends StatelessWidget {
+class MenteeGoalsAndInterestsSection extends ConsumerWidget {
+  final List<String> hobbies;
+  final List<String> techInterests;
+
+  MenteeGoalsAndInterestsSection(
+      {required this.hobbies, required this.techInterests});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
     return Container(
       child: ListView(
         shrinkWrap: true,
         padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
         children: [
           SizedBox(height: 24),
-          ...buildGoals(context),
+          ...buildExpertise(context, techInterests),
           SizedBox(height: 20),
-          ...buildTechInterests(context),
-          SizedBox(height: 20),
-          // ...buildHobbies(context),
+          ...buildHobbies(context, hobbies),
           SizedBox(height: 20),
         ],
       ),
@@ -432,82 +483,63 @@ class MenteeGoalsAndInterestsSection extends StatelessWidget {
   }
 }
 
-List<Widget> buildGoals(BuildContext context) {
-  return [
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 5.0),
-          child: Row(
-            children: [
-              Text(
-                'Goals',
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                      fontSize: 16,
-                      color: CustomColors.appColorOrange,
-                    ),
-              ),
-            ],
-          ),
-        ),
-        Wrap(
-          crossAxisAlignment: WrapCrossAlignment.start,
-          alignment: WrapAlignment.spaceBetween,
-          spacing: 12,
-          children: List.generate(
-              5,
-              (index) => Chip(
-                    backgroundColor: Colors.white,
-                    label: Text('Goal $index'),
-                    labelStyle: TextStyle(color: CustomColors.appColorTeal),
-                    side: BorderSide(
-                      color: CustomColors.appColorTeal,
-                    ),
-                  )),
-        ),
-      ],
-    )
-  ];
-}
+// List<Widget> buildTechInterests(BuildContext context, String userId) {
+//   final userId = context.read(firebaseAuthProvider).currentUser!.uid;
+//   return [
+//     Consumer(
+//       builder: (BuildContext context,
+//           T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
+//         final mentorProfileAsyncValue =
+//             watch(mentorProfileStreamProvider(userId));
 
-List<Widget> buildTechInterests(BuildContext context) {
-  return [
-    Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 5.0),
-          child: Row(
-            children: [
-              Text(
-                'Interests',
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                      fontSize: 16,
-                      color: CustomColors.appColorOrange,
-                    ),
-                textAlign: TextAlign.start,
-              ),
-            ],
-          ),
-        ),
-        Wrap(
-          spacing: 12,
-          children: List.generate(
-              5,
-              (index) => Chip(
-                    backgroundColor: Colors.white,
-                    label: Text('Interest $index'),
-                    labelStyle: TextStyle(color: CustomColors.appColorTeal),
-                    side: BorderSide(
-                      color: CustomColors.appColorTeal,
-                    ),
-                  )),
-        ),
-      ],
-    )
-  ];
-}
+//         return mentorProfileAsyncValue.when(
+//             data: (mentor) {
+//               return Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Padding(
+//                     padding: const EdgeInsets.only(bottom: 5.0),
+//                     child: Row(
+//                       children: [
+//                         Text(
+//                           'Interests',
+//                           style:
+//                               Theme.of(context).textTheme.bodyText2!.copyWith(
+//                                     fontSize: 16,
+//                                     color: CustomColors.appColorOrange,
+//                                   ),
+//                           textAlign: TextAlign.start,
+//                         ),
+//                       ],
+//                     ),
+//                   ),
+//                   Wrap(
+//                     spacing: 12,
+//                     children: List.generate(
+//                         mentor.techInterests.length,
+//                         (index) => Chip(
+//                               backgroundColor: Colors.white,
+//                               label: Text('Interest $index'),
+//                               labelStyle:
+//                                   TextStyle(color: CustomColors.appColorTeal),
+//                               side: BorderSide(
+//                                 color: CustomColors.appColorTeal,
+//                               ),
+//                             )),
+//                   ),
+//                 ],
+//               );
+//             },
+//             loading: () => Container(),
+//             error: (e, st) {
+//               print(e);
+//               print(st);
+//               return Container();
+//             });
+//       },
+//     )
+//   ];
+// }
 
 List<Widget> buildHobbies(BuildContext context, List<String> hobbies) {
   return [
