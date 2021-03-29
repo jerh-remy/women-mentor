@@ -1,6 +1,6 @@
-const functions = require("firebase-functions");
-const { firestore, messaging } = require("../admin");
-const { validationResult } = require("express-validator");
+const functions = require('firebase-functions');
+const { firestore, messaging } = require('../admin');
+const { validationResult } = require('express-validator');
 
 /**
  * @type {functions.HttpsFunction}
@@ -11,10 +11,10 @@ module.exports = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const userId = req.headers["x-user-id"];
+  const userId = req.headers['x-user-id'];
   const bookingId = req.params.bookingId;
 
-  const bookingRef = firestore.collection("bookings").doc(bookingId);
+  const bookingRef = firestore.collection('bookings').doc(bookingId);
 
   const bookingDataRef = await bookingRef.get();
   if (!bookingDataRef.exists) {
@@ -26,11 +26,11 @@ module.exports = async (req, res) => {
   let changelog = { requesterId: oldBookingData.requesterId };
   let newBookingData = { ...oldBookingData };
 
-  if (status === "accepted" || status === "rejected") {
+  if (status === 'accepted' || status === 'rejected') {
     if (oldBookingData.status === status) {
       return res.status(400).send(`Booking status is already '${status}'`);
     }
-    if (userId === oldBookingData.requesterId && status === "accepted") {
+    if (userId === oldBookingData.requesterId && status === 'accepted') {
       // the requester can't be the one to accept
       return res.status(400).send(`Can't accept your own booking request`);
     }
@@ -49,7 +49,7 @@ module.exports = async (req, res) => {
       oldBookingData.date === date &&
       oldBookingData.preferredCallProvider === preferredCallProvider
     ) {
-      return res.status(400).send("Nothing changed");
+      return res.status(400).send('Nothing changed');
     }
     if (oldBookingData.date !== date) {
       changelog.date = oldBookingData.date;
@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
     }
     newBookingData = {
       ...oldBookingData,
-      status: "pending",
+      status: 'pending',
       date,
       preferredCallProvider,
       requesterId: userId,
@@ -68,7 +68,7 @@ module.exports = async (req, res) => {
   }
 
   await bookingRef.set(newBookingData);
-  res.status(200).send({ message: "Okay!", data: newBookingData });
+  res.status(200).send({ message: 'Okay!', data: newBookingData });
 
   // NOTIFICATIONS
   let recipientId, senderId;
@@ -81,11 +81,11 @@ module.exports = async (req, res) => {
   }
 
   const senderProfile = (
-    await firestore.collection("users").doc(senderId).get()
+    await firestore.collection('users').doc(senderId).get()
   ).data();
 
   const recipientRegistration = (
-    await firestore.collection("registrations").doc(recipientId).get()
+    await firestore.collection('registrations').doc(recipientId).get()
   ).data();
   if (!recipientRegistration) {
     return;
@@ -97,7 +97,11 @@ module.exports = async (req, res) => {
   const message = {
     notification: {
       title: `${senderProfile.firstName} ${senderProfile.lastName} has responded`,
-      body: "Tap to see your booking",
+      body: 'Tap to see your booking',
+    },
+    data: {
+      bookingId: newBooking.id,
+      bookingData: newBookingData,
     },
     token: recipientRegistration.token,
   };
