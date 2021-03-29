@@ -42,8 +42,8 @@ class ApiProvider {
 
     final response = await client.post(
       Uri.parse("$_baseURL/bookings"),
-      body: json.encode(booking.toJson()),
-      headers: {"x-user-id": userID},
+      body: json.encode(booking),
+      headers: {"x-user-id": userID, "Content-Type": "application/json"},
     );
 
     print(response.body.toString());
