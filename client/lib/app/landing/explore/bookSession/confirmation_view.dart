@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/add_cv_view.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/back_button.dart';
+import 'package:women_mentor/app/landing/explore/bookSession/book_session_view_model.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/uploaded_cv.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
+import 'package:women_mentor/constants/utilities.dart';
+import 'package:women_mentor/routing/app_router.gr.dart';
 import 'package:women_mentor/routing/cupertino_tab_view_router.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/custom_text_button.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
+import 'package:auto_route/auto_route.dart';
 
-class BookingConfirmationView extends StatelessWidget {
+class BookingConfirmationView extends ConsumerWidget {
   static Future<void> show(BuildContext context) async {
     await Navigator.of(context).pushNamed(
       CupertinoTabViewRoutes.confirmBookingPage,
@@ -16,8 +23,38 @@ class BookingConfirmationView extends StatelessWidget {
     );
   }
 
+  Future<void> _createBookingRequest(BuildContext context,
+      BookSessionViewModel bookSessionViewModel, String userId) async {
+    try {
+      await bookSessionViewModel.createBookingRequest(menteeId: userId);
+      context.router.push(StartUpRoute());
+    } catch (e) {
+      Utilities.showErrorDialog(context: context, exception: e);
+    }
+  }
+
+  String _getPreferredCallProviderString(CallProvider callProvider) {
+    final String callProviderString;
+    switch (callProvider) {
+      case CallProvider.meet:
+        callProviderString = 'Google Meet';
+        break;
+      case CallProvider.zoom:
+        callProviderString = 'Zoom';
+        break;
+      case CallProvider.skype:
+        callProviderString = 'Skype';
+        break;
+      default:
+        callProviderString = 'Zoom';
+    }
+    return callProviderString;
+  }
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final bookingViewModel =
+        watch<BookSessionViewModel>(bookSessionViewModelProvider);
     return Scaffold(
       appBar: BackButtonAppBar(),
       body: Column(
@@ -43,7 +80,7 @@ class BookingConfirmationView extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '15 March 12:00 - 13:00',
+                  '${Utilities.dateFormat2(bookingViewModel.meetingDate!)}\t 10:00 - 11:30',
                   style: TextStyle(
                     fontSize: 16,
                     letterSpacing: 0.2,
@@ -63,7 +100,8 @@ class BookingConfirmationView extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Google Meet',
+                  _getPreferredCallProviderString(
+                      bookingViewModel.callProvider),
                   style: TextStyle(
                     fontSize: 16,
                     letterSpacing: 0.2,
@@ -82,13 +120,20 @@ class BookingConfirmationView extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
-                  'Career Advice, General Chat',
-                  style: TextStyle(
-                    fontSize: 16,
-                    letterSpacing: 0.2,
-                    color: Colors.black54,
-                  ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        bookingViewModel.meetingPurpose.join(", "),
+                        style: TextStyle(
+                          fontSize: 16,
+                          letterSpacing: 0.2,
+                          color: Colors.black54,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 24),
                 Padding(
@@ -112,16 +157,31 @@ class BookingConfirmationView extends StatelessWidget {
           Column(
             children: [
               CustomElevatedButton(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: Text('SUBMIT REQUEST'),
-                  onPressed: () {}),
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: bookingViewModel.isLoading
+                    ? SpinKitCircle(
+                        color: Colors.white,
+                        size: 28,
+                      )
+                    : Text('SUBMIT REQUEST'),
+                onPressed: () {
+                  final firebaseAuth = watch(firebaseAuthProvider);
+                  final user = firebaseAuth.currentUser!;
+                  _createBookingRequest(context, bookingViewModel, user.uid);
+                },
+              ),
               SizedBox(height: 36),
+
               // Opacity(
-              //   opacity: 0,
-              //   child: CustomTextButton(
-              //       width: MediaQuery.of(context).size.width * 0.9,
-              //       child: Text('SAVE AS DRAFT'),
-              //       onPressed: () {}),
+              //   opacity: bookingViewModel.isLoading ? 1 : 0,
+              //   child: bookingViewModel.isLoading
+              //       ? SpinKitCircle(
+              //           color: CustomColors.appColorTeal,
+              //         )
+              //       : CustomTextButton(
+              //           width: MediaQuery.of(context).size.width * 0.9,
+              //           child: Text('SAVE AS DRAFT'),
+              //           onPressed: () {}),
               // ),
             ],
           )

@@ -122,6 +122,7 @@ class SelectDateView extends ConsumerWidget {
                                 width: MediaQuery.of(context).size.width * 0.9,
                                 child: Text('NEXT'),
                                 onPressed: () {
+                                  bookingViewModel.setMeetingDate(selectedDate);
                                   SelectCallProviderView.show(context);
                                 }),
                           ],

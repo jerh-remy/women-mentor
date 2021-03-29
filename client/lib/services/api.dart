@@ -36,10 +36,13 @@ class ApiProvider {
   Future<BookingResponse> postBookingRequest(
       {required Booking booking, required String userID}) async {
     booking.toJson().forEach((key, value) => print('$key: $value'));
+    print('#####');
+    // print(booking.toJson());
+    print(json.encode(booking.toJson()));
 
     final response = await client.post(
       Uri.parse("$_baseURL/bookings"),
-      body: booking.toJson(),
+      body: json.encode(booking.toJson()),
       headers: {"x-user-id": userID},
     );
 

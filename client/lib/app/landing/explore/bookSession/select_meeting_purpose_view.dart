@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/add_cv_view.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/back_button.dart';
+import 'package:women_mentor/app/landing/explore/bookSession/book_session_view_model.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/routing/cupertino_tab_view_router.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/custom_text_button.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SelectMeetingPurposeView extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
@@ -24,6 +26,15 @@ class _SelectMeetingPurposeViewState extends State<SelectMeetingPurposeView> {
   bool? checkboxValue = false;
   bool? checkboxValue2 = false;
   bool? checkboxValue3 = false;
+  List<String> meetingPurpose = [];
+
+  void handleOnChanged(bool value, String textToAdd) {
+    if (value) {
+      meetingPurpose.add(textToAdd);
+    } else {
+      meetingPurpose.removeWhere((element) => element == textToAdd);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +70,7 @@ class _SelectMeetingPurposeViewState extends State<SelectMeetingPurposeView> {
                             setState(() {
                               checkboxValue = value;
                             });
+                            handleOnChanged(value!, 'Career Advice');
                           }),
                       Divider(),
                       CheckboxListTile(
@@ -73,6 +85,7 @@ class _SelectMeetingPurposeViewState extends State<SelectMeetingPurposeView> {
                             setState(() {
                               checkboxValue2 = value;
                             });
+                            handleOnChanged(value!, 'Technical advice');
                           }),
                       Divider(),
                       CheckboxListTile(
@@ -87,6 +100,7 @@ class _SelectMeetingPurposeViewState extends State<SelectMeetingPurposeView> {
                             setState(() {
                               checkboxValue3 = value;
                             });
+                            handleOnChanged(value!, 'Chat');
                           })
                     ],
                   ),
@@ -100,6 +114,11 @@ class _SelectMeetingPurposeViewState extends State<SelectMeetingPurposeView> {
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: Text('NEXT'),
                   onPressed: () {
+                    print(meetingPurpose);
+                    final bookingViewModel = context.read<BookSessionViewModel>(
+                        bookSessionViewModelProvider);
+                    bookingViewModel.setMeetingPurpose(meetingPurpose);
+
                     AddCVView.show(context);
                   }),
               SizedBox(height: 16),

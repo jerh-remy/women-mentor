@@ -79,32 +79,6 @@ class SelectCallProviderView extends ConsumerWidget {
                 },
               ),
               const SizedBox(height: 20),
-
-              // SocialSignInButton(
-              //   onPressed: () {},
-              //   icon: Ionicons.videocam,
-              //   text: 'ZOOM',
-              //   textColor: Colors.white,
-              //   color: Color(0xff517BD9),
-              //   iconColor: Colors.white,
-              // ),
-              // const SizedBox(height: 20),
-              // SocialSignInButton(
-              //   onPressed: () {},
-              //   icon: FontAwesomeIcons.google,
-              //   text: 'GOOGLE MEET',
-              //   color: Color(0xffF7F7F7),
-              //   iconColor: Colors.black54,
-              // ),
-              // const SizedBox(height: 20),
-              // SocialSignInButton(
-              //   onPressed: () {},
-              //   icon: FontAwesomeIcons.skype,
-              //   text: 'SKYPE',
-              //   textColor: Colors.white,
-              //   color: Color(0xff18A3CC),
-              //   iconColor: Colors.white,
-              // ),
             ],
           ),
           Column(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:women_mentor/app/landing/explore/bookSession/book_session_view_model.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/mentor_profile_view_model.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/select_date_view.dart';
 import 'package:women_mentor/app/landing/profile/profile_view.dart';
@@ -40,7 +42,7 @@ class MentorProfileView extends ConsumerWidget {
     final mentorProfileAsyncValue =
         watch(mentorProfileStreamProvider(mentorId));
     return mentorProfileAsyncValue.when(
-        data: (mentor) => buildProfile(context, mentor),
+        data: (mentor) => buildProfile(context, mentor, watch),
         loading: () => Container(),
         error: (e, st) {
           print(e);
@@ -49,7 +51,8 @@ class MentorProfileView extends ConsumerWidget {
         });
   }
 
-  Widget buildProfile(BuildContext context, MentorAppUser mentor) {
+  Widget buildProfile(
+      BuildContext context, MentorAppUser mentor, ScopedReader watch) {
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -141,6 +144,10 @@ class MentorProfileView extends ConsumerWidget {
                     ),
                   ),
                   onPressed: () {
+                    final bookingViewModel =
+                        watch(bookSessionViewModelProvider);
+                    // print('MENTOR ID: $mentorId');
+                    bookingViewModel.setMentorID(mentorId);
                     SelectDateView.show(context);
                   },
                   icon: Icon(

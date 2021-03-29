@@ -39,7 +39,7 @@ class FeedPostCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '2 hours ago',
+                    '8 hours ago',
                     style: TextStyle(
                       color: Colors.black54,
                       fontSize: 12,
@@ -78,7 +78,7 @@ class FeedPostCard extends StatelessWidget {
           ),
           SizedBox(height: 16),
           Image.network(
-            'https://picsum.photos/250?image=9',
+            'https://picsum.photos/400',
             height: 150,
             width: double.infinity,
             fit: BoxFit.cover,

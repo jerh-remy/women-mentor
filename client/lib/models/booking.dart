@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Booking {
   final List<Booking>? changelog;
-  final Timestamp date;
+  final DateTime date;
   final String menteeId;
   final String mentorId;
   final String preferredCallProvider;
@@ -39,15 +39,12 @@ class Booking {
 
   Map<String, dynamic> toJson() {
     return {
-      // 'id': id,
-      // 'changelog': changelog,
-      'date': date,
+      'date': date.toString().split(" ")[0],
       'menteeId': menteeId,
       'mentorId': mentorId,
       'preferredCallProvider': preferredCallProvider,
-      'meetingPurpose': meetingPurpose,
-      // 'requesterId': requesterId,
-      // 'status': status
+      // 'purpose': meetingPurpose.join(""),
+      'purpose': meetingPurpose,
     };
   }
 }
