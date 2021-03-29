@@ -4,6 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:icon="@mipmap/launcher_icon"
+        android:requestLegacyExternalStorage="true"
         android:label="Women Mentor">
 
 

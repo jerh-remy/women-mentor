@@ -3,6 +3,19 @@ import 'package:women_mentor/app/landing/explore/mentor_profile_view.dart';
 import 'package:women_mentor/constants/colors.dart';
 
 class MentorCard extends StatelessWidget {
+  final String mentorId;
+  final String fullName;
+  final String? role;
+  final String? offerStatement;
+
+  const MentorCard(
+      {Key? key,
+      required this.mentorId,
+      required this.fullName,
+      required this.role,
+      required this.offerStatement})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -12,7 +25,7 @@ class MentorCard extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(4.0),
       ),
-      padding: EdgeInsets.all(24),
+      padding: EdgeInsets.all(16),
       margin: EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
@@ -29,17 +42,17 @@ class MentorCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 2.0),
                     child: Text(
-                      'Samantha Tung',
+                      fullName,
                       style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            fontSize: 16,
+                            fontSize: 17,
                           ),
                     ),
                   ),
                   Text(
-                    'VP Figma Design',
+                    role ?? 'Developer',
                     style: TextStyle(
                       color: Colors.black54,
-                      fontSize: 12,
+                      fontSize: 14,
                     ),
                   ),
                 ],
@@ -51,12 +64,14 @@ class MentorCard extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Dolor elit ipsum adipisicing excepteur proident esse nisi irure anim in qui. Mollit amet commodo commodo fugiat quis adipisicing ut consectetur et laboris.',
+                  offerStatement ??
+                      'Fugiat labore commodo qui aute proident non deserunt aute anim velit.',
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: Colors.black54,
                   ),
-                  maxLines: 3,
+                  textAlign: TextAlign.start,
+                  maxLines: 2,
                 ),
               )
             ],
@@ -65,7 +80,7 @@ class MentorCard extends StatelessWidget {
           OutlinedButton(
             child: Text('VIEW PROFILE'),
             onPressed: () {
-              MentorProfileView.show(context);
+              MentorProfileView.show(context, mentorId);
             },
             style: OutlinedButton.styleFrom(
               primary: CustomColors.appColorTeal,

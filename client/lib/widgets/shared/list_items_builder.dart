@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/widgets/shared/empty_content.dart';
 
 typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
@@ -7,29 +10,31 @@ typedef ItemWidgetBuilder<T> = Widget Function(BuildContext context, T item);
 class ListItemsBuilder<T> extends StatelessWidget {
   const ListItemsBuilder({
     Key? key,
-    this.items,
+    required this.data,
     required this.itemBuilder,
     this.scrollController,
-    this.emptyContent,
   }) : super(key: key);
-  final List<T>? items;
+  final AsyncValue<List<T>> data;
   final ItemWidgetBuilder<T> itemBuilder;
   final ScrollController? scrollController;
-  final Widget? emptyContent;
 
   @override
   Widget build(BuildContext context) {
-    if (items != null) {
-      if (items!.isNotEmpty) {
-        return _buildList(items!);
-      } else {
-        return emptyContent ?? EmptyContent();
-      }
-    } else {
-      return Center(
-        child: emptyContent ?? EmptyContent(),
-      );
-    }
+    return data.when(
+        data: (items) =>
+            items.isNotEmpty ? _buildList(items) : const EmptyContent(),
+        loading: () => const Center(
+                child: SpinKitCircle(
+              color: CustomColors.appColorTeal,
+            )),
+        error: (err, st) {
+          print(err);
+          print(st);
+          return const EmptyContent(
+            title: 'Something went wrong',
+            message: 'Can\'t load items right now',
+          );
+        });
   }
 
   Widget _buildList(List<T> items) {
@@ -38,7 +43,7 @@ class ListItemsBuilder<T> extends StatelessWidget {
         itemCount: items.length + 2,
         controller: scrollController,
         // separatorBuilder: (context, index) => Divider(height: 0.5),
-        separatorBuilder: (context, index) => SizedBox(height: 4.0),
+        separatorBuilder: (context, index) => SizedBox(height: 16.0),
         itemBuilder: (context, index) {
           if (index == 0 || index == items.length + 1) {
             return Container();

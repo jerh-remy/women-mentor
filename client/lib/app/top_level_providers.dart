@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:women_mentor/models/user.dart';
 import 'package:women_mentor/services/firestore_database.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:logger/logger.dart';
@@ -12,6 +13,12 @@ final authStateChangesProvider = StreamProvider<User?>(
 
 final authCurrentUserProvider =
     Provider<User?>((ref) => ref.watch(firebaseAuthProvider).currentUser);
+
+// final appUserProvider = Provider<AppUser?>((ref) {
+//   final firebaseUser = ref.watch(authCurrentUserProvider);
+//   final database = ref.watch(databaseProvider);
+
+// });
 
 final fcmTokenProvider = FutureProvider<String?>((ref) {
   return FirebaseMessaging.instance.getToken();

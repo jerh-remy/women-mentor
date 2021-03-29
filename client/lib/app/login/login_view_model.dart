@@ -17,25 +17,6 @@ class LoginViewModel with ChangeNotifier {
   bool isLoading = false;
   final _firestoreService = FirestoreService.instance;
 
-  // Future<void> _signIn(Future<UserCredential> Function() signInMethod) async {
-  //   try {
-  //     isLoading = true;
-  //     notifyListeners();
-  //     await signInMethod();
-  //     error = null;
-  //   } catch (e) {
-  //     error = e;
-  //     rethrow;
-  //   } finally {
-  //     isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
-
-  // Future<void> signInAnonymously() async {
-  //   await _signIn(auth.signInAnonymously);
-  // }
-
   Future _createUser(AppUser user) async {
     try {
       await _firestoreService.setData(

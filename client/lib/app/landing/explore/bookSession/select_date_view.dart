@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/back_button.dart';
+import 'package:women_mentor/app/landing/explore/bookSession/book_session_view_model.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/select_call_provider_view.dart';
 import 'package:women_mentor/app/landing/schedule/session_calendar.dart';
 import 'package:women_mentor/constants/colors.dart';
@@ -9,8 +10,9 @@ import 'package:women_mentor/constants/utilities.dart';
 import 'package:women_mentor/routing/cupertino_tab_view_router.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SelectDateView extends StatelessWidget {
+class SelectDateView extends ConsumerWidget {
   static Future<void> show(BuildContext context) async {
     await Navigator.of(context).pushNamed(
       CupertinoTabViewRoutes.selectBookingDatePage,
@@ -18,8 +20,19 @@ class SelectDateView extends StatelessWidget {
     );
   }
 
+  final List<String> availableTimes = [
+    '9:00 - 9:30',
+    '10:00 - 11:30',
+    '12:00 - 13:00',
+    '14:00 - 14:30',
+    '15:00 - 16:30',
+  ];
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    final bookingViewModel =
+        watch<BookSessionViewModel>(bookSessionViewModelProvider);
+
     return Scaffold(
       appBar: BackButtonAppBar(),
       body: Column(
@@ -77,14 +90,20 @@ class SelectDateView extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: 4,
                           itemBuilder: (ctx, index) {
-                            return ListTile(
-                              onTap: () {},
-                              visualDensity: VisualDensity.compact,
-                              title: Text(
-                                '11:00 - 11:30',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: Colors.black54,
+                            final availableTime = availableTimes[index];
+                            return Container(
+                              color: index == 1
+                                  ? CustomColors.appColorTeal.withOpacity(0.3)
+                                  : Colors.transparent,
+                              child: ListTile(
+                                onTap: () {},
+                                visualDensity: VisualDensity.compact,
+                                title: Text(
+                                  availableTime,
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.black54,
+                                  ),
                                 ),
                               ),
                             );
@@ -117,29 +136,6 @@ class SelectDateView extends StatelessWidget {
           )
         ],
       ),
-
-      // Container(
-      //   child: Center(
-      //     child: TextButton.icon(
-      //         style: TextButton.styleFrom(
-      //           backgroundColor: CustomColors.appColorTeal,
-      //           primary: Colors.white,
-      //           elevation: 2.0,
-      //           textStyle: TextStyle(
-      //             letterSpacing: 0.6,
-      //             fontWeight: FontWeight.bold,
-      //           ),
-      //         ),
-      //         onPressed: () {
-      //           SelectCallProviderView.show(context);
-      //         },
-      //         icon: Icon(
-      //           Icons.calendar_today_outlined,
-      //           size: 20,
-      //         ),
-      //         label: Text('BOOK A SESSION')),
-      //   ),
-      // ),
     );
   }
 }

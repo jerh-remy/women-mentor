@@ -28,9 +28,9 @@ class ProfileView extends StatelessWidget {
   void _signOut(FirebaseAuth firebaseAuth, BuildContext context) async {
     //TODO remove force onboarding == false after testing
     //These next few lines are just for testing. Will remove later
-    final SharedPreferencesService sharedPreferencesService = context
-        .read<SharedPreferencesService>(sharedPreferencesServiceProvider);
-    await sharedPreferencesService.setOnboardingInComplete();
+    // final SharedPreferencesService sharedPreferencesService = context
+    //     .read<SharedPreferencesService>(sharedPreferencesServiceProvider);
+    // await sharedPreferencesService.setOnboardingInComplete();
     await firebaseAuth.signOut();
   }
 
@@ -285,7 +285,7 @@ class MentorSpecificSection extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
         children: [
           SizedBox(height: 24),
-          ...buildExpertise(context),
+          // ...buildExpertise(context),
           SizedBox(height: 24),
           ...buildTimeCommitment(context),
           SizedBox(height: 24),
@@ -293,7 +293,7 @@ class MentorSpecificSection extends StatelessWidget {
           SizedBox(height: 24),
           ...buildTechInterests(context),
           SizedBox(height: 24),
-          ...buildHobbies(context),
+          // ...buildHobbies(context),
           SizedBox(height: 24)
         ],
       ),
@@ -301,7 +301,8 @@ class MentorSpecificSection extends StatelessWidget {
   }
 }
 
-List<Widget> buildExpertise(BuildContext context) {
+List<Widget> buildExpertise(BuildContext context, List<String> techInterests) {
+  print(techInterests);
   return [
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,10 +325,10 @@ List<Widget> buildExpertise(BuildContext context) {
         Wrap(
           spacing: 12,
           children: List.generate(
-              2,
+              techInterests.length,
               (index) => Chip(
                     backgroundColor: Colors.white,
-                    label: Text('Skill $index'),
+                    label: Text(techInterests[index]),
                     labelStyle: TextStyle(color: CustomColors.appColorTeal),
                     side: BorderSide(
                       color: CustomColors.appColorTeal,
@@ -423,7 +424,7 @@ class MenteeGoalsAndInterestsSection extends StatelessWidget {
           SizedBox(height: 20),
           ...buildTechInterests(context),
           SizedBox(height: 20),
-          ...buildHobbies(context),
+          // ...buildHobbies(context),
           SizedBox(height: 20),
         ],
       ),
@@ -508,7 +509,7 @@ List<Widget> buildTechInterests(BuildContext context) {
   ];
 }
 
-List<Widget> buildHobbies(BuildContext context) {
+List<Widget> buildHobbies(BuildContext context, List<String> hobbies) {
   return [
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -529,13 +530,12 @@ List<Widget> buildHobbies(BuildContext context) {
         ),
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.start,
-          alignment: WrapAlignment.spaceBetween,
           spacing: 12,
           children: List.generate(
-              3,
+              hobbies.length,
               (index) => Chip(
                     backgroundColor: Colors.white,
-                    label: Text('Hobby $index'),
+                    label: Text(hobbies[index]),
                     labelStyle: TextStyle(color: CustomColors.appColorTeal),
                     side: BorderSide(
                       color: CustomColors.appColorTeal,

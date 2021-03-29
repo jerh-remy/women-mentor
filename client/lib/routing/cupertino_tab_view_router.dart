@@ -19,9 +19,11 @@ class CupertinoTabViewRouter {
   static Route? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case CupertinoTabViewRoutes.mentorProfilePage:
-        // final job = settings.arguments as Job;
+        final mentorId = settings.arguments as String;
         return CupertinoPageRoute(
-          builder: (_) => MentorProfileView(),
+          builder: (_) => MentorProfileView(
+            mentorId: mentorId,
+          ),
           settings: settings,
           fullscreenDialog: false,
         );

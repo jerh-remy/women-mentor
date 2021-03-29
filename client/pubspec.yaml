@@ -30,6 +30,7 @@ dependencies:
   connectivity: ^3.0.2
   cupertino_icons: ^1.0.2
   dartx: ^0.7.0
+  dio: ^4.0.0
   firebase_auth: ^1.0.1
   firebase_core: ^1.0.2
   firebase_messaging: ^9.0.0
@@ -45,6 +46,7 @@ dependencies:
   google_fonts: ^2.0.0
   google_sign_in: ^5.0.1
   hooks_riverpod: ^0.13.1
+  image_picker: ^0.7.3
   intl: ^0.17.0
   ionicons: ^0.1.2
   local_auth: ^1.1.0
@@ -52,9 +54,9 @@ dependencies:
   material_floating_search_bar: ^0.3.3
   modal_bottom_sheet: ^2.0.0
   path_provider: ^2.0.1
-  permission_handler: ^6.1.0
+  permission_handler: ^6.1.1
   shared_preferences: ^2.0.5
-  sign_in_with_apple: ^3.0.0
+  # sign_in_with_apple: ^3.0.0
   state_notifier: ^0.7.0
   table_calendar: ^3.0.0-nullsafety.1
   url_launcher: ^6.0.2

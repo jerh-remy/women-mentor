@@ -1,39 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Booking {
-  final List<Booking> changelog;
+  final List<Booking>? changelog;
   final Timestamp date;
   final String menteeId;
   final String mentorId;
   final String preferredCallProvider;
-  final String requesterId;
-  final String status;
-  final String id;
+  final String? requesterId;
+  final String? status;
+  final String? id;
+  final List<String> meetingPurpose;
 
   Booking({
-    required this.id,
+    this.id,
     required this.date,
     required this.menteeId,
     required this.mentorId,
     required this.preferredCallProvider,
-    required this.requesterId,
-    required this.status,
+    this.requesterId,
+    this.status,
     this.changelog = const [],
+    this.meetingPurpose = const [],
   });
 
   factory Booking.fromData(Map<String, dynamic>? data, String uid) {
     return Booking(
-        id: uid,
-        changelog: data?['changelog'].map((e) => e),
-        date: data?['date'],
-        menteeId: data?['menteeId'],
-        mentorId: data?['mentorId'],
-        preferredCallProvider: data?['preferredCallProvider'],
-        requesterId: data?['requesterId'],
-        status: data?['status']);
+      id: uid,
+      changelog: List<Booking>.from(data?['changelog'].map((e) => e)),
+      date: data?['date'],
+      menteeId: data?['menteeId'],
+      mentorId: data?['mentorId'],
+      preferredCallProvider: data?['preferredCallProvider'],
+      requesterId: data?['requesterId'],
+      status: data?['status'],
+      meetingPurpose: List<String>.from(data?['meetingPurpose'].map((e) => e)),
+    );
   }
 
-  // Shouldn't need this because bookings should only be created/ updated using /bookings endpoint
   Map<String, dynamic> toJson() {
     return {
       // 'id': id,
@@ -42,8 +45,9 @@ class Booking {
       'menteeId': menteeId,
       'mentorId': mentorId,
       'preferredCallProvider': preferredCallProvider,
-      'requesterId': requesterId,
-      'status': status
+      'meetingPurpose': meetingPurpose,
+      // 'requesterId': requesterId,
+      // 'status': status
     };
   }
 }

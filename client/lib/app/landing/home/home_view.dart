@@ -7,7 +7,7 @@ import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final posts = List.generate(30, (index) => 'Lorem Ipsum $index');
+final posts = List.generate(10, (index) => 'Lorem Ipsum $index');
 
 class HomeView extends StatelessWidget {
   @override

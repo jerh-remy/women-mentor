@@ -5,7 +5,7 @@ class AppUser {
   final String firstName;
   final String lastName;
   final String? email;
-  final String techLevel;
+  final String? techLevel;
   final int? age;
   final String? ethnicity;
   final List<String>? hobbies;
@@ -25,14 +25,22 @@ class AppUser {
   });
 
   factory AppUser.fromData(Map<String, dynamic>? data, String uid) {
+    print(data?['hobbies'].runtimeType);
+    data?.forEach((key, value) {
+      print('$key: $value');
+    });
     return AppUser(
         id: uid,
         firstName: data?['firstName'],
         lastName: data?['lastName'],
         email: data?['email'],
         age: data?['age'],
-        hobbies: data?['hobbies'],
-        techInterests: data?['techInterests'],
+        hobbies: data?['hobbies'] == null
+            ? []
+            : List<String>.from(data?['hobbies'].map((e) => e.toString())),
+        techInterests: data?['interests'] == null
+            ? []
+            : List<String>.from(data?['interests'].map((e) => e.toString())),
         techLevel: data?['techLevel'],
         ethnicity: data?['ethnicity']);
   }

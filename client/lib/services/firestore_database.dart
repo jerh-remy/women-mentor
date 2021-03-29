@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:women_mentor/models/booking.dart';
 import 'package:women_mentor/models/interests.dart';
+import 'package:women_mentor/models/mentee.dart';
+import 'package:women_mentor/models/mentor.dart';
 import 'package:women_mentor/models/user.dart';
 import 'package:women_mentor/services/firestore_path.dart';
 import 'package:women_mentor/services/firestore_service.dart';
@@ -46,6 +48,27 @@ class FirestoreDatabase {
         path: FirestorePath.interests(),
         builder: (data, documentId) => Interests.fromMap(data, documentId),
       );
+
+  Stream<AppUser> userStream(String userId) {
+    return _service.documentStream(
+      path: FirestorePath.user(userId),
+      builder: (data, documentId) => AppUser.fromData(data, documentId),
+    );
+  }
+
+  Stream<Mentor> mentorStream(String mentorId) {
+    return _service.documentStream(
+      path: FirestorePath.mentor(mentorId),
+      builder: (data, documentId) => Mentor.fromData(data, documentId),
+    );
+  }
+
+  Stream<Mentee> menteeStream(String menteeId) {
+    return _service.documentStream(
+      path: FirestorePath.mentee(menteeId),
+      builder: (data, documentId) => Mentee.fromData(data, documentId),
+    );
+  }
 
   // Stream<List<Job>> jobsStream() => _service.collectionStream(
   //       path: FirestorePath.jobs(uid),
