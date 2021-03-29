@@ -100,7 +100,7 @@ module.exports = async (req, res) => {
       body: 'Tap to see your booking',
     },
     data: {
-      bookingId: newBooking.id,
+      bookingId,
       bookingData: newBookingData,
     },
     token: recipientRegistration.token,
