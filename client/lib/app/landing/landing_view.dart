@@ -26,6 +26,12 @@ class _LandingViewState extends State<LandingView> {
     // Any time the token refreshes, store this in the database too.
     FirebaseMessaging.instance.onTokenRefresh
         .listen(saveMessagingTokenToFirestore);
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((value) => print('[getInitialMessage]'));
+    FirebaseMessaging.onMessageOpenedApp.listen((event) {
+      print('[onMessageOpenedApp]');
+    });
   }
 
   Future<void> saveMessagingTokenToFirestore(String token) async {
