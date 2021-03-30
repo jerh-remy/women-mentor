@@ -20,6 +20,14 @@ final authCurrentUserProvider =
 
 // });
 
+final fcmInitialMessageProvider = FutureProvider<RemoteMessage?>((ref) {
+  return FirebaseMessaging.instance.getInitialMessage();
+});
+
+final fcmMessageOpenedStreamProvider = StreamProvider<RemoteMessage?>((ref) {
+  return FirebaseMessaging.onMessageOpenedApp;
+});
+
 final fcmTokenProvider = FutureProvider<String?>((ref) {
   return FirebaseMessaging.instance.getToken();
 });

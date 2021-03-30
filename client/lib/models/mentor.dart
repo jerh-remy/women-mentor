@@ -33,8 +33,10 @@ class Mentor {
         timeAvailability: data?['timeCommitment'],
         company: data?['company'],
         jobTitle: data?['jobTitle'],
-        preferredMenteeSkillLevels: List<String>.from(
-            data?['preferredMenteeSkillLevel'].map((e) => e.toString())),
+        preferredMenteeSkillLevels: data?['preferredMenteeSkillLevel'] == null
+            ? []
+            : List<String>.from(
+                data?['preferredMenteeSkillLevel'].map((e) => e.toString())),
         yearsOfExperience: data?['yearsOfExperience']);
   }
 

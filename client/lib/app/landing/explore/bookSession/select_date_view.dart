@@ -119,7 +119,6 @@ class SelectDateView extends ConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             CustomElevatedButton(
-                                width: MediaQuery.of(context).size.width * 0.9,
                                 child: Text('NEXT'),
                                 onPressed: () {
                                   bookingViewModel.setMeetingDate(selectedDate);

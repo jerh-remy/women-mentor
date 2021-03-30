@@ -1,6 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:women_mentor/app/landing/cupertino_scaffold.dart';
 import 'package:women_mentor/app/landing/explore/explore_view.dart';
 import 'package:women_mentor/app/landing/home/home_view.dart';
@@ -12,6 +13,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:women_mentor/services/firestore_database.dart';
 
 class LandingView extends StatefulWidget {
+  final Map<String, dynamic>? notificationToDisplay;
+
+  const LandingView({Key? key, this.notificationToDisplay}) : super(key: key);
   @override
   _LandingViewState createState() => _LandingViewState();
 }
@@ -31,6 +35,13 @@ class _LandingViewState extends State<LandingView> {
         .then((value) => print('[getInitialMessage]'));
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
       print('[onMessageOpenedApp]');
+    });
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      print('###### FCM #######: ${widget.notificationToDisplay?['data']}');
+    });
+    SchedulerBinding.instance!.addPostFrameCallback((_) {
+      print('###### FCM #######: ${widget.notificationToDisplay?['data']}');
     });
   }
 

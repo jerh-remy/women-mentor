@@ -10,7 +10,7 @@ class AppUser {
   final String? ethnicity;
   final List<String>? hobbies;
   final List<String>? techInterests;
-  final bool isMentor;
+  final bool? isMentor;
   // final Timestamp creationDate;
 
   AppUser({
@@ -45,7 +45,8 @@ class AppUser {
             : List<String>.from(data?['interests'].map((e) => e.toString())),
         techLevel: data?['techLevel'],
         ethnicity: data?['ethnicity'],
-        isMentor: data?['isMentor']);
+        isMentor:
+            data?['isMentor']?.runtimeType == Null ? false : data?['isMentor']);
   }
 
   Map<String, dynamic> toJson() {

@@ -123,6 +123,9 @@ class Utilities {
       builder: (context) => AlertDialog(
         title: Text(
           'Successful',
+          style: TextStyle(
+            color: Colors.black,
+          ),
         ),
         content: Text(
           successMessage ?? '',

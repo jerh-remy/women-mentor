@@ -12,19 +12,33 @@ class StartUpView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     return AuthWidget(
-      nonSignedInBuilder: (_) => Consumer(
-        builder: (context, watch, _) {
-          return LoginView();
-        },
-      ),
-      signedInBuilder: (_) {
-        final onboardingViewModel = watch(onboardingViewModelProvider);
-        print(
-            'onboarding complete? ${onboardingViewModel.isOnboardingComplete}');
-        return onboardingViewModel.isOnboardingComplete
-            ? LandingView()
-            : OnboardingView();
-      },
-    );
+        nonSignedInBuilder: (_) => Consumer(
+              builder: (context, watch, _) {
+                return LoginView();
+              },
+            ),
+        signedInBuilder: (_) {
+          final onboardingViewModel = watch(onboardingViewModelProvider);
+          print(
+              'onboarding complete? ${onboardingViewModel.isOnboardingComplete}');
+          if (!onboardingViewModel.isOnboardingComplete) {
+            return OnboardingView();
+          } else {
+            final fcmInitialMessage = watch(fcmInitialMessageProvider);
+            fcmInitialMessage.whenData((remoteMessage) {
+              print(remoteMessage?.data);
+              return LandingView(notificationToDisplay: remoteMessage?.data);
+            });
+            // Also handle any interaction when the app is in the background via a Stream listener
+            final fcmStream = watch(fcmMessageOpenedStreamProvider);
+            fcmStream.whenData((remoteMessage) {
+              print(remoteMessage?.data);
+              return LandingView(notificationToDisplay: remoteMessage?.data);
+            });
+            return Container(
+              color: Colors.green,
+            );
+          }
+        });
   }
 }

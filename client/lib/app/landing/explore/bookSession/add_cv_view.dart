@@ -55,7 +55,6 @@ class _AddCVViewState extends State<AddCVView> {
                               UploadedCV(),
                             ],
                           ),
-                          SizedBox(height: 20),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
@@ -111,7 +110,7 @@ class _AddCVViewState extends State<AddCVView> {
                   onPressed: () {
                     BookingConfirmationView.show(context);
                   }),
-              // SizedBox(height: 24),
+              SizedBox(height: 20),
             ],
           )
         ],

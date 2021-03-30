@@ -1,11 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:women_mentor/constants/colors.dart';
 
 class FeedPostCard extends StatelessWidget {
   final String content;
+  final String photoUrl;
 
-  const FeedPostCard({Key? key, required this.content}) : super(key: key);
+  const FeedPostCard({Key? key, required this.content, required this.photoUrl})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,7 +28,11 @@ class FeedPostCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 25,
-                  backgroundColor: Colors.grey.shade100,
+                  backgroundColor: CustomColors.appColorTeal.withOpacity(0.2),
+                  child: Icon(
+                    Ionicons.person_outline,
+                    color: CustomColors.appColorTeal,
+                  ),
                 ),
                 SizedBox(width: 10),
                 Column(
@@ -88,10 +96,16 @@ class FeedPostCard extends StatelessWidget {
               bottomLeft: Radius.circular(4.0),
             ),
             child: Image.network(
-              'https://picsum.photos/400',
+              photoUrl,
               height: 150,
               width: double.infinity,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Image.network(
+                'https://picsum.photos/300',
+                height: 150,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ],

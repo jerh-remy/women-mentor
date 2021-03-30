@@ -21,7 +21,7 @@ class MentorAppUser {
   final List<String>? hobbies;
   final List<String>? techInterests;
   final List<String>? preferredMenteeSkillLevels;
-  final bool isMentor;
+  final bool? isMentor;
 
   MentorAppUser(
       {this.goalStatement,

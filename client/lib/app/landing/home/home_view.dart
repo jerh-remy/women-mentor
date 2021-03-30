@@ -7,7 +7,7 @@ import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final posts = List.generate(10, (index) => 'Lorem Ipsum $index');
+final posts = List.generate(50, (index) => 'Lorem Ipsum $index');
 
 class HomeView extends StatelessWidget {
   @override
@@ -56,7 +56,12 @@ class HomeFeedPosts extends StatelessWidget {
         separatorBuilder: (context, index) => SizedBox(height: 16.0),
         itemBuilder: (ctx, index) {
           if (index == posts.length - 1) return SizedBox(height: 8.0);
-          return FeedPostCard(content: posts[index]);
+          var indexForImage = index + 1011;
+          print(indexForImage);
+          return FeedPostCard(
+            content: posts[index],
+            photoUrl: 'https://picsum.photos/id/${indexForImage}/300/200',
+          );
         },
         itemCount: posts.length,
       ),

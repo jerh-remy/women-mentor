@@ -27,7 +27,12 @@ class BookingConfirmationView extends ConsumerWidget {
       BookSessionViewModel bookSessionViewModel, String userId) async {
     try {
       await bookSessionViewModel.createBookingRequest(menteeId: userId);
-      context.router.push(StartUpRoute());
+      Utilities.showSuccessDialog(
+          context: context,
+          successMessage: 'Booking request successful!',
+          onButtonPressed: () {
+            context.router.push(StartUpRoute());
+          });
     } catch (e) {
       Utilities.showErrorDialog(context: context, exception: e);
     }

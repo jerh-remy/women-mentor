@@ -107,7 +107,8 @@ class DetailSection extends ConsumerWidget {
         watch(mentorProfileStreamProvider(user.uid));
     return mentorProfileAsyncValue.when(
         data: (mentor) {
-          if (!mentor.isMentor) {
+          print('HAHAHA' + mentor.isMentor.toString());
+          if (!mentor.isMentor!) {
             return Flexible(
                 child: MenteeGoalsAndInterestsSection(
               hobbies: mentor.hobbies!,
@@ -118,7 +119,7 @@ class DetailSection extends ConsumerWidget {
                 child: MentorGoalsAndInterestsSection(
               hobbies: mentor.hobbies!,
               techInterests: mentor.techInterests!,
-              timeCommitment: mentor.timeAvailability!,
+              timeCommitment: mentor.timeAvailability ?? '',
               menteeSkillLevel: mentor.preferredMenteeSkillLevels!,
             ));
           }
