@@ -7,7 +7,7 @@ import 'package:rxdart/rxdart.dart';
 class MentorAppUser {
   final String? goalStatement;
   final List<String>? bookings;
-  final List<String>? availableTimes; // type not decided
+  final String? timeAvailability;
   final String? company;
   final String? jobTitle;
   final int? yearsOfExperience;
@@ -20,12 +20,13 @@ class MentorAppUser {
   final String? ethnicity;
   final List<String>? hobbies;
   final List<String>? techInterests;
+  final List<String>? preferredMenteeSkillLevels;
   final bool isMentor;
 
   MentorAppUser(
       {this.goalStatement,
       this.bookings,
-      this.availableTimes,
+      this.timeAvailability,
       required this.company,
       required this.jobTitle,
       required this.yearsOfExperience,
@@ -37,6 +38,7 @@ class MentorAppUser {
       this.age,
       this.ethnicity,
       this.hobbies,
+      this.preferredMenteeSkillLevels,
       this.isMentor = false,
       this.techInterests});
 }
@@ -66,6 +68,8 @@ class MentorProfileViewModel extends ChangeNotifier {
       ethnicity: appUser.ethnicity,
       goalStatement: mentor.goalStatement,
       isMentor: appUser.isMentor,
+      timeAvailability: mentor.timeAvailability,
+      preferredMenteeSkillLevels: mentor.preferredMenteeSkillLevels,
     );
     return mentorAppUser;
   }

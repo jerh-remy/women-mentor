@@ -118,6 +118,8 @@ class DetailSection extends ConsumerWidget {
                 child: MentorGoalsAndInterestsSection(
               hobbies: mentor.hobbies!,
               techInterests: mentor.techInterests!,
+              timeCommitment: mentor.timeAvailability!,
+              menteeSkillLevel: mentor.preferredMenteeSkillLevels!,
             ));
           }
         },
@@ -255,9 +257,15 @@ class ProfilePic extends StatelessWidget {
 class MentorGoalsAndInterestsSection extends StatelessWidget {
   final List<String> hobbies;
   final List<String> techInterests;
+  final List<String> menteeSkillLevel;
+  final String timeCommitment;
 
   const MentorGoalsAndInterestsSection(
-      {Key? key, required this.hobbies, required this.techInterests})
+      {Key? key,
+      required this.hobbies,
+      required this.techInterests,
+      required this.menteeSkillLevel,
+      required this.timeCommitment})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -318,7 +326,10 @@ class MentorGoalsAndInterestsSection extends StatelessWidget {
                   hobbies: hobbies,
                   techInterests: techInterests,
                 ),
-                MentorSpecificSection(),
+                MentorSpecificSection(
+                  timeAvailability: timeCommitment,
+                  menteeSkillLevel: menteeSkillLevel,
+                ),
               ]),
             );
           },
@@ -327,6 +338,15 @@ class MentorGoalsAndInterestsSection extends StatelessWidget {
 }
 
 class MentorSpecificSection extends StatelessWidget {
+  final String timeAvailability;
+  final List<String> menteeSkillLevel;
+
+  const MentorSpecificSection(
+      {Key? key,
+      required this.timeAvailability,
+      required this.menteeSkillLevel})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -335,14 +355,14 @@ class MentorSpecificSection extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
         children: [
           SizedBox(height: 24),
-          ...buildTimeCommitment(context),
+          ...buildTimeCommitment(context, timeAvailability),
           SizedBox(height: 24),
-          ...buildMenteeLevel(context),
+          ...buildMenteeLevel(context, menteeSkillLevel),
           SizedBox(height: 24),
           // ...buildExpertise(context),
-          SizedBox(height: 24),
+          // SizedBox(height: 24),
           // ...buildHobbies(context),
-          SizedBox(height: 24)
+          // SizedBox(height: 24)
         ],
       ),
     );
@@ -388,7 +408,8 @@ List<Widget> buildExpertise(BuildContext context, List<String> techInterests) {
   ];
 }
 
-List<Widget> buildMenteeLevel(BuildContext context) {
+List<Widget> buildMenteeLevel(
+    BuildContext context, List<String> menteeSkillLevel) {
   return [
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -411,10 +432,10 @@ List<Widget> buildMenteeLevel(BuildContext context) {
         Wrap(
           spacing: 12,
           children: List.generate(
-              2,
+              menteeSkillLevel.length,
               (index) => Chip(
                     backgroundColor: Colors.white,
-                    label: Text('Beginner $index'),
+                    label: Text(menteeSkillLevel[index]),
                     labelStyle: TextStyle(color: CustomColors.appColorTeal),
                     side: BorderSide(
                       color: CustomColors.appColorTeal,
@@ -426,7 +447,8 @@ List<Widget> buildMenteeLevel(BuildContext context) {
   ];
 }
 
-List<Widget> buildTimeCommitment(BuildContext context) {
+List<Widget> buildTimeCommitment(
+    BuildContext context, String timeAvailability) {
   return [
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -447,7 +469,7 @@ List<Widget> buildTimeCommitment(BuildContext context) {
           ),
         ),
         Text(
-          '12 hours per week',
+          timeAvailability,
           style: Theme.of(context).textTheme.bodyText2!.copyWith(
                 fontSize: 16,
                 color: CustomColors.appColorTeal,

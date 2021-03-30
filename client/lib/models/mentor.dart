@@ -2,7 +2,8 @@
 class Mentor {
   final String? goalStatement;
   final List<String>? bookings;
-  final List<String>? availableTimes; // type not decided
+  final List<String>? preferredMenteeSkillLevels;
+  final String? timeAvailability;
   final String? company;
   final String? jobTitle;
   final int? yearsOfExperience;
@@ -14,7 +15,8 @@ class Mentor {
     required this.company,
     required this.jobTitle,
     required this.yearsOfExperience,
-    this.availableTimes,
+    this.preferredMenteeSkillLevels = const [],
+    this.timeAvailability,
     this.bookings = const [],
   });
 
@@ -28,12 +30,11 @@ class Mentor {
         bookings: data?['bookings'] == null
             ? []
             : List<String>.from(data?['bookings'].map((e) => e.toString())),
-        // availableTimes: data?['timeCommitment'] == null
-        //     ? []
-        //     : List<String>.from(
-        //         data?['timeCommitment'].map((e) => e.toString())),
+        timeAvailability: data?['timeCommitment'],
         company: data?['company'],
         jobTitle: data?['jobTitle'],
+        preferredMenteeSkillLevels: List<String>.from(
+            data?['preferredMenteeSkillLevel'].map((e) => e.toString())),
         yearsOfExperience: data?['yearsOfExperience']);
   }
 
@@ -41,7 +42,7 @@ class Mentor {
     return {
       'goalStatement': goalStatement,
       'bookings': bookings,
-      'availableTimes': availableTimes,
+      'timeCommitment': timeAvailability,
       'company': company,
       'jobTitle': jobTitle,
       'yearsOfExperience': yearsOfExperience
