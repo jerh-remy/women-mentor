@@ -56,6 +56,7 @@ class MentorProfileView extends ConsumerWidget {
 
   Widget buildProfile(
       BuildContext context, MentorAppUser mentor, ScopedReader watch) {
+    final vm = watch(mentorViewModelProvider);
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -101,23 +102,49 @@ class MentorProfileView extends ConsumerWidget {
                         ),
                       ),
                       SizedBox(height: 5),
-                      TextButton.icon(
-                        style: TextButton.styleFrom(
-                          backgroundColor: CustomColors.appColorTeal,
-                          primary: Colors.white,
-                          padding: EdgeInsets.only(right: 16.0, left: 10.0),
-                          textStyle: TextStyle(
-                            letterSpacing: 0.6,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          elevation: 4.0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)),
-                        ),
-                        onPressed: () {},
-                        icon: Icon(Icons.add),
-                        label: Text('FOLLOW'),
-                      )
+                      vm.isFollowClicked
+                          ? TextButton.icon(
+                              style: TextButton.styleFrom(
+                                backgroundColor: CustomColors.appColorOrange,
+                                primary: Colors.white,
+                                padding:
+                                    EdgeInsets.only(right: 16.0, left: 10.0),
+                                textStyle: TextStyle(
+                                  letterSpacing: 0.6,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                elevation: 4.0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                              ),
+                              onPressed: () {
+                                vm.setFollowClicked();
+                              },
+                              icon: Icon(Icons.add),
+                              label: Text('FOLLOWING'))
+                          : TextButton.icon(
+                              style: TextButton.styleFrom(
+                                backgroundColor: CustomColors.appColorTeal,
+                                primary: Colors.white,
+                                padding:
+                                    EdgeInsets.only(right: 16.0, left: 10.0),
+                                textStyle: TextStyle(
+                                  letterSpacing: 0.6,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                elevation: 4.0,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                              ),
+                              onPressed: () {
+                                print('isfollow ${vm.isFollowClicked}');
+                                vm.setFollowClicked();
+                              },
+                              icon: Icon(Icons.add),
+                              label: vm.isFollowClicked
+                                  ? Text('FOLLOWING')
+                                  : Text('FOLLOW'),
+                            )
                     ],
                   ),
                 ],

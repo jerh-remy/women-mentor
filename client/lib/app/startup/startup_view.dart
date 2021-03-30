@@ -35,9 +35,7 @@ class StartUpView extends ConsumerWidget {
               print(remoteMessage?.data);
               return LandingView(notificationToDisplay: remoteMessage?.data);
             });
-            return Container(
-              color: Colors.green,
-            );
+            return LandingView();
           }
         });
   }

@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/models/mentor.dart';
 import 'package:women_mentor/models/user.dart';
 import 'package:women_mentor/services/firestore_database.dart';
@@ -43,9 +45,22 @@ class MentorAppUser {
       this.techInterests});
 }
 
+final mentorViewModelProvider =
+    ChangeNotifierProvider<MentorProfileViewModel>((ref) {
+  final database = ref.watch(databaseProvider);
+  return MentorProfileViewModel(database: database);
+});
+
 class MentorProfileViewModel extends ChangeNotifier {
   MentorProfileViewModel({required this.database});
   final FirestoreDatabase database;
+
+  bool _isFollowClicked = false;
+  bool get isFollowClicked => _isFollowClicked;
+  setFollowClicked() {
+    _isFollowClicked = !_isFollowClicked;
+    notifyListeners();
+  }
 
   Stream<MentorAppUser> mentorProfileStream(userId) =>
       CombineLatestStream.combine2(
