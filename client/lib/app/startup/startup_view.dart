@@ -21,22 +21,25 @@ class StartUpView extends ConsumerWidget {
           final onboardingViewModel = watch(onboardingViewModelProvider);
           print(
               'onboarding complete? ${onboardingViewModel.isOnboardingComplete}');
-          if (!onboardingViewModel.isOnboardingComplete) {
-            return OnboardingView();
-          } else {
-            final fcmInitialMessage = watch(fcmInitialMessageProvider);
-            fcmInitialMessage.whenData((remoteMessage) {
-              print(remoteMessage?.data);
-              return LandingView(notificationToDisplay: remoteMessage?.data);
-            });
-            // Also handle any interaction when the app is in the background via a Stream listener
-            final fcmStream = watch(fcmMessageOpenedStreamProvider);
-            fcmStream.whenData((remoteMessage) {
-              print(remoteMessage?.data);
-              return LandingView(notificationToDisplay: remoteMessage?.data);
-            });
-            return LandingView();
-          }
+
+          // final fcmInitialMessage = watch(fcmInitialMessageProvider);
+          // fcmInitialMessage.whenData((remoteMessage) {
+          //   print(remoteMessage?.data);
+          //   return LandingView(notificationToDisplay: remoteMessage?.data);
+          // });
+
+          // Also handle any interaction when the app is in the background via a Stream listener
+          final fcmStream = watch(fcmMessageOpenedStreamProvider);
+          return fcmStream.when(
+              data: (rm) {
+                print(rm?.data);
+                if (!onboardingViewModel.isOnboardingComplete) {
+                  return OnboardingView();
+                }
+                return LandingView(notificationToDisplay: rm?.data);
+              },
+              loading: () => LandingView(),
+              error: (_, __) => LandingView());
         });
   }
 }

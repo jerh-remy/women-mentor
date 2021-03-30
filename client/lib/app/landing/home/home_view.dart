@@ -57,7 +57,6 @@ class HomeFeedPosts extends StatelessWidget {
         itemBuilder: (ctx, index) {
           if (index == posts.length - 1) return SizedBox(height: 8.0);
           var indexForImage = index + 1011;
-          print(indexForImage);
           return FeedPostCard(
             content: posts[index],
             photoUrl: 'https://picsum.photos/id/${indexForImage}/300/200',
