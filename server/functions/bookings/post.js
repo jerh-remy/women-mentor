@@ -1,6 +1,6 @@
-const functions = require("firebase-functions");
-const { validationResult } = require("express-validator");
-const { firestore, messaging } = require("../admin");
+const functions = require('firebase-functions');
+const { validationResult } = require('express-validator');
+const { firestore, messaging } = require('../admin');
 
 /**
  * @type {functions.HttpsFunction}
@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
 
-  const userId = req.headers["x-user-id"];
+  const userId = req.headers['x-user-id'];
 
   const body = req.body;
   const { mentorId, menteeId, date, preferredCallProvider, purpose } = body;
@@ -25,12 +25,12 @@ module.exports = async (req, res) => {
     preferredCallProvider,
     purpose,
     changelog: [],
-    status: "pending",
+    status: 'pending',
     requesterId: userId,
   };
 
-  const mentorRef = firestore.collection("mentors").doc(mentorId);
-  const menteeRef = firestore.collection("mentees").doc(menteeId);
+  const mentorRef = firestore.collection('mentors').doc(mentorId);
+  const menteeRef = firestore.collection('mentees').doc(menteeId);
 
   const mentorDataRef = await mentorRef.get();
   const menteeDataRef = await menteeRef.get();
@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
   const mentorData = mentorDataRef.data();
   const menteeData = menteeDataRef.data();
 
-  const newBooking = await firestore.collection("bookings").add(newBookingData);
+  const newBooking = await firestore.collection('bookings').add(newBookingData);
 
   mentorRef.update({
     bookings: [...(mentorData.bookings || []), newBooking.id],
@@ -55,15 +55,15 @@ module.exports = async (req, res) => {
     bookings: [...(menteeData.bookings || []), newBooking.id],
   });
 
-  res.status(200).send({ message: "Okay!", data: newBookingData });
+  res.status(200).send({ message: 'Okay!', data: newBookingData });
 
   // NOTIFICATIONS
   const senderProfile = (
-    await firestore.collection("users").doc(menteeId).get()
+    await firestore.collection('users').doc(menteeId).get()
   ).data();
 
   const recipientRegistration = (
-    await firestore.collection("registrations").doc(mentorId).get()
+    await firestore.collection('registrations').doc(mentorId).get()
   ).data();
   if (!recipientRegistration) {
     return;
@@ -75,11 +75,11 @@ module.exports = async (req, res) => {
   const message = {
     notification: {
       title: `${senderProfile.firstName} ${senderProfile.lastName} has requested a booking!`,
-      body: "Tap to see more details",
+      body: 'Tap to see more details',
     },
     data: {
       bookingId: newBooking.id,
-      bookingData: newBookingData,
+      bookingData: JSON.stringify(newBookingData),
     },
     token: recipientRegistration.token,
   };

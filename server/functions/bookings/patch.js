@@ -101,7 +101,7 @@ module.exports = async (req, res) => {
     },
     data: {
       bookingId,
-      bookingData: newBookingData,
+      bookingData: JSON.stringify(newBookingData),
     },
     token: recipientRegistration.token,
   };
