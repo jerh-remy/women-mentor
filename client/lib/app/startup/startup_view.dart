@@ -7,6 +7,8 @@ import 'package:women_mentor/app/login/login_view.dart';
 import 'package:women_mentor/app/onboarding/onboarding_view.dart';
 import 'package:women_mentor/app/onboarding/onboarding_view_model.dart';
 import 'package:women_mentor/app/top_level_providers.dart';
+import 'package:women_mentor/models/notification.dart';
+import 'dart:convert';
 
 class StartUpView extends ConsumerWidget {
   @override
@@ -36,7 +38,29 @@ class StartUpView extends ConsumerWidget {
                 if (!onboardingViewModel.isOnboardingComplete) {
                   return OnboardingView();
                 }
-                return LandingView(notificationToDisplay: rm?.data);
+                print(
+                    'runtime type of rm is: ${rm?.data['requesterUserProfile'].runtimeType}');
+                //notification details
+                final requesterUserProfileMap =
+                    rm?.data['requesterUserProfile'];
+                final bookingDataMap = rm?.data['bookingData'];
+                final RequesterUserProfile userProfile =
+                    RequesterUserProfile.fromMap(
+                        json.decode(requesterUserProfileMap));
+                print(userProfile.firstName);
+
+                final BookingData bookingData =
+                    BookingData.fromMap(json.decode(bookingDataMap));
+                print(bookingData.preferredCallProvider);
+
+                final String bookingId = rm?.data['bookingId'];
+
+                final notification = AppNotification(
+                    bookingData: bookingData,
+                    bookingId: bookingId,
+                    requesterUserProfile: userProfile);
+                return LandingView(
+                    key: UniqueKey(), notificationToDisplay: notification);
               },
               loading: () => LandingView(),
               error: (_, __) => LandingView());

@@ -11,14 +11,17 @@ import 'package:women_mentor/app/landing/schedule/schedule_view.dart';
 import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/constants/strings.dart';
+import 'package:women_mentor/constants/utilities.dart';
+import 'package:women_mentor/models/notification.dart';
 import 'package:women_mentor/models/tab_item.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:women_mentor/services/firestore_database.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/custom_text_button.dart';
+import 'package:women_mentor/extensions/capitalize_first_letter.dart';
 
 class LandingView extends StatefulWidget {
-  final Map<String, dynamic>? notificationToDisplay;
+  final AppNotification? notificationToDisplay;
 
   const LandingView({Key? key, this.notificationToDisplay}) : super(key: key);
   @override
@@ -43,106 +46,9 @@ class _LandingViewState extends State<LandingView> {
       print('[onMessageOpenedApp] $event');
     });
 
-    // WidgetsBinding.instance!.addPostFrameCallback((_) async {
-    //   // if (widget.notificationToDisplay != null)
-    //   final meetingDetails = widget.notificationToDisplay;
-    //   await showDialog<String>(
-    //       context: context,
-    //       barrierDismissible: false,
-    //       builder: (BuildContext context) {
-    //         return Dialog(
-    //           shape: RoundedRectangleBorder(
-    //               borderRadius: BorderRadius.circular(4.0)),
-    //           child: Container(
-    //             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-    //             // height: 300.0,
-    //             // width: 300.0,
-    //             child: Column(
-    //               mainAxisSize: MainAxisSize.min,
-    //               mainAxisAlignment: MainAxisAlignment.center,
-    //               children: <Widget>[
-    //                 CircleAvatar(
-    //                   radius: 25,
-    //                   backgroundColor:
-    //                       CustomColors.appColorTeal.withOpacity(0.2),
-    //                   child: SvgPicture.asset(
-    //                     Strings.logo,
-    //                     height: 24,
-    //                     color: CustomColors.appColorTeal,
-    //                     semanticsLabel: 'Women Mentor Logo',
-    //                     // allowDrawingOutsideViewBox: true,
-    //                   ),
-    //                 ),
-    //                 SizedBox(height: 24),
-    //                 Padding(
-    //                   padding: EdgeInsets.all(5.0),
-    //                   child: Text(
-    //                     'You have a new request from name',
-    //                     style: TextStyle(fontSize: 15),
-    //                   ),
-    //                 ),
-    //                 Row(
-    //                   children: [
-    //                     Expanded(
-    //                       child: Text(
-    //                         'Chat about ${meetingDetails?['purpose']} on ${meetingDetails?['date']} via ${meetingDetails?['preferredCallProvider']}',
-    //                         style: TextStyle(color: Colors.black54),
-    //                         textAlign: TextAlign.center,
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //                 SizedBox(height: 24),
-    //                 Column(
-    //                   children: [
-    //                     CustomElevatedButton(
-    //                         onPressed: () {
-    //                           Navigator.of(context).pop();
-    //                         },
-    //                         color: CustomColors.appColorTeal,
-    //                         child: Text(
-    //                           'YES, CONFIRM',
-    //                           style: TextStyle(
-    //                             fontSize: 14.0,
-    //                             color: Colors.white,
-    //                           ),
-    //                         )),
-    //                     SizedBox(height: 4),
-    //                     CustomTextButton(
-    //                         onPressed: () {
-    //                           Navigator.of(context).pop();
-    //                         },
-    //                         color: Colors.white,
-    //                         child: Text(
-    //                           'NO, DECLINE',
-    //                           style: TextStyle(
-    //                             color: CustomColors.appColorTeal,
-    //                             fontSize: 14.0,
-    //                           ),
-    //                         )),
-    //                   ],
-    //                 )
-    //               ],
-    //             ),
-    //           ),
-    //         );
-    //       });
-    // });
-  }
-
-  @override
-  void didUpdateWidget(covariant LandingView oldWidget) {
-    print('DID UPDATE WIDGET CALLED');
-
-    super.didUpdateWidget(oldWidget);
-
-    if (widget.notificationToDisplay != null) {
-      WidgetsBinding.instance!.addPostFrameCallback((_) async {
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      if (widget.notificationToDisplay != null) {
         final meetingDetails = widget.notificationToDisplay;
-        final purpose = meetingDetails?['purpose'];
-        final date = meetingDetails?['date'];
-        final callProvider = meetingDetails?['preferredCallProvider'];
-
         await showDialog<String>(
             context: context,
             barrierDismissible: false,
@@ -173,23 +79,60 @@ class _LandingViewState extends State<LandingView> {
                       SizedBox(height: 24),
                       Padding(
                         padding: EdgeInsets.all(5.0),
-                        child: Text(
-                          'You have a new request from name',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Chat about $purpose on $date via $callProvider',
-                              style: TextStyle(color: Colors.black54),
+                        child: Column(
+                          children: [
+                            Text(
+                              'You have a new meeting request from',
+                              style: TextStyle(fontSize: 15),
                               textAlign: TextAlign.center,
                             ),
+                            Text(
+                              '${meetingDetails?.requesterUserProfile.firstName} ${meetingDetails?.requesterUserProfile.lastName}'
+                                  .toUpperCase(),
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: CustomColors.appColorTeal,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Divider(height: 40),
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Proposed meeting purpose: ',
+                            style: TextStyle(color: Colors.black54),
+                            textAlign: TextAlign.start,
+                          ),
+                          Text(
+                            '${meetingDetails?.bookingData.purpose.join(', ')}',
+                            style: TextStyle(
+                                color: CustomColors.appColorTeal,
+                                fontSize: 16,
+                                letterSpacing: 0.3),
+                            textAlign: TextAlign.start,
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Date:',
+                            style: TextStyle(color: Colors.black54),
+                            textAlign: TextAlign.start,
+                          ),
+                          Text(
+                            '${Utilities.dateFormat(meetingDetails!.bookingData.date)} via ${meetingDetails.bookingData.preferredCallProvider.capitalizeFirstLetter()}',
+                            style: TextStyle(
+                                color: CustomColors.appColorTeal,
+                                fontSize: 16,
+                                letterSpacing: 0.3),
+                            textAlign: TextAlign.start,
                           ),
                         ],
                       ),
-                      SizedBox(height: 24),
+                      Divider(height: 40),
                       Column(
                         children: [
                           CustomElevatedButton(
@@ -224,9 +167,107 @@ class _LandingViewState extends State<LandingView> {
                 ),
               );
             });
-      });
-    }
+      }
+    });
   }
+
+  // @override
+  // void didUpdateWidget(covariant LandingView oldWidget) {
+  //   print('DID UPDATE WIDGET CALLED');
+
+  //   super.didUpdateWidget(oldWidget);
+
+  //   if (widget.notificationToDisplay != null) {
+  //     WidgetsBinding.instance!.addPostFrameCallback((_) async {
+  //       final meetingDetails = widget.notificationToDisplay;
+  //       final purpose = meetingDetails?['purpose'];
+  //       final date = meetingDetails?['date'];
+  //       final callProvider = meetingDetails?['preferredCallProvider'];
+
+  //       await showDialog<String>(
+  //           context: context,
+  //           barrierDismissible: false,
+  //           builder: (BuildContext context) {
+  //             return Dialog(
+  //               shape: RoundedRectangleBorder(
+  //                   borderRadius: BorderRadius.circular(4.0)),
+  //               child: Container(
+  //                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+  //                 // height: 300.0,
+  //                 // width: 300.0,
+  //                 child: Column(
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   mainAxisAlignment: MainAxisAlignment.center,
+  //                   children: <Widget>[
+  //                     CircleAvatar(
+  //                       radius: 25,
+  //                       backgroundColor:
+  //                           CustomColors.appColorTeal.withOpacity(0.2),
+  //                       child: SvgPicture.asset(
+  //                         Strings.logo,
+  //                         height: 24,
+  //                         color: CustomColors.appColorTeal,
+  //                         semanticsLabel: 'Women Mentor Logo',
+  //                         // allowDrawingOutsideViewBox: true,
+  //                       ),
+  //                     ),
+  //                     SizedBox(height: 24),
+  //                     Padding(
+  //                       padding: EdgeInsets.all(5.0),
+  //                       child: Text(
+  //                         'You have a new request from name',
+  //                         style: TextStyle(fontSize: 15),
+  //                       ),
+  //                     ),
+  //                     Row(
+  //                       children: [
+  //                         Expanded(
+  //                           child: Text(
+  //                             'Chat about $purpose on $date via $callProvider',
+  //                             style: TextStyle(color: Colors.black54),
+  //                             textAlign: TextAlign.center,
+  //                           ),
+  //                         ),
+  //                       ],
+  //                     ),
+  //                     SizedBox(height: 24),
+  //                     Column(
+  //                       children: [
+  //                         CustomElevatedButton(
+  //                             onPressed: () {
+  //                               Navigator.of(context).pop();
+  //                             },
+  //                             color: CustomColors.appColorTeal,
+  //                             child: Text(
+  //                               'YES, CONFIRM',
+  //                               style: TextStyle(
+  //                                 fontSize: 14.0,
+  //                                 color: Colors.white,
+  //                               ),
+  //                             )),
+  //                         SizedBox(height: 4),
+  //                         CustomTextButton(
+  //                             onPressed: () {
+  //                               Navigator.of(context).pop();
+  //                             },
+  //                             color: Colors.white,
+  //                             child: Text(
+  //                               'NO, DECLINE',
+  //                               style: TextStyle(
+  //                                 color: CustomColors.appColorTeal,
+  //                                 fontSize: 14.0,
+  //                               ),
+  //                             )),
+  //                       ],
+  //                     )
+  //                   ],
+  //                 ),
+  //               ),
+  //             );
+  //           });
+  //     });
+  //   }
+  // }
 
   Future<void> saveMessagingTokenToFirestore(String token) async {
     final database = context.read<FirestoreDatabase>(databaseProvider);
@@ -266,8 +307,7 @@ class _LandingViewState extends State<LandingView> {
   Widget build(BuildContext context) {
     print('BUILD CALLED');
 
-    print(
-        '###### FCM Booking data #######: ${widget.notificationToDisplay?['bookingData']}');
+    print('###### FCM Booking data #######: ${widget.notificationToDisplay}');
 
     return WillPopScope(
       onWillPop: () async =>
