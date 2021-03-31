@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:women_mentor/constants/colors.dart';
-import 'package:women_mentor/constants/styles.dart';
-import 'package:women_mentor/constants/styles.dart';
 import 'package:women_mentor/constants/styles.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
-import 'package:women_mentor/widgets/shared/input_field.dart';
 
 class AddOfferStatementDialog extends StatefulWidget {
   final Function(String) onExpertiseEntered;

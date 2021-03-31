@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
 import 'package:women_mentor/app/login/login_view.dart';
 import 'package:women_mentor/app/login/setup_acc_view.dart';
 import 'package:women_mentor/app/login/sign_in_options_view.dart';

@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:dartx/dartx.dart';
-import 'package:women_mentor/constants/utilities.dart';
-import 'package:women_mentor/widgets/shared/input_dropdown.dart';
 
 class DateTimePicker extends StatelessWidget {
   const DateTimePicker({
@@ -24,6 +22,7 @@ class DateTimePicker extends StatelessWidget {
   final ValueChanged<TimeOfDay> onSelectedTime;
   final bool isDOB;
 
+  // ignore: unused_element
   Future<void> _selectDate(BuildContext context) async {
     // final pickedDate = await showDatePicker(
     //   context: context,
@@ -66,6 +65,7 @@ class DateTimePicker extends StatelessWidget {
         });
   }
 
+  // ignore: unused_element
   Future<void> _selectTime(BuildContext context) async {
     // final pickedTime =
     //     await showTimePicker(context: context, initialTime: selectedTime);
@@ -97,6 +97,7 @@ class DateTimePicker extends StatelessWidget {
                   ),
                   minuteInterval: 30,
                   onDateTimeChanged: (newTime) {
+                    // ignore: unnecessary_null_comparison
                     if (newTime != null && newTime != selectedDate) {
                       onSelectedTime(TimeOfDay.fromDateTime(newTime));
                     }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:women_mentor/constants/colors.dart';
-import 'package:dartx/dartx.dart';
 
 class SessionCalendar extends StatefulWidget {
   final Function(DateTime) onDaySelected;
@@ -216,16 +215,6 @@ class _SessionCalendarState extends State<SessionCalendar>
                   //   height: 6.0,
                   // );
                 }
-
-                // if (holidays.isNotEmpty) {
-                //   children.add(
-                //     Positioned(
-                //       right: -2,
-                //       top: -2,
-                //       child: _buildHolidaysMarker(),
-                //     ),
-                //   );
-                // }
 
                 return marker;
               },

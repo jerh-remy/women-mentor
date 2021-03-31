@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:women_mentor/app/auth_widget.dart';
@@ -38,8 +37,7 @@ class StartUpView extends ConsumerWidget {
                 if (!onboardingViewModel.isOnboardingComplete) {
                   return OnboardingView();
                 }
-                print(
-                    'runtime type of rm is: ${rm?.data['requesterUserProfile'].runtimeType}');
+
                 //notification details
                 final requesterUserProfileMap =
                     rm?.data['requesterUserProfile'];

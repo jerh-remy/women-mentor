@@ -1,12 +1,8 @@
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/back_button.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/confirmation_view.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/uploaded_cv.dart';
 import 'package:women_mentor/constants/colors.dart';
-import 'package:women_mentor/constants/strings.dart';
 import 'package:women_mentor/routing/cupertino_tab_view_router.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/custom_text_button.dart';
@@ -16,7 +12,6 @@ class AddCVView extends StatefulWidget {
   static Future<void> show(BuildContext context) async {
     await Navigator.of(context).pushNamed(
       CupertinoTabViewRoutes.addCVPage,
-      // arguments: job,
     );
   }
 

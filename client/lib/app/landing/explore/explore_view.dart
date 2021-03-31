@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:women_mentor/app/landing/explore/mentor_card.dart';
 import 'package:women_mentor/app/top_level_providers.dart';
-import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/models/ranked_mentors_response.dart';
-import 'package:women_mentor/models/user.dart';
 import 'package:women_mentor/services/api.dart';
 import 'package:women_mentor/widgets/shared/list_items_builder.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
@@ -107,17 +104,6 @@ class FilterSection extends StatelessWidget {
                 print("If you stand for nothing, Burr, what’ll you fall for?");
               }),
           SizedBox(width: 10),
-          // InputChip(
-          //   onPressed: () {},
-          //   onDeleted: () {},
-          //   avatar: const Icon(
-          //     Icons.directions_bike,
-          //     size: 20,
-          //     color: Colors.black54,
-          //   ),
-          //   deleteIconColor: Colors.black54,
-          //   label: Text('Selected'),
-          // ),
         ],
       ),
     );

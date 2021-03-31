@@ -7,8 +7,6 @@ import 'package:women_mentor/app/landing/explore/bookSession/mentor_profile_view
 import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:women_mentor/constants/utilities.dart';
-import 'package:women_mentor/services/shared_preferences_service.dart';
 import 'package:women_mentor/widgets/logout_dialog.dart';
 
 final mentorProfileStreamProvider =
@@ -36,11 +34,6 @@ class ProfileView extends StatelessWidget {
   }
 
   void _signOut(FirebaseAuth firebaseAuth, BuildContext context) async {
-    //TODO remove force onboarding == false after testing
-    //These next few lines are just for testing. Will remove later
-    // final SharedPreferencesService sharedPreferencesService = context
-    //     .read<SharedPreferencesService>(sharedPreferencesServiceProvider);
-    // await sharedPreferencesService.setOnboardingInComplete();
     await firebaseAuth.signOut();
   }
 
@@ -360,10 +353,6 @@ class MentorSpecificSection extends StatelessWidget {
           SizedBox(height: 24),
           ...buildMenteeLevel(context, menteeSkillLevel),
           SizedBox(height: 24),
-          // ...buildExpertise(context),
-          // SizedBox(height: 24),
-          // ...buildHobbies(context),
-          // SizedBox(height: 24)
         ],
       ),
     );
@@ -505,64 +494,6 @@ class MenteeGoalsAndInterestsSection extends ConsumerWidget {
     );
   }
 }
-
-// List<Widget> buildTechInterests(BuildContext context, String userId) {
-//   final userId = context.read(firebaseAuthProvider).currentUser!.uid;
-//   return [
-//     Consumer(
-//       builder: (BuildContext context,
-//           T Function<T>(ProviderBase<Object?, T>) watch, Widget? child) {
-//         final mentorProfileAsyncValue =
-//             watch(mentorProfileStreamProvider(userId));
-
-//         return mentorProfileAsyncValue.when(
-//             data: (mentor) {
-//               return Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Padding(
-//                     padding: const EdgeInsets.only(bottom: 5.0),
-//                     child: Row(
-//                       children: [
-//                         Text(
-//                           'Interests',
-//                           style:
-//                               Theme.of(context).textTheme.bodyText2!.copyWith(
-//                                     fontSize: 16,
-//                                     color: CustomColors.appColorOrange,
-//                                   ),
-//                           textAlign: TextAlign.start,
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                   Wrap(
-//                     spacing: 12,
-//                     children: List.generate(
-//                         mentor.techInterests.length,
-//                         (index) => Chip(
-//                               backgroundColor: Colors.white,
-//                               label: Text('Interest $index'),
-//                               labelStyle:
-//                                   TextStyle(color: CustomColors.appColorTeal),
-//                               side: BorderSide(
-//                                 color: CustomColors.appColorTeal,
-//                               ),
-//                             )),
-//                   ),
-//                 ],
-//               );
-//             },
-//             loading: () => Container(),
-//             error: (e, st) {
-//               print(e);
-//               print(st);
-//               return Container();
-//             });
-//       },
-//     )
-//   ];
-// }
 
 List<Widget> buildHobbies(BuildContext context, List<String> hobbies) {
   return [

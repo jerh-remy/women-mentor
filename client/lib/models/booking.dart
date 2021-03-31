@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class Booking {
   final List<Booking>? changelog;
   final DateTime date;

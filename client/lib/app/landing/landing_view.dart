@@ -1,7 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:women_mentor/app/landing/cupertino_scaffold.dart';
 import 'package:women_mentor/app/landing/explore/explore_view.dart';
@@ -58,8 +57,6 @@ class _LandingViewState extends State<LandingView> {
                     borderRadius: BorderRadius.circular(4.0)),
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                  // height: 300.0,
-                  // width: 300.0,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +70,6 @@ class _LandingViewState extends State<LandingView> {
                           height: 24,
                           color: CustomColors.appColorTeal,
                           semanticsLabel: 'Women Mentor Logo',
-                          // allowDrawingOutsideViewBox: true,
                         ),
                       ),
                       SizedBox(height: 24),
@@ -170,104 +166,6 @@ class _LandingViewState extends State<LandingView> {
       }
     });
   }
-
-  // @override
-  // void didUpdateWidget(covariant LandingView oldWidget) {
-  //   print('DID UPDATE WIDGET CALLED');
-
-  //   super.didUpdateWidget(oldWidget);
-
-  //   if (widget.notificationToDisplay != null) {
-  //     WidgetsBinding.instance!.addPostFrameCallback((_) async {
-  //       final meetingDetails = widget.notificationToDisplay;
-  //       final purpose = meetingDetails?['purpose'];
-  //       final date = meetingDetails?['date'];
-  //       final callProvider = meetingDetails?['preferredCallProvider'];
-
-  //       await showDialog<String>(
-  //           context: context,
-  //           barrierDismissible: false,
-  //           builder: (BuildContext context) {
-  //             return Dialog(
-  //               shape: RoundedRectangleBorder(
-  //                   borderRadius: BorderRadius.circular(4.0)),
-  //               child: Container(
-  //                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-  //                 // height: 300.0,
-  //                 // width: 300.0,
-  //                 child: Column(
-  //                   mainAxisSize: MainAxisSize.min,
-  //                   mainAxisAlignment: MainAxisAlignment.center,
-  //                   children: <Widget>[
-  //                     CircleAvatar(
-  //                       radius: 25,
-  //                       backgroundColor:
-  //                           CustomColors.appColorTeal.withOpacity(0.2),
-  //                       child: SvgPicture.asset(
-  //                         Strings.logo,
-  //                         height: 24,
-  //                         color: CustomColors.appColorTeal,
-  //                         semanticsLabel: 'Women Mentor Logo',
-  //                         // allowDrawingOutsideViewBox: true,
-  //                       ),
-  //                     ),
-  //                     SizedBox(height: 24),
-  //                     Padding(
-  //                       padding: EdgeInsets.all(5.0),
-  //                       child: Text(
-  //                         'You have a new request from name',
-  //                         style: TextStyle(fontSize: 15),
-  //                       ),
-  //                     ),
-  //                     Row(
-  //                       children: [
-  //                         Expanded(
-  //                           child: Text(
-  //                             'Chat about $purpose on $date via $callProvider',
-  //                             style: TextStyle(color: Colors.black54),
-  //                             textAlign: TextAlign.center,
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                     SizedBox(height: 24),
-  //                     Column(
-  //                       children: [
-  //                         CustomElevatedButton(
-  //                             onPressed: () {
-  //                               Navigator.of(context).pop();
-  //                             },
-  //                             color: CustomColors.appColorTeal,
-  //                             child: Text(
-  //                               'YES, CONFIRM',
-  //                               style: TextStyle(
-  //                                 fontSize: 14.0,
-  //                                 color: Colors.white,
-  //                               ),
-  //                             )),
-  //                         SizedBox(height: 4),
-  //                         CustomTextButton(
-  //                             onPressed: () {
-  //                               Navigator.of(context).pop();
-  //                             },
-  //                             color: Colors.white,
-  //                             child: Text(
-  //                               'NO, DECLINE',
-  //                               style: TextStyle(
-  //                                 color: CustomColors.appColorTeal,
-  //                                 fontSize: 14.0,
-  //                               ),
-  //                             )),
-  //                       ],
-  //                     )
-  //                   ],
-  //                 ),
-  //               ),
-  //             );
-  //           });
-  //     });
-  //   }
-  // }
 
   Future<void> saveMessagingTokenToFirestore(String token) async {
     final database = context.read<FirestoreDatabase>(databaseProvider);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/back_button.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/book_session_view_model.dart';
@@ -16,7 +15,6 @@ class SelectDateView extends ConsumerWidget {
   static Future<void> show(BuildContext context) async {
     await Navigator.of(context).pushNamed(
       CupertinoTabViewRoutes.selectBookingDatePage,
-      // arguments: job,
     );
   }
 

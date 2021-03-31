@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:state_notifier/state_notifier.dart';
 import 'package:women_mentor/app/top_level_providers.dart';
 import 'package:women_mentor/models/interests.dart';
 import 'package:women_mentor/services/firestore_database.dart';

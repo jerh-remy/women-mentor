@@ -24,14 +24,8 @@ class _MyDropdownButtonState extends State<MyDropdownButton> {
   Widget build(BuildContext context) {
     return DropdownButton<String>(
       value: dropdownValue,
-      // icon: const Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 8,
-      // style: const TextStyle(color: Colors.deepPurple),
-      // underline: Container(
-      //   height: 2,
-      //   color: Colors.deepPurpleAccent,
-      // ),
       onChanged: (String? newValue) {
         setState(() {
           dropdownValue = newValue!;

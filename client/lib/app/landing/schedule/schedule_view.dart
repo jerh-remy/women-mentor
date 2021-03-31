@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
-import 'package:table_calendar/table_calendar.dart';
 import 'package:women_mentor/app/landing/schedule/session_calendar.dart';
 import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';

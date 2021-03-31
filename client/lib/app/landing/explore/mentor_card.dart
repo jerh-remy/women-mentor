@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:women_mentor/app/landing/explore/mentor_profile_view.dart';
 import 'package:women_mentor/constants/colors.dart';

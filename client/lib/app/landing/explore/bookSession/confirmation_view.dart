@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:women_mentor/app/landing/explore/bookSession/add_cv_view.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/back_button.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/book_session_view_model.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/uploaded_cv.dart';
@@ -11,7 +10,6 @@ import 'package:women_mentor/constants/utilities.dart';
 import 'package:women_mentor/routing/app_router.gr.dart';
 import 'package:women_mentor/routing/cupertino_tab_view_router.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
-import 'package:women_mentor/widgets/shared/custom_text_button.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
 import 'package:auto_route/auto_route.dart';
 
@@ -19,7 +17,6 @@ class BookingConfirmationView extends ConsumerWidget {
   static Future<void> show(BuildContext context) async {
     await Navigator.of(context).pushNamed(
       CupertinoTabViewRoutes.confirmBookingPage,
-      // arguments: job,
     );
   }
 
@@ -176,18 +173,6 @@ class BookingConfirmationView extends ConsumerWidget {
                 },
               ),
               SizedBox(height: 36),
-
-              // Opacity(
-              //   opacity: bookingViewModel.isLoading ? 1 : 0,
-              //   child: bookingViewModel.isLoading
-              //       ? SpinKitCircle(
-              //           color: CustomColors.appColorTeal,
-              //         )
-              //       : CustomTextButton(
-              //           width: MediaQuery.of(context).size.width * 0.9,
-              //           child: Text('SAVE AS DRAFT'),
-              //           onPressed: () {}),
-              // ),
             ],
           )
         ],

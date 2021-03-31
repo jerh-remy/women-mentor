@@ -143,44 +143,12 @@ class LoginViewModel with ChangeNotifier {
       if (googleAccount != null) {
         final googleAuth = await googleAccount.authentication;
         if (googleAuth.accessToken != null && googleAuth.idToken != null) {
-          final authResult = await auth.signInWithCredential(
+          await auth.signInWithCredential(
             GoogleAuthProvider.credential(
               idToken: googleAuth.idToken,
               accessToken: googleAuth.accessToken,
             ),
           );
-
-          final user = authResult.user;
-
-          // await _createUser(
-          //   AppUser(
-          //     id: user!.uid,
-          //     firstName: user.displayName?.split(' ')[0] ?? '',
-          //     lastName: user.displayName?.split(' ').last ?? '',
-          //     techLevel: techLevel,
-          //     age: age,
-          //     ethnicity: ethnicity,
-          //   ),
-          // );
-
-          // User user = await userStream(uid: authResult.user.uid).first;
-          // print('is user null? ${user == null}');
-          // print(user?.firstName);
-          // if (user == null) {
-          //   _currentUser = User(
-          //     id: authResult.user.uid,
-          //     email: authResult.user.email,
-          //     userRole: '',
-          //     firstName: '',
-          //     lastName: '',
-          //   );
-          //   return false;
-          // }
-          // await populateCurrentUser(authResult.user);
-
-          // Once signed in, return the UserCredential
-          // print('Auth current user ${auth.currentUser}');
-          // return credential;
         } else {
           throw PlatformException(
             code: 'ERROR_MISSING_GOOGLE_AUTH_TOKEN',

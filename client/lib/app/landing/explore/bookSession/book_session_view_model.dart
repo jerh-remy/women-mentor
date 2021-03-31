@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:women_mentor/models/booking.dart';
 import 'package:women_mentor/services/api.dart';
-import 'dart:convert';
 
 enum CallProvider { zoom, meet, skype }
 

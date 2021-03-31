@@ -5,18 +5,15 @@ import 'package:ionicons/ionicons.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/back_button.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/book_session_view_model.dart';
 import 'package:women_mentor/app/landing/explore/bookSession/select_meeting_purpose_view.dart';
-import 'package:women_mentor/constants/colors.dart';
 import 'package:women_mentor/routing/cupertino_tab_view_router.dart';
 import 'package:women_mentor/widgets/shared/custom_raised_button.dart';
 import 'package:women_mentor/widgets/shared/custom_text_button.dart';
 import 'package:women_mentor/widgets/shared/page_title.dart';
-import 'package:women_mentor/widgets/shared/social_sign_in_button.dart';
 
 class SelectCallProviderView extends ConsumerWidget {
   static Future<void> show(BuildContext context) async {
     await Navigator.of(context).pushNamed(
       CupertinoTabViewRoutes.selectCallProviderPage,
-      // arguments: job,
     );
   }
 
