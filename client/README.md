@@ -9,6 +9,7 @@ Through this concept, we hope to remove the unconscious bias of male dominance i
 -  Building a safe and strong support network where women are encouraged to fulfill their potential, thus leading to an increase in female representation in the industry *(5.5 Ensure full participation in leadership and decision making)*
 <br/>
 <br/>
+
 ## Getting Started
 
 ### 1. Installing Flutter
