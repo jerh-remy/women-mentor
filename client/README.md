@@ -9,7 +9,6 @@ Through this concept, we hope to remove the unconscious bias of male dominance i
 -  Building a safe and strong support network where women are encouraged to fulfill their potential, thus leading to an increase in female representation in the industry *(5.5 Ensure full participation in leadership and decision making)*
 <br/>
 <br/>
-<br/>
 
 ## Getting Started
 
@@ -36,6 +35,9 @@ https://firebase.flutter.dev/docs/installation/ios
 
 To correctly configure social authentication please check:  
 https://firebase.flutter.dev/docs/auth/social
+
+**Cloud Functions**  
+Deploy your own functions from (`./server/functions/`) and replace the baseURL in client app (`constants/strings.dart`)
 
 ## Running the app
 From the client directory, run the following commands in a terminal
